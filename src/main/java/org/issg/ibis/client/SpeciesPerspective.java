@@ -9,7 +9,6 @@ import org.issg.ibis.domain.SpeciesImpact_;
 import org.issg.ibis.domain.Species_;
 import org.jrc.form.editor.EditorPanel;
 import org.jrc.form.editor.EntityTable;
-import org.jrc.persist.ContainerManager;
 import org.jrc.persist.Dao;
 
 import com.google.inject.Inject;
@@ -18,20 +17,18 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Polygon;
 
 public class SpeciesPerspective extends HorizontalLayout implements View {
 
     private Dao dao;
     private Species species;
-    private LeafletMap leafletMap;
+    private LeafletMap map;
     private BeanItemContainer<SpeciesImpact> bic = new BeanItemContainer<SpeciesImpact>(
             SpeciesImpact.class);
     private FlickrTest flickr;
     private SpeciesSummary speciesSummary;
+//    private OpenLayersMap map;
 
     @Inject
     public SpeciesPerspective(Dao dao, SpeciesInfo speciesInfo,
@@ -44,45 +41,44 @@ public class SpeciesPerspective extends HorizontalLayout implements View {
         setSpacing(true);
 
         {
-
-            EditorPanel ep = new EditorPanel();
-//            ep.setHeight("800px");
+            VerticalLayout vl = new VerticalLayout();
+            addComponent(vl);
 
             /*
              * Species info
              */
             this.speciesSummary = new SpeciesSummary();
-            ep.addComponent(speciesSummary);
+            vl.addComponent(speciesSummary);
 
             /*
              * Species selector
              */
-            ep.addComponent(speciesSelector);
-            addComponent(ep);
+            vl.addComponent(speciesSelector);
+            addComponent(vl);
         }
 
         {
 
             EditorPanel ep = new EditorPanel();
+            ep.setSizeFull();
             
             VerticalLayout vl = new VerticalLayout();
             /*
              * Map
              */
-            leafletMap = new LeafletMap();
-            leafletMap.addStyleName("species-map");
+            map = new LeafletMap();
+            map.addStyleName("species-map");
 
             /*
              * Table
              */
-            
             EntityTable<SpeciesImpact> table = getTable();
             table.addColumns(SpeciesImpact_.threatenedSpecies,
                     SpeciesImpact_.invasiveSpecies, SpeciesImpact_.location,
                     SpeciesImpact_.impactMechanism,
                     SpeciesImpact_.impactOutcome);
 
-            vl.addComponent(leafletMap);
+            vl.addComponent(map);
             vl.addComponent(table);
             ep.addComponent(vl);
             addComponent(ep);
@@ -113,9 +109,11 @@ public class SpeciesPerspective extends HorizontalLayout implements View {
                     return;
                 }
 
-                Polygon poly = loc.getEnvelope();
-                Envelope env = poly.getEnvelopeInternal();
-                leafletMap.zoomTo(env);
+//                Polygon poly = loc.getEnvelope();
+//                Envelope env = poly.getEnvelopeInternal();
+//                map.setSpecies(species.getName());
+//                map.zoomTo(env);
+                
             }
         });
 
@@ -139,11 +137,29 @@ public class SpeciesPerspective extends HorizontalLayout implements View {
 
     private void setSpecies(Species sp) {
         this.species = sp;
+        
+        /*
+         * Species display
+         */
         String imgUrl = flickr.getSingleImageUrl(species.getGenus().getLabel());
         speciesSummary.setSpecies(sp, imgUrl);
+        
+        
 
+        /*
+         * Impacts
+         */
         bic.removeAllItems();
         bic.addAll(species.getSpeciesImpacts());
+        
+        /*
+         * Zoom
+         */
+        Integer binomialId = dao.scalarNativeQuery("select id from species_distribution.binomial where binomial = ?1", species.getName());
+        if (binomialId != null) {
+            System.out.println(binomialId);
+            map.setSpecies(binomialId.toString());
+        }
 
     }
 

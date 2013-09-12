@@ -1,18 +1,11 @@
 package org.issg.ibis;
 
-import java.util.Collection;
-import java.util.Map;
+import org.issg.ibis.client.SpeciesSelector;
+import org.jrc.persist.Dao;
 
-import org.jrc.form.AdminStringUtil;
-
-import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Link;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -23,34 +16,15 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class IndexPage extends VerticalLayout implements View {
 
-
 	@Inject
-	public IndexPage(Map<String, Provider<View>> adminComponents, Multimap<String, String> menuTreeMap) {
+	public IndexPage(Dao dao) {
 
-		for (String key : menuTreeMap.keySet()) {
-
-			VerticalLayout panelLayout = new VerticalLayout();
-			Panel mainPanel = new Panel(key, panelLayout);
-			this.addComponent(mainPanel);
-
-			Collection<String> x = menuTreeMap.get(key);
-
-			for (String url : x) {
-
-				String[] headTail = url.split("/");
-				String tail = headTail[1];
-				Link editorLink = new Link(
-						AdminStringUtil.splitCamelCase(tail),
-						new ExternalResource("#!" + url));
-
-				panelLayout.addComponent(editorLink);
-			}
-		}
+	    SpeciesSelector ss = new SpeciesSelector(dao);
+	    addComponent(ss);
+	    
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
 	}
-
 }

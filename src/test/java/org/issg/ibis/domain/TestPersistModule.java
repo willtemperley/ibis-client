@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.jrc.form.permission.RoleManager;
 
 
 import com.google.inject.AbstractModule;
@@ -20,7 +23,14 @@ public class TestPersistModule extends AbstractModule {
   protected void configure() {
     
     bind(UI.class).toInstance(mock(UI.class));
-    bind(EntityManagerFactory.class).toInstance(Persistence.createEntityManagerFactory("ibis-domain"));
+    bind(RoleManager.class).toInstance(mock(RoleManager.class));
+    
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ibis-domain");
+    bind(EntityManagerFactory.class).toInstance(entityManagerFactory);
+    
+    bind(EntityManager.class).toInstance(entityManagerFactory.createEntityManager());
+    
+    
     /*
      * Bind constants
      */

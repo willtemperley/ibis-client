@@ -198,7 +198,7 @@ public abstract class UploadParser<E> {
     
     protected Long getCellValueAsLong(Row row, int colIdx) {
         String cellValue = getCellValueAsString(row, colIdx);
-        if (cellValue == null) {
+        if (cellValue == null || cellValue.isEmpty()) {
             return null;
         } else {
             try {
@@ -241,7 +241,6 @@ public abstract class UploadParser<E> {
      * @param cellIdx TODO
      * @param message
      * @param col
-     * @param row
      */
     protected void recordError(int rowNum, int cellIdx, String message) {
         String colName = colHeaders.get(cellIdx);
@@ -293,6 +292,10 @@ public abstract class UploadParser<E> {
             int colIdx) {
 
         String lookUp = this.getCellValueAsString(row, colIdx);
+        
+        if (lookUp == null || lookUp.isEmpty()) {
+            return null;
+        }
 
         return getEntity(attr, row, colIdx, lookUp);
     }

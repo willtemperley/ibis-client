@@ -9,15 +9,15 @@ import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vividsolutions.jts.geom.Envelope;
 
-@JavaScript({"http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js", "app://VAADIN/js/leaflet_library.js", "app://VAADIN/js/leafletmap-connector.js"})
-public class LeafletMap extends AbstractJavaScriptComponent {
+@JavaScript({"http://openlayers.org/api/OpenLayers.js", "https://maps.googleapis.com/maps/api/js?sensor=false", "app://VAADIN/js/openlayers_library.js", "app://VAADIN/js/openlayers-connector.js"})
+public class OpenLayersMap extends AbstractJavaScriptComponent {
     public interface ValueChangeListener extends Serializable {
         void valueChange();
     }
     List<ValueChangeListener> listeners =
             new ArrayList<ValueChangeListener>();
     
-    public LeafletMap() {
+    public OpenLayersMap() {
 //        addFunction("onClick", new JavaScriptFunction() {
 //            @Override
 //            public void call(JSONArray arguments)
@@ -39,19 +39,10 @@ public class LeafletMap extends AbstractJavaScriptComponent {
     public String getBounds() {
         return getState().getBounds();
     }
-    
-    public void setSpecies(String species) {
-        getState().setSpecies(species);
-    }
-    
-    public String getSpecies() {
-        return getState().getSpecies();
-    }
-    
 
     @Override
-    protected LeafletMapState getState() {
-        return (LeafletMapState) super.getState();
+    protected OpenLayersMapState getState() {
+        return (OpenLayersMapState) super.getState();
     }
 
     public void addValueChangeListener(ValueChangeListener valueChangeListener) {

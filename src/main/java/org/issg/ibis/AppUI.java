@@ -53,9 +53,10 @@ public class AppUI extends ScopedUI  {
         rootLayout.addStyleName("dashboard-view");
 		rootLayout.setSizeFull();
 		
-//		rootLayout.addComponent(headerView);
+		rootLayout.addComponent(headerView);
 //		rootLayout.addComponent(menuView);
 		rootLayout.addComponent(content);
+		content.setSizeFull();
 		
 //		header.addComponent(headerView);
 		

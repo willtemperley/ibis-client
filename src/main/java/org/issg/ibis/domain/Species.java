@@ -45,15 +45,15 @@ public class Species {
         this.name = name;
     }
 
-    private Genus genus;
+    private Taxon genus;
 
     @ManyToOne
     @JoinColumn(name = "genus_id")
-    public Genus getGenus() {
+    public Taxon getGenus() {
         return genus;
     }
 
-    public void setGenus(Genus genus) {
+    public void setGenus(Taxon genus) {
         this.genus = genus;
     }
 

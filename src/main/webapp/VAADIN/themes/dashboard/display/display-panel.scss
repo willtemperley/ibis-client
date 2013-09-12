@@ -1,0 +1,11 @@
+@mixin display-panel {
+
+	.display-panel {
+	
+		.display-panel-header {
+			color: $esp-blue;
+			border-bottom: 1px solid #eee;
+			margin-bottom: 10px;
+		}
+			}
+}
