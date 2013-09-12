@@ -9,7 +9,7 @@ public abstract class Species_ {
 
     public static volatile SingularAttribute<Species, String> name;
 
-    public static volatile SingularAttribute<Species, Genus> genus;
+    public static volatile SingularAttribute<Species, Taxon> genus;
 
     public static volatile SingularAttribute<Species, String> species;
 

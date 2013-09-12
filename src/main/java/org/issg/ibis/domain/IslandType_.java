@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -7,8 +8,6 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class IslandType_ {
 
     public static volatile SingularAttribute<IslandType,String> description;
-
-    public static volatile SingularAttribute<IslandType, String> fullId;
 
     public static volatile SingularAttribute<IslandType,Long> id;
 }

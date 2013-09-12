@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(schema = "ibis", name = "island_type")
@@ -44,5 +47,22 @@ public class IslandType {
 
     public void setFullId(String fullId) {
         this.fullId = fullId;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof IslandType) {
+           IslandType otherObj = (IslandType) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
     }
 }

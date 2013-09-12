@@ -137,14 +137,14 @@ public class Species {
         this.redlistCategory = redlistCategory;
     }
 
-    private Long redlistId;
+    private Integer redlistId;
 
     @Column(name = "redlist_id")
-    public Long getRedlistId() {
+    public Integer getRedlistId() {
         return redlistId;
     }
 
-    public void setRedlistId(Long redlistId) {
+    public void setRedlistId(Integer redlistId) {
         this.redlistId = redlistId;
     }
 

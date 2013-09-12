@@ -3,7 +3,6 @@ package org.issg.upload;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -11,15 +10,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.issg.ibis.domain.Biome;
 import org.issg.ibis.domain.Biome_;
-import org.issg.ibis.domain.Genus;
-import org.issg.ibis.domain.Genus_;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.OrganismType_;
 import org.issg.ibis.domain.RedlistCategory;
 import org.issg.ibis.domain.RedlistCategory_;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Taxon;
-import org.issg.ibis.domain.Taxon_;
 import org.issg.ibis.domain.TaxonomicRank;
 import org.issg.ibis.domain.TaxonomicRank_;
 import org.jrc.persist.Dao;
@@ -53,7 +49,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
         {
             // Redlist id
             Long id = getCellValueAsLong(row, 0);
-            species.setRedlistId(id);
+            species.setRedlistId(id.intValue());
         }
 
         {

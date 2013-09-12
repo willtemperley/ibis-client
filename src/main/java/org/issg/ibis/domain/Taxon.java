@@ -52,15 +52,15 @@ public class Taxon {
         this.taxonomicRank = taxonomicRank;
     }
 
-    private ParentTaxon parentTaxon;
+    private Taxon parentTaxon;
 
     @ManyToOne
     @JoinColumn(name="parent_taxon_id")
-    public ParentTaxon getParentTaxon() {
+    public Taxon getParentTaxon() {
         return parentTaxon;
     }
 
-    public void setParentTaxon(ParentTaxon parentTaxon) {
+    public void setParentTaxon(Taxon parentTaxon) {
         this.parentTaxon = parentTaxon;
     }
 

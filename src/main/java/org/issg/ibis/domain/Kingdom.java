@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(schema = "ibis", name = "kingdom")
@@ -26,6 +29,7 @@ public class Kingdom {
 
     private String label;
 
+    @NotNull
     @Column
     public String getLabel() {
         return label;
@@ -33,6 +37,23 @@ public class Kingdom {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Kingdom) {
+           Kingdom otherObj = (Kingdom) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
     }
 
     @Override

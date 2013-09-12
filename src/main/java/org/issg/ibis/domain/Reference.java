@@ -7,9 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
+import javax.persistence.CascadeType;
 import java.util.Set;
 
 @Entity
@@ -83,9 +86,21 @@ public class Reference {
     public void setSpeciess(Set<Species> speciess) {
         this.speciess = speciess;
     }
-    
+
     @Override
-    public String toString() {
-        return referenceHeader;
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Reference) {
+           Reference otherObj = (Reference) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
     }
 }

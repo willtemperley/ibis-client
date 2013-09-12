@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,5 +51,22 @@ public class SpeciesBiome {
 
     public void setBiome(Biome biome) {
         this.biome = biome;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof SpeciesBiome) {
+           SpeciesBiome otherObj = (SpeciesBiome) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
     }
 }

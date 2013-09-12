@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -9,10 +10,6 @@ public abstract class SpeciesThreatSummary_ {
     public static volatile SingularAttribute<SpeciesThreatSummary,Species> species;
 
     public static volatile SingularAttribute<SpeciesThreatSummary,Long> idcountry;
-
-    public static volatile SingularAttribute<SpeciesThreatSummary,String> threatsummarytitle;
-
-    public static volatile SingularAttribute<SpeciesThreatSummary,String> threatsummaryshort;
 
     public static volatile SingularAttribute<SpeciesThreatSummary,String> threatSummary;
 

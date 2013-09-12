@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
@@ -47,28 +48,6 @@ public class SpeciesThreatSummary {
 
     public void setIdcountry(Long idcountry) {
         this.idcountry = idcountry;
-    }
-
-    private String threatsummarytitle;
-
-    @Column
-    public String getThreatsummarytitle() {
-        return threatsummarytitle;
-    }
-
-    public void setThreatsummarytitle(String threatsummarytitle) {
-        this.threatsummarytitle = threatsummarytitle;
-    }
-
-    private String threatsummaryshort;
-
-    @Column
-    public String getThreatsummaryshort() {
-        return threatsummaryshort;
-    }
-
-    public void setThreatsummaryshort(String threatsummaryshort) {
-        this.threatsummaryshort = threatsummaryshort;
     }
 
     private String threatSummary;
@@ -113,5 +92,22 @@ public class SpeciesThreatSummary {
 
     public void setThreatsummarycode(String threatsummarycode) {
         this.threatsummarycode = threatsummarycode;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof SpeciesThreatSummary) {
+           SpeciesThreatSummary otherObj = (SpeciesThreatSummary) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
     }
 }

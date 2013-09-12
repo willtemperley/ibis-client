@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -90,14 +91,32 @@ public class SpeciesImpact {
         this.location = location;
     }
 
-    
-    private String toString;
-    
+    private UploadLog uploadLog;
+
+    @ManyToOne
+    @JoinColumn(name="upload_log_id")
+    public UploadLog getUploadLog() {
+        return uploadLog;
+    }
+
+    public void setUploadLog(UploadLog uploadLog) {
+        this.uploadLog = uploadLog;
+    }
+
     @Override
-    public String toString() {
-        if (toString == null) {
-            toString = String.format("%s - %s", threatenedSpecies, invasiveSpecies);
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof SpeciesImpact) {
+           SpeciesImpact otherObj = (SpeciesImpact) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
         }
-        return toString;
+        return super.equals(obj);
     }
 }
