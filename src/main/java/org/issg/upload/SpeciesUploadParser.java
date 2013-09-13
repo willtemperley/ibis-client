@@ -15,6 +15,7 @@ import org.issg.ibis.domain.OrganismType_;
 import org.issg.ibis.domain.RedlistCategory;
 import org.issg.ibis.domain.RedlistCategory_;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.Species_;
 import org.issg.ibis.domain.Taxon;
 import org.issg.ibis.domain.TaxonomicRank;
 import org.issg.ibis.domain.TaxonomicRank_;
@@ -49,13 +50,33 @@ public class SpeciesUploadParser extends UploadParser<Species> {
         {
             // Redlist id
             Long id = getCellValueAsLong(row, 0);
-            species.setRedlistId(id.intValue());
+            if (id != null) {
+                species.setRedlistId(id.intValue());
+            }
         }
-
+        
         {
+            
             // Name
             String name = getCellValueAsString(row, 1);
             species.setName(name);
+            
+            // Check species 
+            Species checkSpecies = dao.findByProxyId(Species_.name, name);
+            if (checkSpecies != null) {
+                recordError(row.getRowNum(), 1, String.format("Species %s already exists", checkSpecies.getName()));
+                
+                
+            }
+            
+            // Avoid duplicate species in upload
+            List<Species> entities = getEntityList();
+            for (Species alreadyProcessed : entities) {
+                if (species.getName().equals(alreadyProcessed.getName())) {
+                    recordError(row.getRowNum(), 1, String.format("Duplicate %s species in upload", species.getName()));
+                }
+            }
+            
         }
 
         TaxonomicRank rank = dao.findByProxyId(TaxonomicRank_.label, "Kingdom");
@@ -78,8 +99,6 @@ public class SpeciesUploadParser extends UploadParser<Species> {
                 species.setGenus(taxon);
             }
         }
-        
-        
 
         {
             // Species (not bionomial)

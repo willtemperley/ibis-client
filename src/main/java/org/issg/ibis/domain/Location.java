@@ -5,14 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 
+import org.hibernate.annotations.Type;
 import org.jrc.persist.adminunits.Country;
 
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 
 @Entity
@@ -31,14 +33,15 @@ public class Location {
         this.id = id;
     }
 
-    private Polygon geom;
+    private Geometry geom;
 
     @Column
-    public Polygon getGeom() {
+    @Type(type = "org.hibernate.spatial.GeometryType")
+    public Geometry getGeom() {
         return geom;
     }
 
-    public void setGeom(Polygon geom) {
+    public void setGeom(Geometry geom) {
         this.geom = geom;
     }
 
@@ -91,6 +94,7 @@ public class Location {
     private Polygon envelope;
 
     @Column
+    @Type(type = "org.hibernate.spatial.GeometryType")
     public Polygon getEnvelope() {
         return envelope;
     }

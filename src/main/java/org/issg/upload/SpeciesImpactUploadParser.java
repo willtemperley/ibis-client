@@ -20,7 +20,6 @@ public class SpeciesImpactUploadParser extends UploadParser<SpeciesImpact> {
 
     private static Logger logger = LoggerFactory
             .getLogger(SpeciesImpactUploadParser.class);
-    
 
     public SpeciesImpactUploadParser(Dao dao) {
         super(dao, SpeciesImpact.class);
@@ -36,12 +35,11 @@ public class SpeciesImpactUploadParser extends UploadParser<SpeciesImpact> {
         Sheet sheet = wb.getSheetAt(3);
         processSheet(sheet, 0);
     }
-    
 
     @Override
     protected SpeciesImpact processRow(Row row) {
 
-        //Quick hack to avoid processing blank rows
+        // Quick hack to avoid processing blank rows
         String proxy = getCellValueAsString(row, 1);
         if (proxy == null) {
             return null;
@@ -50,17 +48,25 @@ public class SpeciesImpactUploadParser extends UploadParser<SpeciesImpact> {
         SpeciesImpact speciesImpact = new SpeciesImpact();
 
         {
-            // Threatened species
-            Species sp = getEntity(Species_.name, row, 1);
-            speciesImpact.setThreatenedSpecies(sp);
+            // Location
+            // FIXME:  will have multiple columns
+            String locationName = getCellValueAsString(row, 1);
+            String locationId = getCellValueAsString(row, 2);
+            if (locationId != null && ! locationId.isEmpty()) {
+                String lookup = "GID:" + locationId;
+                Location loc = getEntity(Location_.uri, row, 2, lookup);
+                if (locationName != null && !locationName.isEmpty()) {
+                    loc.setName(locationName);
+                    dao.persist(loc);
+                }
+                speciesImpact.setLocation(loc);
+            }
         }
 
         {
-            // Location 
-            // FIXME: Need multiple prefixes
-            String lookup = "GID:" + getCellValueAsString(row, 3);
-            Location loc = getEntity(Location_.locationId, row, 3, lookup);
-            speciesImpact.setLocation(loc);
+            // Threatened species
+            Species sp = getEntity(Species_.name, row, 3);
+            speciesImpact.setThreatenedSpecies(sp);
         }
 
         {
@@ -80,7 +86,7 @@ public class SpeciesImpactUploadParser extends UploadParser<SpeciesImpact> {
             ImpactOutcome io = getEntity(ImpactOutcome_.label, row, 6);
             speciesImpact.setImpactOutcome(io);
         }
-        
+
         return speciesImpact;
 
     }

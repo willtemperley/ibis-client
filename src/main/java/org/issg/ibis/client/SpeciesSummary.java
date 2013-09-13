@@ -5,6 +5,7 @@ import org.issg.ibis.display.SimpleHtmlLabel;
 import org.issg.ibis.display.SimplePanel;
 import org.issg.ibis.domain.Species;
 
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 
 public class SpeciesSummary extends Panel {
@@ -38,7 +39,7 @@ public class SpeciesSummary extends Panel {
 
     }
 
-    public void setSpecies(Species sp, String imgUrl) {
+    public void setSpecies(Species sp) {
         // speciesInfo.setSpecies(sp, imgUrl);
         String img = ArkiveV1Search.getSpeciesImage(sp.getName());
         

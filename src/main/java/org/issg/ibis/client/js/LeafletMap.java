@@ -74,4 +74,21 @@ public class LeafletMap extends AbstractJavaScriptComponent {
         setBounds(json);
         
     }
+    public void zoomTo(Envelope env, String species) {
+        
+        if (env == null) {
+            return;
+        }
+        
+        JSONArray master = new JSONArray();
+
+        master.put(new double[] {env.getMinY(), env.getMinX()});
+        master.put(new double[] {env.getMaxY(), env.getMaxX()});
+        
+        String json = master.toString();
+        
+        setBounds(json);
+        setSpecies(species);
+        
+    }
 }

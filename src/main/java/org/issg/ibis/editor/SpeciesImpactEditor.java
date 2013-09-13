@@ -28,7 +28,7 @@ public class SpeciesImpactEditor extends
          
         ff.addField(SpeciesImpact_.threatenedSpecies);
         ff.addField(SpeciesImpact_.invasiveSpecies);
-        ff.addField(SpeciesImpact_.location);
+//        ff.addField(SpeciesImpact_.location);
 
         ff.addField(SpeciesImpact_.impactMechanism);
         ff.addField(SpeciesImpact_.impactOutcome);

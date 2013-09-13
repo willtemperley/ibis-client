@@ -1,6 +1,5 @@
 package org.issg.ibis.domain;
 
-import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -11,7 +10,7 @@ import com.vividsolutions.jts.geom.Polygon;
 @StaticMetamodel(Location.class)
 public abstract class Location_ {
 
-    public static volatile SingularAttribute<Location,String> locationId;
+    public static volatile SingularAttribute<Location,String> uri;
 
     public static volatile SingularAttribute<Location,Polygon> geom;
 
