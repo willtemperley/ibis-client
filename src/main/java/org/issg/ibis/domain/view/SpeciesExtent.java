@@ -1,4 +1,4 @@
-package org.issg.ibis.domain;
+package org.issg.ibis.domain.view;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +10,8 @@ import org.hibernate.annotations.Type;
 import com.vividsolutions.jts.geom.Polygon;
 
 @Entity
-@Table(schema = "species_distribution", name = "species_extent")
+@Table(schema = "ibis", name = "species_extent")
 /**
- * Actually it's a view
  * 
  * @author Will Temperley
  *

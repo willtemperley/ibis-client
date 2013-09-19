@@ -8,18 +8,22 @@ import org.issg.ibis.domain.Species;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 
-public class SpeciesSummary extends Panel {
+public class SpeciesSummary extends SimplePanel {
 
     private SimpleHtmlHeader speciesName = new SimpleHtmlHeader();
     private SimpleHtmlLabel speciesImage = new SimpleHtmlLabel();
-    private SimpleHtmlLabel threatSummary = new SimpleHtmlLabel();
     private SimpleHtmlLabel redlistStatus = new SimpleHtmlLabel();
+    
     private SimpleHtmlLabel commonName = new SimpleHtmlLabel();
 
+    private SimpleHtmlLabel threatSummary = new SimpleHtmlLabel();
+    
+    private SimpleHtmlLabel managementSummary = new SimpleHtmlLabel();
+    
+    private SimpleHtmlLabel conservationOutcomes = new SimpleHtmlLabel();
+    
     public SpeciesSummary() {
 
-        SimplePanel root = new SimplePanel();
-        setContent(root);
         
 //        speciesImage.setContentMode(ContentMode.HTML);
 //        threatSummary.setContentMode(ContentMode.HTML);
@@ -27,16 +31,23 @@ public class SpeciesSummary extends Panel {
 //        redlistStatus.setContentMode(ContentMode.HTML);
 //        commonName.setContentMode(ContentMode.HTML);
         
-        root.addComponent(speciesName);
+        addComponent(speciesName);
+        speciesName.addStyleName("species-name");
         
 //        root.addComponent(commonName);
-        root.addComponent(speciesImage);
+        addComponent(speciesImage);
         
-        root.addComponent(new SimpleHtmlHeader("Conservation status"));
+        addComponent(new SimpleHtmlHeader("Conservation status"));
+        addComponent(redlistStatus);
         
-//        root.addComponent(threatSummary);
-        root.addComponent(redlistStatus);
+        addComponent(new SimpleHtmlHeader("Threat summary"));
+        addComponent(threatSummary);
+        
+        addComponent(new SimpleHtmlHeader("Management summary"));
+        addComponent(managementSummary);       
 
+        addComponent(new SimpleHtmlHeader("Conservation outcomes"));
+        addComponent(conservationOutcomes);       
     }
 
     public void setSpecies(Species sp) {
@@ -47,8 +58,8 @@ public class SpeciesSummary extends Panel {
         speciesImage.setValue(img);
         
         commonName.setValue(sp.getCommonName());
-        
         threatSummary.setValue(sp.getThreatSummary());
+        conservationOutcomes.setValue(sp.getConservationOutcomes());
         
         String redlistImgUrl = String.format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>", sp.getRedlistCategory().getRedlistCode());
         redlistStatus.setValue(redlistImgUrl);

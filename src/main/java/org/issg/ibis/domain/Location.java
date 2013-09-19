@@ -7,9 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.EntityResult;
 
 import org.hibernate.annotations.Type;
 import org.jrc.persist.adminunits.Country;
@@ -18,6 +23,16 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 
 @Entity
+@SqlResultSetMapping(name = "Location.implicit", entities = {
+        @EntityResult(entityClass = Location.class)
+    }
+)
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "Location.copy_location",
+                query = "SELECT * from ibis.copy_location(:id, :namespace)",
+                resultSetMapping = "Location.implicit")
+    }
+)
 @Table(schema = "ibis", name = "location")
 public class Location {
 

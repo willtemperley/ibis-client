@@ -8,7 +8,7 @@ function() {
     // Handle changes from the server-side
     this.onStateChange = function() {
         leafletMap.fitBounds(this.getState().bounds);
-        leafletMap.setSpecies(this.getState().species);
+        leafletMap.setLocations(this.getState().locations);
     };
 
     // Pass user interaction to the server-side

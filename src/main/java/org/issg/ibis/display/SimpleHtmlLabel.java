@@ -8,10 +8,12 @@ public class SimpleHtmlLabel extends Label {
     public SimpleHtmlLabel(String content) {
         super();
         setValue(content);
+        addStyleName("simple-html-label");
     }
     
     public SimpleHtmlLabel() {
         setContentMode(ContentMode.HTML);
+        addStyleName("simple-html-label");
     }
 
 //    @Override

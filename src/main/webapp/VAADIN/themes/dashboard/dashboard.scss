@@ -72,7 +72,6 @@ $v-green: #40b527;
 	.header {
 		padding-left: 20px;
 		padding-top: 5px;
-		height: 80px;
 		
 		div {
 		
@@ -80,6 +79,7 @@ $v-green: #40b527;
 			
 			.ibis-text {
 				font-size: 22px;
+				font-weight: 100;
 				padding-top: 5px;
 				text-align: justify;
 				/*text-shadow: 1px 2px 3px rgba(255,255,255,0.9);*/
@@ -97,9 +97,18 @@ $v-green: #40b527;
 				text-shadow: 1px 2px 3px rgba(0,0,0,0.3);
 			}
 			
+			.search-box {
+				padding-top: 10px;
+				
+				.v-textfield {
+					height: 27px;
+				}
+			}
+			
 			.logo-container {
 			
 				float: right;
+				padding-top: 5px;
 			
 				.issg-logo {
 					height: 50px;
@@ -129,14 +138,19 @@ $v-green: #40b527;
 		font-family: 'Lato', sans-serif;
 	}
 	
-	.species-map {
-		height: 500px;
-	}
 	
 	.blank-species {
 		height: 200px;	
 		width: 200px;	
-		background-image: url('img/the-larch.jpg');
+		background-image: url('img/cutest-kitten-ever.jpg');
+	}
+	
+	.species-name {
+		font-size: 20px;
+	}
+	
+	.simple-html-label {
+		margin-bottom: 20px;	
 	}
 	
 	.v-errorindicator {
@@ -161,7 +175,7 @@ $v-green: #40b527;
 	.layout-panel {
 	
 		margin-bottom: 20px;
-		padding: 40px 20px 20px;
+		padding: 20px 20px 20px;
 		overflow: auto;
 		position: relative;
 		

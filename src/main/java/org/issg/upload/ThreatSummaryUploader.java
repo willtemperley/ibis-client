@@ -14,7 +14,7 @@ public class ThreatSummaryUploader extends AbstractUploader implements View {
     @Inject
     public ThreatSummaryUploader(Dao dao) {
         super(dao, "Upload threat summaries");
-        parser = new SpeciesUploadParser(dao);
+        parser = new ThreatSummaryUploadParser(dao);
     }
 
     @Override

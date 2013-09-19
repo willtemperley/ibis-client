@@ -33,14 +33,11 @@ public class ThreatSummaryUploadParser extends UploadParser<Species> {
 
         Species species = getEntity(Species_.name, row, 1);
 
-        String threatSummary = getCellValueAsString(row, 2);
-        species.setThreatSummary(threatSummary);
+        species.setThreatSummary(getCellValueAsString(row, 4));
 
-        String managementSummary = getCellValueAsString(row, 3);
-        species.setManagementSummary(managementSummary);
+        species.setManagementSummary(getCellValueAsString(row, 5));
 
-        String conservationOutcomes = getCellValueAsString(row, 4);
-        species.setConservationOutcomes(conservationOutcomes);
+        species.setConservationOutcomes(getCellValueAsString(row, 6));
 
         return species;
     }

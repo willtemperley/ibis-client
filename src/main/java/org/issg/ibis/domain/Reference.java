@@ -1,19 +1,17 @@
 package org.issg.ibis.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.CascadeType;
-import java.util.Set;
 
 @Entity
 @Table(schema = "ibis", name = "reference")
@@ -102,5 +100,10 @@ public class Reference {
             }
         }
         return super.equals(obj);
+    }
+    
+    @Override
+    public String toString() {
+        return referenceHeader;
     }
 }

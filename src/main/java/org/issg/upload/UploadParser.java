@@ -23,9 +23,11 @@ import org.jrc.persist.Dao;
 /**
  * @author will
  * 
- *         Operates on POI rows, validating header rows and transferring
- *         information to entities. All errors are recorded and can be retrieved
- *         after processing.
+ *         Operates on Excel {@link Row}s, transferring information to entities.
+ *         All errors are recorded and can be retrieved after processing.
+ *         Subclasses should override processRow which returns an entity for
+ *         each row. If this method fails, ideally it should do so silently and
+ *         record the error to allow the entire work sheet to be processed.
  * 
  * @param <E>
  *            The entity type being uploaded.
@@ -37,7 +39,6 @@ public abstract class UploadParser<E> {
     protected enum CellType {
         NUMERIC, STRING, FORMULA, BLANK, BOOLEAN, ERROR;
     }
-    
 
     protected final Validator validator;
 
@@ -54,7 +55,6 @@ public abstract class UploadParser<E> {
         this.dao = dao;
 
     }
-    
 
     /**
      * Iterates all data rows in a spreadsheet, ignoring header rows and
@@ -68,7 +68,7 @@ public abstract class UploadParser<E> {
 
         Row headerRow = sheet.getRow(headerRowIdx);
         populateColumnHeaders(headerRow);
-        
+
         errors.clear();
         entityList.clear();
 
@@ -84,13 +84,13 @@ public abstract class UploadParser<E> {
     }
 
     /**
-     * Returns true if the row has at least one cell with data. 
+     * Returns true if the row has at least one cell with data.
      * 
      * @param row
      * @return
      */
     private boolean rowHasData(Row row) {
-        
+
         for (int i = 0; i < colHeaders.size(); i++) {
             Cell cell = row.getCell(i);
             if (cellHasData(cell)) {
@@ -172,9 +172,9 @@ public abstract class UploadParser<E> {
 
         return null;
     }
-    
+
     protected <T> T getCellValue(Row row, int colIdx, Class<T> clazz) {
-        
+
         Cell cell = row.getCell(colIdx);
         return getCellValue(cell, clazz);
     }
@@ -184,7 +184,7 @@ public abstract class UploadParser<E> {
      * 
      * @param row
      * @param colIdx
-     * @return 
+     * @return
      */
     protected String getCellValueAsString(Row row, int colIdx) {
         Cell cell = row.getCell(colIdx);
@@ -195,7 +195,7 @@ public abstract class UploadParser<E> {
         String val = cell.getStringCellValue();
         return val;
     }
-    
+
     protected Long getCellValueAsLong(Row row, int colIdx) {
         String cellValue = getCellValueAsString(row, colIdx);
         if (cellValue == null || cellValue.isEmpty()) {
@@ -204,7 +204,8 @@ public abstract class UploadParser<E> {
             try {
                 return Long.valueOf(cellValue);
             } catch (NumberFormatException e) {
-                recordError(row.getRowNum(), colIdx, "Expected integer, got value: " + cellValue);
+                recordError(row.getRowNum(), colIdx,
+                        "Expected integer, got value: " + cellValue);
             }
         }
         return null;
@@ -238,7 +239,9 @@ public abstract class UploadParser<E> {
 
     /**
      * Records an error, giving the cell address and a meaningful message.
-     * @param cellIdx TODO
+     * 
+     * @param cellIdx
+     *            TODO
      * @param message
      * @param col
      */
@@ -277,7 +280,8 @@ public abstract class UploadParser<E> {
     }
 
     /**
-     * Look up an entity from the {@link StaticMetamodel} attribute given and row / column reference
+     * Look up an entity from the {@link StaticMetamodel} attribute given and
+     * row / column reference
      * 
      * @param attr
      *            the {@link StaticMetamodel} {@link Attribute}
@@ -292,7 +296,7 @@ public abstract class UploadParser<E> {
             int colIdx) {
 
         String lookUp = this.getCellValueAsString(row, colIdx);
-        
+
         if (lookUp == null || lookUp.isEmpty()) {
             return null;
         }
@@ -313,7 +317,8 @@ public abstract class UploadParser<E> {
      * @return the entity if found, otherwise null
      * 
      */
-    protected <T> T getEntity(SingularAttribute<T, String> attr, Row row, int colIdx, String lookUp) {
+    protected <T> T getEntity(SingularAttribute<T, String> attr, Row row,
+            int colIdx, String lookUp) {
 
         // Get entity simple name
         String entityClassName = attr.getDeclaringType().getJavaType()
@@ -323,8 +328,8 @@ public abstract class UploadParser<E> {
             T e = dao.findByProxyId(attr, lookUp);
             if (e == null) {
                 recordError(row.getRowNum(), colIdx, String.format(
-                        "Could not find %s with name \"%s\"",
-                        entityClassName, lookUp));
+                        "Could not find %s with name \"%s\"", entityClassName,
+                        lookUp));
             }
             return e;
         } catch (NonUniqueResultException e) {

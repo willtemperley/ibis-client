@@ -7,6 +7,7 @@ public class LeafletMapState extends JavaScriptComponentState {
     
     private String bounds;
     private String species;
+    private String locations;
     
     public String getBounds() {
         return bounds;
@@ -22,6 +23,14 @@ public class LeafletMapState extends JavaScriptComponentState {
 
     public void setSpecies(String species) {
         this.species = species;
+    }
+    
+    public String getLocations() {
+        return this.locations;
+    }
+
+    public void setLocations(String locationJson) {
+        this.locations = locationJson;
     }
 
 

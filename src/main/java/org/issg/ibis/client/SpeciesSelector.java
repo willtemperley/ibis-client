@@ -7,6 +7,7 @@ import org.issg.ibis.domain.RedlistCategory_;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
 import org.jrc.form.editor.EntityTable;
+import org.jrc.form.filter.FilterField;
 import org.jrc.form.filter.FilterPanel;
 import org.jrc.persist.ContainerManager;
 import org.jrc.persist.Dao;
@@ -15,34 +16,33 @@ import com.google.inject.Inject;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.Like;
 import com.vaadin.data.util.filter.Not;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.CssLayout;
 
-public class SpeciesSelector extends Panel {
+public class SpeciesSelector extends CssLayout {
     
     final ContainerManager<Species> containerManager;
+    private FilterField<Species, String> speciesNameFilter;
     
     @Inject
     public SpeciesSelector(Dao dao) {
         
         containerManager = new ContainerManager<Species>(dao, Species.class);
         
-        SimplePanel panel = new SimplePanel();
-        setContent(panel);
-        
         EntityTable<Species> table = getTable(dao);
         table.addColumns(Species_.name, Species_.redlistCategory);
         
         JPAContainer<Species> container = containerManager.getContainer();
         FilterPanel<Species> fp = new FilterPanel<Species>(container, dao);
-        fp.addFilterField(Species_.name);
+        speciesNameFilter = fp.addFilterField(Species_.name);
         fp.addFilterField(Species_.redlistCategory);
         
         RedlistCategory rlc = dao.findByProxyId(RedlistCategory_.label, "Invasive");
         container.addContainerFilter(new Not(new Compare.Equal(Species_.redlistCategory.getName(), rlc)));
         
-        panel.addComponent(fp);
-        panel.addComponent(table);
+        this.addComponent(fp);
+        this.addComponent(table);
     }
     
     private EntityTable<Species> getTable(Dao dao) {
@@ -62,8 +62,17 @@ public class SpeciesSelector extends Panel {
                getUI().getNavigator().navigateTo(ViewModule.getSpeciesLink(species));
             }
         });
+        
+        table.setWidth("500px");
 
         return table;
+    }
+    
+    public void setSearchText(String searchText) {
+        Like filter = new Like(Species_.name.getName(), "%" + searchText + "%");
+        JPAContainer<Species> container = containerManager.getContainer();
+        container.addContainerFilter(filter);
+        speciesNameFilter.getField().setValue(searchText);
     }
 
 }

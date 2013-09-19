@@ -12,6 +12,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.VerticalLayout;
 
 //@Theme("biopama")
 @Theme("dashboard")
@@ -19,7 +20,7 @@ public class AppUI extends ScopedUI  {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private CssLayout rootLayout = new CssLayout();
+	private VerticalLayout rootLayout = new VerticalLayout();
     
 	/*
 	 * This holds the dynamically changing content
@@ -53,12 +54,12 @@ public class AppUI extends ScopedUI  {
         rootLayout.addStyleName("dashboard-view");
 		rootLayout.setSizeFull();
 		
+		headerView.setHeight("80px");
 		rootLayout.addComponent(headerView);
-//		rootLayout.addComponent(menuView);
+		
 		rootLayout.addComponent(content);
 		content.setSizeFull();
-		
-//		header.addComponent(headerView);
+		rootLayout.setExpandRatio(content, 1);
 		
 		nav = new Navigator(this, content);
 		nav.addProvider(viewProvider);

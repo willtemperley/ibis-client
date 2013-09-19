@@ -241,4 +241,23 @@ public class Species {
     public String getScientificName() {
         return "<i>" + name + "</i> " + getAuthority();
     }
+    
+    @Override
+    public int hashCode() {
+        return id.intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Species) {
+           Species otherObj = (Species) obj;
+           if (otherObj.getId().equals(this.getId())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
+    }
+
+    
 }

@@ -10,34 +10,17 @@ leafletLibrary.LeafletMap = function(element) {
 		maxZoom : 14
 	}).setView([ 0, 0 ], 2);
 
-	L.tileLayer(
-			'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png',
-			{
-				attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-			// maxZoom : 18
-			}).addTo(map);
+	this.baseLayer = L.tileLayer(
+					'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png',
+					{
+						attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+					}).addTo(map);
 
-	this.speciesLayer = L.tileLayer.wms(
-			"http://lrm-maps.jrc.ec.europa.eu/geoserver/ibis/wms", {
-				layers : 'ibis:species',
-				format : 'image/png',
-				transparent : true,
-				attribution : "Weather data © 2012 IEM Nexrad"
-
-			}).addTo(map);
-
-	// this.islandLayer = L.tileLayer.wms(
-	// "http://lrm-maps.jrc.ec.europa.eu/geoserver/ibis/wms", {
-	// layers : 'ibis:gid',
-	// format : 'image/png',
-	// transparent : true,
-	// attribution : "GID"
-	//
-	// }).addTo(map);
+	this.islandLayer = L.geoJson().addTo(map);
 
 	// Default implementation of the click handler
 	this.click = function() {
-		// alert("Error: Must implement click() method");
+		 alert("Error: Must implement click() method");
 	};
 
 	this.fitBounds = function(boundsString) {
@@ -47,21 +30,23 @@ leafletLibrary.LeafletMap = function(element) {
 			map.fitBounds(bounds);
 		}
 		
-		this.setSpecies(this.speciesId);
-
+	};
+	
+	this.setSpecies = function(geoJsonString) {
 	};
 
 	/*
-	 * Show the species range
+	 * Show the locations
 	 */
-	this.setSpecies = function(id) {
-		this.speciesId = id;
-		if (id != null) {
-			this.speciesLayer.setParams({
-				viewparams : 'binomial_id:' + this.speciesId
-			}, true);
-
+	this.setLocations = function(geoJsonString) {
+		
+		if (typeof geoJsonString === 'undefined') {
+			return;
 		}
+		
+		var geoJson = JSON.parse(geoJsonString);
+		this.islandLayer.addData(geoJson);
+
 	};
 
 	// Set up button click

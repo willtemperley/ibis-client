@@ -13,6 +13,7 @@ import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.upload.SpeciesImpactUploadParser;
 import org.issg.upload.SpeciesUploadParser;
+import org.issg.upload.ThreatSummaryUploadParser;
 import org.jrc.persist.Dao;
 import org.junit.Assert;
 import org.junit.Before;
@@ -61,7 +62,7 @@ public class UploadTest {
             // System.out.println("===============================");
             Assert.assertNotNull(speciesImpact.getInvasiveSpecies());
             Assert.assertNotNull(speciesImpact.getThreatenedSpecies());
-            Assert.assertNotNull(speciesImpact.getLocation());
+//            Assert.assertNotNull(speciesImpact.getLocation());
             Assert.assertNotNull(speciesImpact.getImpactMechanism());
             Assert.assertNotNull(speciesImpact.getImpactOutcome());
         }
@@ -82,6 +83,23 @@ public class UploadTest {
         for (String string : errors) {
             System.out.println(string);
         }
+    }
+    
+    @Test
+    public void threatSummaries() {
+        
+        ThreatSummaryUploadParser parser = new ThreatSummaryUploadParser(dao);
+        parser.processWorkbook(workbookGood);
+        
+        for (String err : parser.getErrors()) {
+            System.out.println("=============");
+            System.out.println("Errors");
+            System.out.println("=============");
+            System.out.println(err);
+        }
+        
+        Assert.assertFalse(parser.hasErrors());
+        
     }
 
     @Test
