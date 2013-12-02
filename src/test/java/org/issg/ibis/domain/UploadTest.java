@@ -11,7 +11,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
+import org.issg.upload.BaseLocationUploadParser;
 import org.issg.upload.SpeciesImpactUploadParser;
+import org.issg.upload.SpeciesLocationUploadParser;
 import org.issg.upload.SpeciesUploadParser;
 import org.issg.upload.ThreatSummaryUploadParser;
 import org.jrc.persist.Dao;
@@ -23,29 +25,78 @@ import com.google.inject.Injector;
 
 public class UploadTest {
 
-    private static final int NumSpecies = 10;
-    
+
     private Injector injector = TestResourceFactory.getInjector();
-    private EntityManagerFactory emf = injector
-            .getInstance(EntityManagerFactory.class);
+//    private EntityManagerFactory emf = injector
+//            .getInstance(EntityManagerFactory.class);
     private Workbook workbookGood;
-    private Workbook workbookBad;
     private Dao dao;
 
     @Before
     public void init() throws InvalidFormatException, FileNotFoundException,
             IOException {
 
+        String wbName = "Fiji-IBIS-JRC-Shyama-Will-Nov26.xlsx";
+//        String wbName = "CookIslands20131122-full.xlsx";
+
         this.workbookGood = WorkbookFactory.create(TestResourceFactory
-                .getFileInputStream("Species-Summary-Impact-Seychelles.xlsx"));
-        this.workbookBad = WorkbookFactory.create(TestResourceFactory
-                .getFileInputStream("Species-Summary-Impact-Mistakes.xlsx"));
-//        dao = new Dao(null, emf, null, null);
+                .getFileInputStream(wbName));
+
         dao = injector.getInstance(Dao.class);
     }
 
     @Test
-    public void speciesImpactZeroErrors() throws IOException {
+    public void species() throws IOException {
+
+        SpeciesUploadParser parser = new SpeciesUploadParser(dao);
+        parser.allowSkippedRows(true);
+
+        parser.processWorkbook(workbookGood);
+
+        for (String err : parser.getErrors()) {
+            System.out.println("=============");
+            System.out.println("Errors");
+            System.out.println("=============");
+            System.out.println(err);
+        }
+
+        List<Species> sis = parser.getEntityList();
+        for (Species species : sis) {
+
+            try {
+                dao.persist(species);
+            } catch (Exception e) {
+                System.out.println("======================");
+                System.out.println(species.getName());
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    @Test
+        public void speciesLocation() {
+    
+             SpeciesLocationUploadParser parser = new SpeciesLocationUploadParser(
+                    dao);
+    
+            parser.processWorkbook(workbookGood);
+    
+            List<String> l = parser.getErrors();
+            for (String string : l) {
+                System.out.println(string);
+            }
+    
+            Assert.assertFalse(parser.hasErrors());
+    
+            List<SpeciesLocation> sls = parser.getEntityList();
+            for (SpeciesLocation sl : sls) {
+//                dao.persist(sl);
+            }
+        }
+
+    @Test
+    public void speciesImpact() throws IOException {
 
         SpeciesImpactUploadParser parser = new SpeciesImpactUploadParser(dao);
 
@@ -59,75 +110,29 @@ public class UploadTest {
 
         List<SpeciesImpact> sis = parser.getEntityList();
         for (SpeciesImpact speciesImpact : sis) {
-            // System.out.println("===============================");
-            Assert.assertNotNull(speciesImpact.getInvasiveSpecies());
-            Assert.assertNotNull(speciesImpact.getThreatenedSpecies());
-//            Assert.assertNotNull(speciesImpact.getLocation());
-            Assert.assertNotNull(speciesImpact.getImpactMechanism());
-            Assert.assertNotNull(speciesImpact.getImpactOutcome());
+            dao.persist(speciesImpact);
         }
 
     }
 
-//    @Test
-    public void speciesImpactErrors() {
-
-        SpeciesImpactUploadParser parser = new SpeciesImpactUploadParser(dao);
-
-        parser.processWorkbook(workbookBad);
-
-        List<String> errors = parser.getErrors();
-
-        Assert.assertTrue(parser.hasErrors());
-
-        for (String string : errors) {
-            System.out.println(string);
-        }
-    }
-    
     @Test
-    public void threatSummaries() {
-        
+    public void speciesSummaries() {
+
         ThreatSummaryUploadParser parser = new ThreatSummaryUploadParser(dao);
+        parser.allowSkippedRows(true);
         parser.processWorkbook(workbookGood);
-        
-        for (String err : parser.getErrors()) {
-            System.out.println("=============");
-            System.out.println("Errors");
-            System.out.println("=============");
-            System.out.println(err);
-        }
-        
-        Assert.assertFalse(parser.hasErrors());
-        
-    }
 
-    @Test
-    public void speciesZeroErrors() throws IOException {
-    
-        SpeciesUploadParser parser = new SpeciesUploadParser(dao);
-    
-        parser.processWorkbook(workbookGood);
-    
         for (String err : parser.getErrors()) {
-            System.out.println("=============");
-            System.out.println("Errors");
-            System.out.println("=============");
             System.out.println(err);
         }
-    
-    
-        List<Species> sis = parser.getEntityList();
-        for (Species species : sis) {
-            
-            System.out.println("=============");
-            System.out.println(species.getName());
-            System.out.println(species.getAuthority());
-            
-        }
-    
+
         Assert.assertFalse(parser.hasErrors());
-        Assert.assertTrue(sis.size() == NumSpecies);
+
+        List<Content> sls = parser.getEntityList();
+        for (Content ss : sls) {
+            dao.persist(ss);
+        }
+
     }
 
 }

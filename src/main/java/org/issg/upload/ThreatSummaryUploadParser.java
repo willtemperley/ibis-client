@@ -3,19 +3,25 @@ package org.issg.upload;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.issg.ibis.domain.LocationSummary;
+import org.issg.ibis.domain.Content;
+import org.issg.ibis.domain.ContentType_;
+import org.issg.ibis.domain.Location;
+import org.issg.ibis.domain.Location_;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.SpeciesSummary;
 import org.issg.ibis.domain.Species_;
 import org.jrc.persist.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ThreatSummaryUploadParser extends UploadParser<Species> {
+public class ThreatSummaryUploadParser extends UploadParser<Content> {
 
     private static Logger logger = LoggerFactory
             .getLogger(ThreatSummaryUploadParser.class);
 
     public ThreatSummaryUploadParser(Dao dao) {
-        super(dao, Species.class);
+        super(dao, Content.class);
     }
 
     /**
@@ -29,16 +35,40 @@ public class ThreatSummaryUploadParser extends UploadParser<Species> {
     }
 
     @Override
-    protected Species processRow(Row row) {
+    protected Content processRow(Row row) {
 
-        Species species = getEntity(Species_.name, row, 1);
+        String objName = getCellValueAsString(row, 0);
+        Species species = dao.findByProxyId(Species_.name, objName);
 
-        species.setThreatSummary(getCellValueAsString(row, 4));
+        if (species != null) {
+            System.out.println("processing species " + objName);
 
-        species.setManagementSummary(getCellValueAsString(row, 5));
+            SpeciesSummary speciesSummary = new SpeciesSummary();
+            speciesSummary.setSpecies(species);
+            getContent(row, speciesSummary);
 
-        species.setConservationOutcomes(getCellValueAsString(row, 6));
+            return speciesSummary;
+        }
 
-        return species;
+        Location location = dao.findByProxyId(Location_.name, objName);
+        
+        if (location != null) {
+            System.out.println("processing location " + objName);
+            
+            LocationSummary locationSummary = new LocationSummary();
+            locationSummary.setLocation(location);
+
+            getContent(row, locationSummary);
+            
+            return locationSummary;
+        }
+        
+        return null;
+
+    }
+
+    private void getContent(Row row, Content content) {
+        content.setContent(getCellValueAsString(row, 1));
+        content.setContentType(getEntity(ContentType_.name, row, 2));
     }
 }

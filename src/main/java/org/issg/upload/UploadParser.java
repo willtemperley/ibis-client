@@ -19,6 +19,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jrc.persist.Dao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author will
@@ -36,9 +38,13 @@ public abstract class UploadParser<E> {
 
     private List<String> errors = new ArrayList<String>();
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     protected enum CellType {
         NUMERIC, STRING, FORMULA, BLANK, BOOLEAN, ERROR;
     }
+
+    private boolean allowSkippedRows = false;
 
     protected final Validator validator;
 
@@ -56,6 +62,10 @@ public abstract class UploadParser<E> {
 
     }
 
+    public void allowSkippedRows(boolean allowSkippedRows) {
+        this.allowSkippedRows = allowSkippedRows;
+    }
+
     /**
      * Iterates all data rows in a spreadsheet, ignoring header rows and
      * stopping as soon as a row with no data is found. Calls a subclasses
@@ -67,16 +77,33 @@ public abstract class UploadParser<E> {
     public void processSheet(Sheet sheet, int headerRowIdx) {
 
         Row headerRow = sheet.getRow(headerRowIdx);
+        for (Cell cell : headerRow) {
+            if (cell.getStringCellValue() != null && !cell.getStringCellValue().isEmpty())
+                System.out.println(cell.getStringCellValue());
+        }
         populateColumnHeaders(headerRow);
 
         errors.clear();
         entityList.clear();
 
         for (Row row : sheet) {
+            
 
             int rowNum = row.getRowNum();
+
+//            if (rowNum > 1414) return;
+
             if (rowNum > headerRowIdx && rowHasData(row)) {
                 E entity = processRow(row);
+
+                /*
+                 * When null entities are found this may be because we wish to
+                 * skip certain rows (e.g. those which may be processed later).
+                 */
+                if (entity == null && allowSkippedRows) {
+//                    logger.info("Skipped row: " + rowNum);
+                    continue;
+                }
                 validateEntity(entity, row);
                 entityList.add(entity);
             }
@@ -301,7 +328,13 @@ public abstract class UploadParser<E> {
             return null;
         }
 
-        return getEntity(attr, row, colIdx, lookUp);
+        String trimmedLookUp = lookUp.replace(String.valueOf((char) 160), " ");
+        trimmedLookUp = trimmedLookUp.trim();
+        
+//        if (lookUp.startsWith("Aca"))
+//        System.out.println("===" + lookUp + "====");
+
+        return getEntity(attr, row, colIdx, trimmedLookUp);
     }
 
     /**

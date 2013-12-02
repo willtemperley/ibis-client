@@ -1,6 +1,5 @@
 package org.issg.ibis.domain;
 
-import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 

@@ -35,7 +35,7 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
         /*
          * Bind constants
          */
-        Names.bindProperties(binder(), getProperties());
+        Names.bindProperties(binder(), getRuntimeProperties());
 
         /*
          * Security and persistence filters

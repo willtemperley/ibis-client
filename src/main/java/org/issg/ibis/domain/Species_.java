@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -9,7 +10,11 @@ public abstract class Species_ {
 
     public static volatile SingularAttribute<Species, String> name;
 
+    public static volatile SingularAttribute<Species, String> uri;
+
     public static volatile SingularAttribute<Species, Taxon> genus;
+
+    public static volatile SingularAttribute<Species, Long> nubKey;
 
     public static volatile SingularAttribute<Species, String> species;
 
@@ -34,11 +39,7 @@ public abstract class Species_ {
     public static volatile SetAttribute<Species, Biome> biomes;
 
     public static volatile SetAttribute<Species, Reference> references;
-    
-    public static volatile SingularAttribute<Species,String> threatSummary;
 
-    public static volatile SingularAttribute<Species,String> managementSummary;
-
-    public static volatile SingularAttribute<Species,String> conservationOutcomes;
+    public static volatile ListAttribute<Species, SpeciesSummary> speciesSummaries;
 
 }

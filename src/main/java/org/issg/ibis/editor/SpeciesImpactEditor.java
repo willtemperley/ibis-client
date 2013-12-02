@@ -19,16 +19,17 @@ public class SpeciesImpactEditor extends
     public SpeciesImpactEditor(Dao dao) {
         super(SpeciesImpact.class, dao);
 
-        getTable().addColumns(SpeciesImpact_.threatenedSpecies,
-                SpeciesImpact_.invasiveSpecies, SpeciesImpact_.location,
-                SpeciesImpact_.impactMechanism, SpeciesImpact_.impactOutcome);
+        getTable().addColumns(
+                SpeciesImpact_.threatenedSpecies,
+                SpeciesImpact_.invasiveSpecies,
+                SpeciesImpact_.impactMechanism, 
+                SpeciesImpact_.impactOutcome);
 
-        filterPanel.addFilterField(SpeciesImpact_.threatenedSpecies);
+//        filterPanel.addFilterField(SpeciesImpact_.threatenedSpecies);
 //         filterPanel.addFilterField(TableDescription_.schema);
          
         ff.addField(SpeciesImpact_.threatenedSpecies);
         ff.addField(SpeciesImpact_.invasiveSpecies);
-//        ff.addField(SpeciesImpact_.location);
 
         ff.addField(SpeciesImpact_.impactMechanism);
         ff.addField(SpeciesImpact_.impactOutcome);

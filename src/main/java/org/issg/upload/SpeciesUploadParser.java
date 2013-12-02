@@ -2,6 +2,7 @@ package org.issg.upload;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.persistence.TypedQuery;
 
@@ -41,32 +42,67 @@ public class SpeciesUploadParser extends UploadParser<Species> {
         processSheet(sheet, 0);
 
     }
+    
+    /**
+     * String cleaner which throws a horrible error if any horrible whitespace at ends that cannot be stripped is there.
+     * 
+     * @param toClean
+     * @return
+     */
+    private String cleanWhitepace(String toClean) {
+
+        if (toClean != null) {
+            toClean = toClean.replace(String.valueOf((char) 160), " ").trim();
+        }
+        
+
+        char firstChar = toClean.charAt(0);
+        if (! isCharAlpha(firstChar)) {
+            throw new RuntimeException("Char " + firstChar + " should not be here!");
+        }
+
+        char lastChar = toClean.charAt(toClean.length()-1);
+
+        if (! isCharAlpha(lastChar)) {
+            throw new RuntimeException("Char " + lastChar + " should not be here!");
+        }
+
+        return toClean;
+    }
+    
+    private boolean isCharAlpha(char c) {
+        if (c < 0x41 || (c > 0x5a && c <= 0x60) || c > 0x7a) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     protected Species processRow(Row row) {
 
         Species species = new Species();
-
-        {
-            // Redlist id
-            Long id = getCellValueAsLong(row, 0);
-            if (id != null) {
-                species.setRedlistId(id.intValue());
-            }
-        }
         
         {
-            
             // Name
-            String name = getCellValueAsString(row, 1);
+            String name = getCellValueAsString(row, 9);
+            name = cleanWhitepace(name);
             species.setName(name);
+            System.out.println("Processing: " + name + ", row" + row.getRowNum());
             
             // Check species 
             Species checkSpecies = dao.findByProxyId(Species_.name, name);
             if (checkSpecies != null) {
-                recordError(row.getRowNum(), 1, String.format("Species %s already exists", checkSpecies.getName()));
                 
+                //Re-try organism type 
+                if (checkSpecies.getOrganismType() == null) {
+                    OrganismType ot = getEntity(OrganismType_.label, row, 13);
+                    checkSpecies.setOrganismType(ot);
+                    return checkSpecies;
+                }
                 
+                logger.info("Skipping species which already exists in DB: " + name);
+                return null;
+//                recordError(row.getRowNum(), 1, String.format("Species %s already exists", checkSpecies.getName()));
             }
             
             // Avoid duplicate species in upload
@@ -76,57 +112,48 @@ public class SpeciesUploadParser extends UploadParser<Species> {
                     recordError(row.getRowNum(), 1, String.format("Duplicate %s species in upload", species.getName()));
                 }
             }
-            
         }
 
-        TaxonomicRank rank = dao.findByProxyId(TaxonomicRank_.label, "Kingdom");
-        String kingdomName = getCellValueAsString(row, 2);
-        Taxon parentTaxon = this.findTaxonByNameAndRank(rank, kingdomName).getSingleResult();
+        /*
+         * Look up species by RL or GBIF uri
+         */
+        {
+            String prefix = getCellValueAsString(row, 0);
+            if (prefix.equals("REDLIST")) {
+
+                Long id = getCellValueAsLong(row, 1);
+                if (id != null) {
+                    species.setRedlistId(id.intValue());
+                    Gbif09.populateSpeciesFromRedlistId(species);
+                }
                 
-        //i ranges from phylum (3) to genus(7)
-        for (int i = 3; i < 8; i++) {
-            
-            String taxonName = getCellValueAsString(row, i);
-            
-            TaxonomicRank taxonomicRank = dao.find(TaxonomicRank.class, Long.valueOf(i-1));
-            Taxon taxon = getTaxon(taxonName, taxonomicRank, parentTaxon);
-            if (taxon == null) {
-                recordError(row.getRowNum(), i, "Multiple taxa found for lookup \" "+ taxonName + "\"" );
+                if (species.getUri() == null) {
+                    logger.info("Lookup failed for species on RL ID: " + species.getRedlistId());
+                    return null;
+                }
+
+            } else if (prefix.equals("GBIF")) {
+
+                String gbifUri = getCellValueAsString(row, 1);
+                species.setUri(gbifUri);
+                
+                Gbif09.populateSpeciesFromGbifUri(species);
+                
+            } else {
+                recordError("Unknown prefix: " + prefix);
             }
             
-            parentTaxon = taxon;
-            if (i == 7) {
-                species.setGenus(taxon);
-            }
         }
-
-        {
-            // Species (not bionomial)
-            String sp = getCellValueAsString(row, 8);
-            species.setSpecies(sp);
-        }
-
-        {
-            // Species authority
-            String val = getCellValueAsString(row, 9);
-            species.setAuthority(val);
-        }
-
-        {
-            // Redlist category
-            RedlistCategory rlc = getEntity(RedlistCategory_.label, row, 10);
-            species.setRedlistCategory(rlc);
-        }
-
+        
         {
             // Organism type
-            OrganismType ot = getEntity(OrganismType_.label, row, 11);
+            OrganismType ot = getEntity(OrganismType_.label, row, 13);
             species.setOrganismType(ot);
         }
 
         {
             // Biomes
-            String val = getCellValueAsString(row, 12);
+            String val = getCellValueAsString(row, 14);
             if (val != null && !val.isEmpty()) {
 
                 String[] biomes = val.split("/");
@@ -142,11 +169,50 @@ public class SpeciesUploadParser extends UploadParser<Species> {
 
         {
             // Common name
-            String val = getCellValueAsString(row, 13);
+            String val = getCellValueAsString(row, 11);
             species.setCommonName(val);
         }
 
         return species;
+
+//        TaxonomicRank rank = dao.findByProxyId(TaxonomicRank_.label, "Kingdom");
+//        String kingdomName = getCellValueAsString(row, 2);
+//        Taxon parentTaxon = this.findTaxonByNameAndRank(rank, kingdomName).getSingleResult();
+//                
+//        //i ranges from phylum (5) to genus(9)
+//        for (int i = 5; i < 10; i++) {
+//            
+//            String taxonName = getCellValueAsString(row, i);
+//            
+//            TaxonomicRank taxonomicRank = dao.find(TaxonomicRank.class, Long.valueOf(i-1));
+//            Taxon taxon = getTaxon(taxonName, taxonomicRank, parentTaxon);
+//            if (taxon == null) {
+//                recordError(row.getRowNum(), i, "Multiple taxa found for lookup \" "+ taxonName + "\"" );
+//            }
+//            
+//            parentTaxon = taxon;
+//            if (i == 7) {
+//                species.setGenus(taxon);
+//            }
+//        }
+
+//        {
+//            // Species (not bionomial)
+//            String sp = getCellValueAsString(row, 8);
+//            species.setSpecies(sp);
+//        }
+
+//        {
+//            // Species authority
+//            String val = getCellValueAsString(row, 12);
+//            species.setAuthority(val);
+//        }
+
+//        {
+//            // Redlist category
+//            RedlistCategory rlc = getEntity(RedlistCategory_.label, row, 14);
+//            species.setRedlistCategory(rlc);
+//        }
     }
 
     /**

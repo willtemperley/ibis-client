@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
@@ -51,11 +50,6 @@ public class Phylum {
     }
 
     @Override
-    public int hashCode() {
-        return id.intValue();
-    }
-
-    @Override
     public boolean equals(Object obj) {
 
         if (obj instanceof Phylum) {
@@ -65,6 +59,14 @@ public class Phylum {
             }
         }
         return super.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override

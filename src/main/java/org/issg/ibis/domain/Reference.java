@@ -1,20 +1,20 @@
 package org.issg.ibis.domain;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
+import java.util.Set;
 
 @Entity
 @Table(schema = "ibis", name = "reference")
+@Deprecated
 public class Reference {
 
     private Long id;
@@ -29,54 +29,21 @@ public class Reference {
         this.id = id;
     }
 
-    private String referenceHeader;
+    private String content;
 
-    @Column(name="reference_header")
-    public String getReferenceHeader() {
-        return referenceHeader;
+    @Column
+    public String getContent() {
+        return content;
     }
 
-    public void setReferenceHeader(String referenceHeader) {
-        this.referenceHeader = referenceHeader;
-    }
-
-    private String referenceContext;
-
-    @Column(name="reference_context")
-    public String getReferenceContext() {
-        return referenceContext;
-    }
-
-    public void setReferenceContext(String referenceContext) {
-        this.referenceContext = referenceContext;
-    }
-
-    private String referenceFull;
-
-    @Column(name="reference_full")
-    public String getReferenceFull() {
-        return referenceFull;
-    }
-
-    public void setReferenceFull(String referenceFull) {
-        this.referenceFull = referenceFull;
-    }
-
-    private String referenceCode;
-
-    @Column(name="reference_code")
-    public String getReferenceCode() {
-        return referenceCode;
-    }
-
-    public void setReferenceCode(String referenceCode) {
-        this.referenceCode = referenceCode;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     private Set<Species> speciess;
 
     @ManyToMany
-    @JoinTable(name = "ibis.reference_link", joinColumns = @JoinColumn(name = "reference_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
+    @JoinTable(name = "ibis.species_reference", joinColumns = @JoinColumn(name = "reference_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
     public Set<Species> getSpeciess() {
         return speciess;
     }
@@ -87,7 +54,10 @@ public class Reference {
 
     @Override
     public int hashCode() {
-        return id.intValue();
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override
@@ -100,10 +70,5 @@ public class Reference {
             }
         }
         return super.equals(obj);
-    }
-    
-    @Override
-    public String toString() {
-        return referenceHeader;
     }
 }

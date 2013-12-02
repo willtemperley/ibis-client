@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 
 @Entity
 @Table(schema = "ibis", name = "taxonomic_rank")
@@ -41,7 +39,10 @@ public class TaxonomicRank {
 
     @Override
     public int hashCode() {
-        return id.intValue();
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override
@@ -51,7 +52,8 @@ public class TaxonomicRank {
            TaxonomicRank otherObj = (TaxonomicRank) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
-            }
+           }
+           return false;
         }
         return super.equals(obj);
     }

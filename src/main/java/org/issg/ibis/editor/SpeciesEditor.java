@@ -28,6 +28,7 @@ public class SpeciesEditor extends
         ff.addField(Species_.name);
         ff.addField(Species_.genus);
         ff.addField(Species_.species);
+        ff.addField(Species_.uri);
         ff.addField(Species_.synonyms);
         ff.addField(Species_.organismType);
         ff.addField(Species_.gisdLink);

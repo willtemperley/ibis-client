@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -33,6 +35,19 @@ public class Species {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    private String uri;
+    
+    @Column
+    @NotNull
+    public String getUri() {
+        return uri;
+    }
+    
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+    
 
     private String name;
 
@@ -43,6 +58,17 @@ public class Species {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    private Long nubKey;
+    
+    @Column(name = "nub_key")
+    public Long getNubKey() {
+        return nubKey;
+    }
+    
+    public void setNubKey(Long nubKey) {
+        this.nubKey = nubKey;
     }
 
     private Taxon genus;
@@ -123,10 +149,20 @@ public class Species {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+    
+    private String gbifJson;
+    
+    @Column(name = "gbif_json")
+    public String getGbifJson() {
+        return gbifJson;
+    }
+    
+    public void setGbifJson(String gbifJson) {
+        this.gbifJson = gbifJson;
+    }
 
     private RedlistCategory redlistCategory;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "redlist_category_id")
     public RedlistCategory getRedlistCategory() {
@@ -163,7 +199,7 @@ public class Species {
     private Set<Reference> references;
 
     @ManyToMany
-    @JoinTable(name = "ibis.reference_link", joinColumns = @JoinColumn(name = "species_id"), inverseJoinColumns = @JoinColumn(name = "reference_id"))
+    @JoinTable(name = "ibis.species_reference", joinColumns = @JoinColumn(name = "species_id"), inverseJoinColumns = @JoinColumn(name = "reference_id"))
     public Set<Reference> getReferences() {
         return references;
     }
@@ -182,41 +218,18 @@ public class Species {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    private List<SpeciesSummary> speciesSummaries;
     
-
-    private String threatSummary;
-
-    @Column(name="threat_summary")
-    public String getThreatSummary() {
-        return threatSummary;
+    @OneToMany(mappedBy = "species")
+    @OrderBy("contentType.id ASC")
+    public List<SpeciesSummary> getSpeciesSummaries() {
+        return speciesSummaries;
     }
-
-    public void setThreatSummary(String threatSummary) {
-        this.threatSummary = threatSummary;
+    
+    public void setSpeciesSummaries(List<SpeciesSummary> speciesSummaries) {
+        this.speciesSummaries = speciesSummaries;
     }
-
-    private String managementSummary;
-
-    @Column(name="management_summary")
-    public String getManagementSummary() {
-        return managementSummary;
-    }
-
-    public void setManagementSummary(String managementSummary) {
-        this.managementSummary = managementSummary;
-    }
-
-    private String conservationOutcomes;
-
-    @Column(name="conservation_outcomes")
-    public String getConservationOutcomes() {
-        return conservationOutcomes;
-    }
-
-    public void setConservationOutcomes(String conservationOutcomes) {
-        this.conservationOutcomes = conservationOutcomes;
-    }
-
     
     /*
      * NOTE this only has references from the THREATENED species
@@ -237,6 +250,7 @@ public class Species {
         return name;
     }
     
+    
     @Transient
     public String getScientificName() {
         return "<i>" + name + "</i> " + getAuthority();
@@ -244,7 +258,10 @@ public class Species {
     
     @Override
     public int hashCode() {
-        return id.intValue();
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override
@@ -254,7 +271,8 @@ public class Species {
            Species otherObj = (Species) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
-            }
+           }
+           return false;
         }
         return super.equals(obj);
     }

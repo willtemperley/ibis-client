@@ -7,9 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 
 @Entity
 @Table(schema = "ibis", name = "designated_area_type")
@@ -40,7 +37,10 @@ public class DesignatedAreaType {
 
     @Override
     public int hashCode() {
-        return id.intValue();
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override
@@ -50,7 +50,8 @@ public class DesignatedAreaType {
            DesignatedAreaType otherObj = (DesignatedAreaType) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
-            }
+           }
+           return false;
         }
         return super.equals(obj);
     }

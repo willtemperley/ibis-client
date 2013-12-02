@@ -18,7 +18,6 @@ import org.jrc.server.IBISGuiceServletModule;
 import com.google.common.base.Joiner;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.persist.jpa.JpaPersistModule;
 
 public class TestResourceFactory {
 

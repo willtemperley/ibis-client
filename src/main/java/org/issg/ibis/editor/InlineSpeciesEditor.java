@@ -16,10 +16,6 @@ public class InlineSpeciesEditor extends InlineEditor<Species>{
         ff.addField(Species_.genus);
         ff.addField(Species_.species);
         
-        ff.addRichTextArea(Species_.threatSummary);
-        ff.addRichTextArea(Species_.managementSummary);
-        ff.addRichTextArea(Species_.conservationOutcomes);
-        
         ff.addField(Species_.synonyms);
         ff.addField(Species_.organismType);
         ff.addField(Species_.gisdLink);

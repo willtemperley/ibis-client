@@ -66,7 +66,10 @@ public class Taxon {
 
     @Override
     public int hashCode() {
-        return id.intValue();
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override
@@ -76,7 +79,8 @@ public class Taxon {
            Taxon otherObj = (Taxon) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
-            }
+           }
+           return false;
         }
         return super.equals(obj);
     }

@@ -28,8 +28,8 @@
 		background: -webkit-linear-gradient(top, #ffffff 0%,#fafafa 5%,#eaebec 94%,#e2e3e4 100%);
 		background: -o-linear-gradient(top, #ffffff 0%,#fafafa 5%,#eaebec 94%,#e2e3e4 100%);
 		background: -ms-linear-gradient(top, #ffffff 0%,#fafafa 5%,#eaebec 94%,#e2e3e4 100%);
-		/* Sass compiler chokes on this */
-	/* 	background: linear-gradient(to bottom, #ffffff 0%,#fafafa 5%,#eaebec 94%,#e2e3e4 100%); */
+	 	background: linear-gradient(to bottom, #ffffff 0%,#fafafa 5%,#eaebec 94%,#e2e3e4 100%); 
+	 	
 	}
 	
 	.v-webkit & .v-button {

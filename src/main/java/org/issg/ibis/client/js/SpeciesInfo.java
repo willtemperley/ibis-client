@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vividsolutions.jts.geom.Envelope;
 
 @JavaScript({"http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js", "app://VAADIN/js/species_library.js", "app://VAADIN/js/speciesinfo-connector.js"})
 public class SpeciesInfo extends AbstractJavaScriptComponent {

@@ -10,6 +10,7 @@
 	<artifactId>ibis-client</artifactId>
 	<packaging>war</packaging>
 	<name>ibis-client</name>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<properties>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
@@ -50,11 +51,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
-
-
-
 
 			<plugin>
 				<groupId>com.vaadin</groupId>
@@ -181,8 +177,6 @@
 			<artifactId>flickrj-android</artifactId>
 			<version>2.0.7</version>
 		</dependency>
-		<!-- dependency> <groupId>org.jtb</groupId> <artifactId>quickr</artifactId> 
-			<version>0.8</version> </dependency -->
 
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -194,20 +188,6 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jrc</groupId>
-			<artifactId>ecas-tomcat</artifactId>
-			<version>3.1.1</version>
-			<scope>system</scope>
-			<systemPath>E:\juno_workspace\biopama\ibis-client\ecas-tomcat-5.5-3.1.1.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-push</artifactId>
-			<version>${vaadin.version}</version>
 		</dependency>
 
 

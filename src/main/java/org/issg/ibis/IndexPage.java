@@ -1,17 +1,16 @@
 package org.issg.ibis;
 
+import org.issg.ibis.client.CountrySelector;
 import org.issg.ibis.client.SpeciesSelector;
-import org.issg.ibis.display.SimplePanel;
 import org.jrc.form.editor.EditorPanelHeading;
 import org.jrc.persist.Dao;
+import org.jrc.ui.SimplePanel;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * An index with links to all views
@@ -39,16 +38,20 @@ public class IndexPage extends HorizontalLayout implements View {
 	        
 	        ss = new SpeciesSelector(dao);
 	        sp.addComponent(ss);
+
+
 	    }
 	    
-//	    {
-//	        SimplePanel sp = new SimplePanel();
-//	        sp.setSizeFull();
-//	        
-//	        sp.addComponent(new EditorPanelHeading("Search by location"));
-//	        addComponent(sp);
-//	        
-//	    }
+	    {
+	        SimplePanel sp = new SimplePanel();
+	        addComponent(sp);
+	        setComponentAlignment(sp, Alignment.MIDDLE_CENTER);
+	        
+	        sp.addComponent(new EditorPanelHeading("Search by Country"));
+	        CountrySelector cs = new CountrySelector(dao);
+	        sp.addComponent(cs);
+	        
+	    }
 	}
 
 	@Override

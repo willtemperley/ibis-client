@@ -80,6 +80,7 @@ public class SpeciesImpact {
 
     private Location location;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name="location_id")
     public Location getLocation() {
@@ -89,23 +90,27 @@ public class SpeciesImpact {
     public void setLocation(Location location) {
         this.location = location;
     }
+    
+    private BiologicalStatus biologicalStatus;
 
-    private UploadLog uploadLog;
-
+//    @NotNull
     @ManyToOne
-    @JoinColumn(name="upload_log_id")
-    public UploadLog getUploadLog() {
-        return uploadLog;
+    @JoinColumn(name="biological_status_id")
+    public BiologicalStatus getBiologicalStatus() {
+        return biologicalStatus;
     }
 
-    public void setUploadLog(UploadLog uploadLog) {
-        this.uploadLog = uploadLog;
+    public void setBiologicalStatus(BiologicalStatus biologicalStatus) {
+        this.biologicalStatus = biologicalStatus;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return id.intValue();
-//    }
+    @Override
+    public int hashCode() {
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -114,7 +119,8 @@ public class SpeciesImpact {
            SpeciesImpact otherObj = (SpeciesImpact) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
-            }
+           }
+           return false;
         }
         return super.equals(obj);
     }

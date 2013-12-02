@@ -1,20 +1,24 @@
 package org.issg.ibis.domain;
 
+
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.EntityResult;
 
 import org.hibernate.annotations.Type;
 import org.jrc.persist.adminunits.Country;
@@ -29,7 +33,7 @@ import com.vividsolutions.jts.geom.Polygon;
 )
 @NamedNativeQueries({
         @NamedNativeQuery(name = "Location.copy_location",
-                query = "SELECT * from ibis.copy_location(:id, :namespace)",
+                query = "SELECT * from ibis.copy_location(:full_id, :name, :country_id)",
                 resultSetMapping = "Location.implicit")
     }
 )
@@ -60,8 +64,21 @@ public class Location {
         this.geom = geom;
     }
 
+    private List<LocationSummary> locationSummaries;
+    
+    @OneToMany(mappedBy = "location")
+    @OrderBy("contentType.id ASC")
+    public List<LocationSummary> getLocationSummaries() {
+        return locationSummaries;
+    }
+    
+    public void setLocationSummaries(List<LocationSummary> locationSummaries) {
+        this.locationSummaries = locationSummaries;
+    }
+
     private String name;
 
+    @NotNull
     @Column
     public String getName() {
         return name;
@@ -71,19 +88,22 @@ public class Location {
         this.name = name;
     }
 
-    private String localName;
+    private LocationType locationType;
 
-    @Column(name="local_name")
-    public String getLocalName() {
-        return localName;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="location_type_id")
+    public LocationType getLocationType() {
+        return locationType;
     }
-
-    public void setLocalName(String localName) {
-        this.localName = localName;
+    
+    public void setLocationType(LocationType locationType) {
+        this.locationType = locationType;
     }
 
     private Country country;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name="country_id")
     public Country getCountry() {
@@ -92,18 +112,6 @@ public class Location {
 
     public void setCountry(Country country) {
         this.country = country;
-    }
-
-    private String uri;
-
-    @NotNull
-    @Column
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
     private Polygon envelope;
@@ -118,9 +126,146 @@ public class Location {
         this.envelope = envelope;
     }
 
+    private String prefix;
+
+    @Column
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    private String identifier;
+
+    @Column
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    private String url;
+
+    @Column
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    private Double area;
+
+    @Column
+    public Double getArea() {
+        return area;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
+    }
+
+    private Double latitude;
+
+    @Column
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    private Double longitude;
+
+    @Column
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    private String comments;
+
+    @Column
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public DesignatedAreaType designatedAreaType;
+    
+    @ManyToOne
+    @JoinColumn(name="designated_area_type_id")
+    public DesignatedAreaType getDesignatedAreaType() {
+        return designatedAreaType;
+    }
+    
+    public void setDesignatedAreaType(DesignatedAreaType designatedAreaType) {
+        this.designatedAreaType = designatedAreaType;
+    }
+
+    private IslandType islandType;
+
+    @ManyToOne
+    @JoinColumn(name="island_type_id")
+    public IslandType getIslandType() {
+        return islandType;
+    }
+
+    public void setIslandType(IslandType islandType) {
+        this.islandType = islandType;
+    }
+    
+    private String islandGroup;
+    
+    @Column(name = "island_group")
+    public String getIslandGroup() {
+        return islandGroup;
+    }
+    
+    public void setIslandGroup(String islandGroup) {
+        this.islandGroup = islandGroup;
+    }
+
+    private String designation;
+    
+    @Column
+    public String getDesignation() {
+        return designation;
+    }
+    
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+    
+    private String iucnCat;
+    
+    @Column(name = "iucn_category_id")
+    public String getIucnCat() {
+        return iucnCat;
+    }
+    
+    public void setIucnCat(String iucnCat) {
+        this.iucnCat = iucnCat;
+    }
+    
     @Override
     public int hashCode() {
-        return id.intValue();
+        if (id != null) {
+            return id.intValue();
+        }
+        return super.hashCode();
     }
 
     @Override
@@ -130,7 +275,8 @@ public class Location {
            Location otherObj = (Location) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
-            }
+           }
+           return false;
         }
         return super.equals(obj);
     }

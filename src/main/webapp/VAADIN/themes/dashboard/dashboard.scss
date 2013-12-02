@@ -33,6 +33,7 @@
 $header-height: 145px; 
 $esp-blue: rgb(46,112,215);
 $v-green: #40b527;
+$rl-darkred: #D81E05;
 
 @import url('http://fonts.googleapis.com/css?family=Lato');
 
@@ -68,6 +69,33 @@ $v-green: #40b527;
 	
 	/*** Custom ******************/
 	@include display-panel;
+
+	/** Search stuff **/
+	.search-result {
+		color: white;
+		font-size: 30px;
+		width: 30px;
+		float: left;
+		text-align: center;
+		margin-right: 20px;
+	}
+
+	.result-type-C {
+		background-color: $v-green;
+	}
+
+	.result-type-D {
+		background-color: $esp-blue;
+	}
+
+	.result-type-I {
+		background-color: rgb(255,85,0);
+	}
+
+	.result-type-S {
+		background-color: $rl-darkred;
+	}
+
 	
 	.header {
 		padding-left: 20px;
@@ -143,10 +171,6 @@ $v-green: #40b527;
 		height: 200px;	
 		width: 200px;	
 		background-image: url('img/cutest-kitten-ever.jpg');
-	}
-	
-	.species-name {
-		font-size: 20px;
 	}
 	
 	.simple-html-label {
@@ -258,9 +282,6 @@ $v-green: #40b527;
 	}
 	
 	/******************************/
-	
-	
-	
 	
 	.sidebar {
 		background: #414243 url(img/sidebar-gradient.png) repeat-y top right;

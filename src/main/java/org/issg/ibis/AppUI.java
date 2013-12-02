@@ -14,7 +14,6 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 
-//@Theme("biopama")
 @Theme("dashboard")
 public class AppUI extends ScopedUI  {
 
@@ -41,7 +40,6 @@ public class AppUI extends ScopedUI  {
 		this.viewProvider = viewProvider;
 		this.headerView = headerView;
 		this.menuView = menuView;
-		logger.debug("UI created.");
 	}
 
 	@Override
