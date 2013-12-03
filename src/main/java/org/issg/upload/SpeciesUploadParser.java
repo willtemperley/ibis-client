@@ -49,7 +49,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
      * @param toClean
      * @return
      */
-    private String cleanWhitepace(String toClean) {
+    protected String cleanWhitepace(String toClean) {
 
         if (toClean != null) {
             toClean = toClean.replace(String.valueOf((char) 160), " ").trim();
@@ -63,14 +63,14 @@ public class SpeciesUploadParser extends UploadParser<Species> {
 
         char lastChar = toClean.charAt(toClean.length()-1);
 
-        if (! isCharAlpha(lastChar)) {
+        if (! isCharAlpha(lastChar) && (lastChar != '.') &&  (lastChar != ')')) {
             throw new RuntimeException("Char " + lastChar + " should not be here!");
         }
 
         return toClean;
     }
     
-    private boolean isCharAlpha(char c) {
+    protected boolean isCharAlpha(char c) {
         if (c < 0x41 || (c > 0x5a && c <= 0x60) || c > 0x7a) {
             return false;
         }
@@ -80,6 +80,9 @@ public class SpeciesUploadParser extends UploadParser<Species> {
     @Override
     protected Species processRow(Row row) {
 
+//        if (row.getRowNum() >= V00) {
+//            return null;
+//        }
         Species species = new Species();
         
         {

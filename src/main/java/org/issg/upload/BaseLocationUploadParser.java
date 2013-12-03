@@ -91,13 +91,11 @@ public abstract class BaseLocationUploadParser<T> extends
                 loc = dao.findByProxyId(Location_.name, atollName);
                 
                 if (loc == null) {
-                    recordError("Could not look up atoll with name: " + atollName);
+                    recordError(row.getRowNum(), 3, "Could not look up atoll with name: " + atollName);
                 } else {
                     return loc;
                 }
            } 
-    
-    
         }
     
         // 5. So no location information -- need to look up a country
@@ -107,7 +105,7 @@ public abstract class BaseLocationUploadParser<T> extends
         }
         
         if (loc == null) {
-            recordError("Could not even find the country.");
+            recordError(row.getRowNum(), 1, "Could not even find the country.");
         }
         
         return loc;

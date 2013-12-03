@@ -7,7 +7,6 @@ import org.issg.ibis.domain.LocationType;
 import org.issg.ibis.domain.Location_;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
-import org.issg.upload.LocationUploader;
 import org.issg.upload.ThreatSummaryUploader;
 import org.jrc.form.editor.ui.SimpleTwinPanelEditor;
 import org.jrc.persist.Dao;
@@ -51,19 +50,19 @@ public class DesignatedAreaEditor extends
 
         init();
         
-        LocationUploader uploader = new LocationUploader(dao);
-        theView.addSelectionComponent(uploader);
-        uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
-            @Override
-            public void processingComplete(ProcessingCompleteEvent p) {
-                DesignatedAreaEditor.this.containerManager.refresh();
-//                List<?> res = p.getResults();
-//                for (Object obj : res) {
-//                    System.out.println(obj);
-//                }
-                
-            }
-        });
+//        LocationUploader uploader = new LocationUploader(dao);
+//        theView.addSelectionComponent(uploader);
+//        uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
+//            @Override
+//            public void processingComplete(ProcessingCompleteEvent p) {
+//                DesignatedAreaEditor.this.containerManager.refresh();
+////                List<?> res = p.getResults();
+////                for (Object obj : res) {
+////                    System.out.println(obj);
+////                }
+//                
+//            }
+//        });
         
         ThreatSummaryUploader tsu = new ThreatSummaryUploader(dao);
         theView.addSelectionComponent(tsu);

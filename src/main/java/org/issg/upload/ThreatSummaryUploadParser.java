@@ -1,5 +1,8 @@
 package org.issg.upload;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -37,11 +40,19 @@ public class ThreatSummaryUploadParser extends UploadParser<Content> {
     @Override
     protected Content processRow(Row row) {
 
-        String objName = getCellValueAsString(row, 0);
-        Species species = dao.findByProxyId(Species_.name, objName);
+        String ns = getCellValueAsString(row, 0);
+        String identifier = getCellValueAsString(row, 1);
 
-        if (species != null) {
-            System.out.println("processing species " + objName);
+        EntityManager em = dao.getEntityManager();
+
+        if (ns.equals("REDLIST")) {
+            Long objId = getCellValueAsLong(row, 1);
+
+            TypedQuery<Species> q = em.createQuery("from Species where redlistId = :rl_id", Species.class);
+            q.setParameter("rl_id", objId.intValue());
+            Species species = q.getSingleResult();
+
+            System.out.println("processing species " + species);
 
             SpeciesSummary speciesSummary = new SpeciesSummary();
             speciesSummary.setSpecies(species);
@@ -50,25 +61,33 @@ public class ThreatSummaryUploadParser extends UploadParser<Content> {
             return speciesSummary;
         }
 
-        Location location = dao.findByProxyId(Location_.name, objName);
         
-        if (location != null) {
-            System.out.println("processing location " + objName);
+        {
+            String locFullId = ns + ":" + identifier;
+            System.out.println(locFullId);
+            TypedQuery<Location> l = em.createQuery("from Location where prefix = :prefix and identifier = :identifier", Location.class);
+            l.setParameter("prefix", ns);
+            l.setParameter("identifier", identifier);
             
             LocationSummary locationSummary = new LocationSummary();
+            
+            Location location = l.getSingleResult();
             locationSummary.setLocation(location);
+            
+            if (location == null) {
+                recordError(row.getRowNum(), 1, "Could not find location: " + locFullId);
+            }
 
             getContent(row, locationSummary);
             
             return locationSummary;
         }
         
-        return null;
 
     }
 
     private void getContent(Row row, Content content) {
-        content.setContent(getCellValueAsString(row, 1));
-        content.setContentType(getEntity(ContentType_.name, row, 2));
+        content.setContent(getCellValueAsString(row, 2));
+        content.setContentType(getEntity(ContentType_.name, row, 3));
     }
 }

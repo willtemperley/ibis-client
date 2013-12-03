@@ -261,6 +261,9 @@ public class SpeciesPerspective extends TwinPanelView implements View {
         for (SpeciesImpact speciesImpact : speciesImpacts) {
             bic.addBean(speciesImpact);
             Location loc = speciesImpact.getLocation();
+            if (locIds.contains(loc.getId())) {
+                continue;
+            }
             locIds.add(loc.getId());
 
             LPolygon lPoly = JTS2Leaflet.getLPolygon(loc.getGeom());

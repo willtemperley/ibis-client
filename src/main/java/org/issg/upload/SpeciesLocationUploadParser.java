@@ -54,9 +54,7 @@ public class SpeciesLocationUploadParser extends BaseLocationUploadParser<Specie
         speciesLocation.setLocation(loc);
 
         // Biological status
-        String biostatus = getCellValueAsString(row, 10);
-        BiologicalStatus bioStatus = dao.findByProxyId(BiologicalStatus_.label,
-                biostatus);
+        BiologicalStatus bioStatus = getEntity(BiologicalStatus_.label, row, 10);
         speciesLocation.setBiologicalStatus(bioStatus);
 
         return speciesLocation;

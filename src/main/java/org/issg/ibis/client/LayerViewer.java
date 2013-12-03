@@ -50,31 +50,23 @@ public class LayerViewer extends Panel {
         Bounds b = new Bounds();
 
         b.setSouthWestLat(env.getMinY());
-        b.setSouthWestLon(env.getMinX());
-
         b.setNorthEastLat(env.getMaxY());
-        b.setNorthEastLon(env.getMaxX());
 
-        if ((env.getMaxX() - env.getMinX()) > 180) {
-            System.out.println("dateline bugfix");
-            /*
-             * Probably crosses the dateline
-             */
-            // double y = env.centre().y;
-            double x = 180 - env.centre().x;
-
-            // Point c = new Point(y, x);
-            // map.setCenter(c);
-
-            b.setSouthWestLat(env.getMinY());
-            b.setSouthWestLon(x);
-
-            b.setNorthEastLat(env.getMaxY());
-            b.setNorthEastLon(x);
-        }
+        double minX = env.getMinX();
+        double maxX = env.getMaxX();
         
-        System.out.println(b);
-
+        /*
+         * Super hacky transformation
+         */
+        if (minX <= 0) {
+            minX += 360;
+        }
+        if (maxX <= 0) {
+            maxX += 360;
+        }
+        b.setSouthWestLon(minX);
+        b.setNorthEastLon(maxX);
+        
         map.zoomToExtent(b);
     }
 

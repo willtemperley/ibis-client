@@ -25,10 +25,9 @@ import com.google.inject.Injector;
 
 public class UploadTest {
 
-
     private Injector injector = TestResourceFactory.getInjector();
-//    private EntityManagerFactory emf = injector
-//            .getInstance(EntityManagerFactory.class);
+    // private EntityManagerFactory emf = injector
+    // .getInstance(EntityManagerFactory.class);
     private Workbook workbookGood;
     private Dao dao;
 
@@ -36,8 +35,9 @@ public class UploadTest {
     public void init() throws InvalidFormatException, FileNotFoundException,
             IOException {
 
-        String wbName = "Fiji-IBIS-JRC-Shyama-Will-Nov26.xlsx";
-//        String wbName = "CookIslands20131122-full.xlsx";
+//        String wbName = "Nov30/Cook-Islands-November30.xlsx";
+//        String wbName = "Nov30/Kiribati-November30.xlsx";
+        String wbName = "Nov30/Timor_Leste-November30.xlsx";
 
         this.workbookGood = WorkbookFactory.create(TestResourceFactory
                 .getFileInputStream(wbName));
@@ -54,46 +54,38 @@ public class UploadTest {
         parser.processWorkbook(workbookGood);
 
         for (String err : parser.getErrors()) {
-            System.out.println("=============");
-            System.out.println("Errors");
-            System.out.println("=============");
             System.out.println(err);
         }
+        
+        Assert.assertFalse(parser.hasErrors());
 
         List<Species> sis = parser.getEntityList();
         for (Species species : sis) {
-
-            try {
-                dao.persist(species);
-            } catch (Exception e) {
-                System.out.println("======================");
-                System.out.println(species.getName());
-                e.printStackTrace();
-            }
+            dao.persist(species);
         }
 
     }
 
     @Test
-        public void speciesLocation() {
-    
-             SpeciesLocationUploadParser parser = new SpeciesLocationUploadParser(
-                    dao);
-    
-            parser.processWorkbook(workbookGood);
-    
-            List<String> l = parser.getErrors();
-            for (String string : l) {
-                System.out.println(string);
-            }
-    
-            Assert.assertFalse(parser.hasErrors());
-    
-            List<SpeciesLocation> sls = parser.getEntityList();
-            for (SpeciesLocation sl : sls) {
-//                dao.persist(sl);
-            }
+    public void speciesLocation() {
+
+        SpeciesLocationUploadParser parser = new SpeciesLocationUploadParser(
+                dao);
+
+        parser.processWorkbook(workbookGood);
+
+        List<String> l = parser.getErrors();
+        for (String string : l) {
+            System.out.println(string);
         }
+
+//        Assert.assertFalse(parser.hasErrors());
+
+        List<SpeciesLocation> sls = parser.getEntityList();
+        for (SpeciesLocation sl : sls) {
+             dao.persist(sl);
+        }
+    }
 
     @Test
     public void speciesImpact() throws IOException {
@@ -130,6 +122,7 @@ public class UploadTest {
 
         List<Content> sls = parser.getEntityList();
         for (Content ss : sls) {
+//            System.out.println(ss.getContent());
             dao.persist(ss);
         }
 
