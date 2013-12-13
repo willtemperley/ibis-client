@@ -14,6 +14,7 @@ import com.vaadin.ui.Component;
 public class SimpleContentPanel  {
 
     protected List<Component> contentComponents = new ArrayList<Component>();
+
     protected SimplePanel panel;
     
     public SimpleContentPanel(SimplePanel panel) {
@@ -34,6 +35,5 @@ public class SimpleContentPanel  {
             contentComponents.add(content);
         }
     }
-    
     
 }

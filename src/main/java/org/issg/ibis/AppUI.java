@@ -10,6 +10,9 @@ import com.google.code.vaadin.application.ui.ScopedUI;
 import com.google.inject.Inject;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -61,6 +64,22 @@ public class AppUI extends ScopedUI  {
 		
 		nav = new Navigator(this, content);
 		nav.addProvider(viewProvider);
+		
+//		nav.addViewChangeListener(new ViewChangeListener() {
+//            
+//            @Override
+//            public boolean beforeViewChange(ViewChangeEvent event) {
+//                
+//                return true;
+//
+//            }
+//            
+//            @Override
+//            public void afterViewChange(ViewChangeEvent event) {
+//                // TODO Auto-generated method stub
+//                
+//            }
+//        });
 	}
 	
 

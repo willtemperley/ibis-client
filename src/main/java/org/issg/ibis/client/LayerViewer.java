@@ -4,9 +4,7 @@ import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.LWmsLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Polygon;
@@ -23,8 +21,11 @@ public class LayerViewer extends Panel {
         map = new LMap();
         setContent(map);
         map.addBaseLayer(bl, "OSM");
+        
 
     }
+    
+    
 
     public void addWmsLayer(String layerName) {
 

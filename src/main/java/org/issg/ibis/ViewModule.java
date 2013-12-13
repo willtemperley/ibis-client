@@ -2,9 +2,9 @@ package org.issg.ibis;
 
 import java.util.Map;
 
+import org.issg.ibis.a.MapPerspective;
 import org.issg.ibis.client.CountryPerspective;
 import org.issg.ibis.client.LocationPerspective;
-import org.issg.ibis.client.MapPerspective;
 import org.issg.ibis.client.SearchView;
 import org.issg.ibis.client.SpeciesPerspective;
 import org.issg.ibis.domain.Issue;
