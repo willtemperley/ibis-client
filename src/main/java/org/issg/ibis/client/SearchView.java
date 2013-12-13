@@ -23,6 +23,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -42,7 +43,7 @@ public class SearchView extends HorizontalLayout implements View {
     @Inject
     public SearchView(Dao dao) {
         ContainerManager<FacetedSearch> containerManager = new ContainerManager<FacetedSearch>(
-                dao, FacetedSearch.class);
+                dao, FacetedSearch.class, true);
         this.esiContainer = containerManager.getContainer();
         this.dao = dao;
 
@@ -106,14 +107,6 @@ public class SearchView extends HorizontalLayout implements View {
 
         public SearchResult(FacetedSearch facetedSearch) {
 
-//            HorizontalLayout hl = new HorizontalLayout();
-            
-//            esi.get
-
-//            hl.addComponent(new SimpleHtmlLabel("<div class='search-result-"+esi.getLabel()+"'>"+esi.getLabel()+"<div>"));
-//            hl.addComponent(new SimpleHtmlLabel(getLink(esi)));
-
-//            hl.addComponent(new SimpleHtmlLabel(esi.getStudy().getStudyName()));
             ResourceType rt = facetedSearch.getResourceType();
             
             String html = "<div class='search-result result-type-" + rt.getId() + "'>" + rt.getId() + "</div>";
@@ -121,9 +114,7 @@ public class SearchView extends HorizontalLayout implements View {
             
             html += ("<div>Known impacts: " + facetedSearch.getImpactCount() + "</div>");
             
-
             SimpleHtmlLabel shl = new SimpleHtmlLabel(html);
-//            shl.setStyleName("search-result");
 
             setContent(shl);
         }
@@ -169,6 +160,7 @@ public class SearchView extends HorizontalLayout implements View {
         ImpactVisualizationColumn generatedColumn = new ImpactVisualizationColumn();
         table.addGeneratedColumn("id", generatedColumn);
         table.setColumnWidth("id", 400);
+//        table.addColumns(FacetedSearch_.name);
         return table;
 
     }

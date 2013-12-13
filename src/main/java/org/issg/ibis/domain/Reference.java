@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,6 @@ import java.util.Set;
 
 @Entity
 @Table(schema = "ibis", name = "reference")
-@Deprecated
 public class Reference {
 
     private Long id;
@@ -40,16 +40,28 @@ public class Reference {
         this.content = content;
     }
 
-    private Set<Species> speciess;
+    private Set<Species> species;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ibis.species_reference", joinColumns = @JoinColumn(name = "reference_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
-    public Set<Species> getSpeciess() {
-        return speciess;
+    public Set<Species> getSpecies() {
+        return species;
     }
 
-    public void setSpeciess(Set<Species> speciess) {
-        this.speciess = speciess;
+    public void setSpecies(Set<Species> species) {
+        this.species = species;
+    }
+
+    private Set<Location> locations;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "ibis.location_reference", joinColumns = @JoinColumn(name = "reference_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
+    public Set<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Set<Location> locations) {
+        this.locations = locations;
     }
 
     @Override

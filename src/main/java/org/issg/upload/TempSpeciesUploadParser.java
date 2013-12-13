@@ -24,12 +24,12 @@ import org.jrc.persist.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SpeciesUploadParser extends UploadParser<Species> {
+public class TempSpeciesUploadParser extends UploadParser<Species> {
 
     private static Logger logger = LoggerFactory
-            .getLogger(SpeciesUploadParser.class);
+            .getLogger(TempSpeciesUploadParser.class);
 
-    public SpeciesUploadParser(Dao dao) {
+    public TempSpeciesUploadParser(Dao dao) {
         super(dao, Species.class);
     }
 
@@ -96,18 +96,16 @@ public class SpeciesUploadParser extends UploadParser<Species> {
             Species checkSpecies = dao.findByProxyId(Species_.name, name);
             if (checkSpecies != null) {
                 
-                //Re-try organism type 
-                if (checkSpecies.getOrganismType() == null) {
-                    OrganismType ot = getEntity(OrganismType_.label, row, 13);
-                    checkSpecies.setOrganismType(ot);
-                    return checkSpecies;
-                }
-
                 //Re-try redlist
                 if (checkSpecies.getRedlistCategory() == null) {
                     RedlistCategory rlc = getEntity(RedlistCategory_.label, row, 12);
                     checkSpecies.setRedlistCategory(rlc);
                     System.out.println("Saving red list " + name + ", row" + row.getRowNum());
+                    return checkSpecies;
+                }
+                if (checkSpecies.getOrganismType() == null) {
+                    OrganismType ot = getEntity(OrganismType_.label, row, 13);
+                    checkSpecies.setOrganismType(ot);
                     return checkSpecies;
                 }
                 

@@ -28,19 +28,19 @@ public class JTS2Leaflet {
         return lm;
     }
 
-    public static LPolygon getLPolygon(Geometry geom) {
-    
-        if (geom instanceof MultiPolygon) {
-            MultiPolygon mp = (MultiPolygon) geom;
-            Coordinate[] coords = mp.getBoundary().getCoordinates();
-            Point[] points = new Point[coords.length];
-            for (int i = 0; i < coords.length; i++) {
-                points[i] = new Point(coords[i].y, coords[i].x);
-            }
-            LPolygon lp = new LPolygon(points);
-            return lp;
-        }
-        return null;
-    }
+//    public static LPolygon getLPolygon(Geometry geom) {
+//    
+//        if (geom instanceof MultiPolygon) {
+//            MultiPolygon mp = (MultiPolygon) geom;
+//            Coordinate[] coords = mp.getBoundary().getCoordinates();
+//            Point[] points = new Point[coords.length];
+//            for (int i = 0; i < coords.length; i++) {
+//                points[i] = new Point(coords[i].y, coords[i].x);
+//            }
+//            LPolygon lp = new LPolygon(points);
+//            return lp;
+//        }
+//        return null;
+//    }
 
 }

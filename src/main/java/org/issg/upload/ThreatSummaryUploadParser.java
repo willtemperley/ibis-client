@@ -32,7 +32,7 @@ public class ThreatSummaryUploadParser extends UploadParser<Content> {
      */
     public void processWorkbook(Workbook wb) {
 
-        Sheet sheet = wb.getSheetAt(2);
+        Sheet sheet = wb.getSheetAt(3);
         processSheet(sheet, 0);
 
     }
@@ -45,7 +45,7 @@ public class ThreatSummaryUploadParser extends UploadParser<Content> {
 
         EntityManager em = dao.getEntityManager();
 
-        if (ns.equals("REDLIST")) {
+        if (ns.equals("REDLIST") || ns.equals("RED_LIST")) {
             Long objId = getCellValueAsLong(row, 1);
 
             TypedQuery<Species> q = em.createQuery("from Species where redlistId = :rl_id", Species.class);

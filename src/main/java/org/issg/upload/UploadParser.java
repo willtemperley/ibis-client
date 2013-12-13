@@ -91,8 +91,6 @@ public abstract class UploadParser<E> {
 
             int rowNum = row.getRowNum();
 
-//            if (rowNum > 1414) return;
-
             if (rowNum > headerRowIdx && rowHasData(row)) {
                 E entity = processRow(row);
 
@@ -117,14 +115,18 @@ public abstract class UploadParser<E> {
      * @return
      */
     private boolean rowHasData(Row row) {
+        
+        Cell cell = row.getCell(0);
+        return cellHasData(cell);
 
-        for (int i = 0; i < colHeaders.size(); i++) {
-            Cell cell = row.getCell(i);
-            if (cellHasData(cell)) {
-                return true;
-            }
-        }
-        return false;
+//        for (int i = 0; i < colHeaders.size(); i++) {
+//            cell = row.getCell(i);
+//            if (cellHasData(cell)) {
+//                return true;
+//            }
+//        }
+        
+//        return false;
     }
 
     private boolean cellHasData(Cell cell) {

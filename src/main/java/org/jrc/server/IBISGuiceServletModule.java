@@ -1,11 +1,12 @@
 package org.jrc.server;
 
+import it.jrc.auth.AnonymousAuthServlet;
+import it.jrc.auth.AuthFilter;
+import it.jrc.auth.JpaRealm;
+import it.jrc.auth.SecurityFilter;
+
 import org.apache.shiro.realm.Realm;
 import org.issg.ibis.AppUI;
-import org.jrc.auth.AuthFilter;
-import org.jrc.auth.FakeAuthServlet;
-import org.jrc.auth.JpaRealm;
-import org.jrc.auth.SecurityFilter;
 import org.jrc.inject.AbstractGuiceServletModule;
 import org.jrc.inject.GuiceApplicationServlet;
 
@@ -46,7 +47,10 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
         
         filter("/*").through(AuthFilter.class);
         
-        serve("/login").with(FakeAuthServlet.class);
+        
+        serve("/login").with(AnonymousAuthServlet.class);
+//        serve("/login").with(AuthServlet.class);
+//        serve("/login").with(FakeAuthServlet.class);
 //        serve("/login").with(OAuthServlet.class);
         
         /*

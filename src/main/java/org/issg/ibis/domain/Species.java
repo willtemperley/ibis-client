@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -20,8 +22,16 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = Species.THREATENED, query = "from Species s where exists (select 1 from SpeciesImpact i where i.threatenedSpecies.id = s.id) order by name"),
+        @NamedQuery(name = Species.INVASIVE, query = "from Species s where exists (select 1 from SpeciesImpact i where i.invasiveSpecies.id = s.id) order by name") }
+)
 @Table(schema = "ibis", name = "species")
 public class Species {
+    
+    public static final String THREATENED = "Threatened";
+
+    public static final String INVASIVE = "Invasive";
 
     private Long id;
 
@@ -35,19 +45,18 @@ public class Species {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     private String uri;
-    
+
     @Column
     @NotNull
     public String getUri() {
         return uri;
     }
-    
+
     public void setUri(String uri) {
         this.uri = uri;
     }
-    
 
     private String name;
 
@@ -59,14 +68,14 @@ public class Species {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     private Long nubKey;
-    
+
     @Column(name = "nub_key")
     public Long getNubKey() {
         return nubKey;
     }
-    
+
     public void setNubKey(Long nubKey) {
         this.nubKey = nubKey;
     }
@@ -149,14 +158,14 @@ public class Species {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
-    
+
     private String gbifJson;
-    
+
     @Column(name = "gbif_json")
     public String getGbifJson() {
         return gbifJson;
     }
-    
+
     public void setGbifJson(String gbifJson) {
         this.gbifJson = gbifJson;
     }
@@ -220,17 +229,17 @@ public class Species {
     }
 
     private List<SpeciesSummary> speciesSummaries;
-    
+
     @OneToMany(mappedBy = "species")
     @OrderBy("contentType.id ASC")
     public List<SpeciesSummary> getSpeciesSummaries() {
         return speciesSummaries;
     }
-    
+
     public void setSpeciesSummaries(List<SpeciesSummary> speciesSummaries) {
         this.speciesSummaries = speciesSummaries;
     }
-    
+
     /*
      * NOTE this only has references from the THREATENED species
      */
@@ -249,13 +258,12 @@ public class Species {
     public String toString() {
         return name;
     }
-    
-    
+
     @Transient
     public String getScientificName() {
         return "<i>" + name + "</i> " + getAuthority();
     }
-    
+
     @Override
     public int hashCode() {
         if (id != null) {
@@ -268,14 +276,13 @@ public class Species {
     public boolean equals(Object obj) {
 
         if (obj instanceof Species) {
-           Species otherObj = (Species) obj;
-           if (otherObj.getId().equals(this.getId())) {
+            Species otherObj = (Species) obj;
+            if (otherObj.getId().equals(this.getId())) {
                 return true;
-           }
-           return false;
+            }
+            return false;
         }
         return super.equals(obj);
     }
 
-    
 }

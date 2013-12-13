@@ -49,11 +49,15 @@ public class LayerViewer extends Panel {
 
         Bounds b = new Bounds();
 
-        b.setSouthWestLat(env.getMinY());
-        b.setNorthEastLat(env.getMaxY());
 
         double minX = env.getMinX();
         double maxX = env.getMaxX();
+
+        double minY = env.getMinY();
+        double maxY = env.getMaxY();
+
+        b.setSouthWestLat(minY);
+        b.setNorthEastLat(maxY);
         
         /*
          * Super hacky transformation

@@ -69,6 +69,10 @@ $rl-darkred: #D81E05;
 	
 	/*** Custom ******************/
 	@include display-panel;
+	
+	.v-tabsheet-content {
+		background-color: #fcfcfc;
+	}
 
 	/** Search stuff **/
 	.search-result {

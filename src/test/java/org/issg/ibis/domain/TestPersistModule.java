@@ -1,5 +1,7 @@
 package org.issg.ibis.domain;
 
+import it.jrc.auth.RoleManager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -8,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.jrc.form.permission.RoleManager;
 
 
 import com.google.inject.AbstractModule;

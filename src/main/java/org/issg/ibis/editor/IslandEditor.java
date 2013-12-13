@@ -27,6 +27,7 @@ public class IslandEditor extends
 
         getTable().addColumns(Location_.name, Location_.islandType, Location_.latitude, Location_.longitude);
 
+       filterPanel.addFilterField(Location_.name);
        filterPanel.addFilterField(Location_.country);
 //         filterPanel.addFilterField(TableDescription_.schema);
          

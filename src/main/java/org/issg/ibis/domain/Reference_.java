@@ -11,5 +11,7 @@ public abstract class Reference_ {
 
     public static volatile SingularAttribute<Reference, Long> id;
 
-    public static volatile SetAttribute<Reference, Species> speciess;
+    public static volatile SetAttribute<Reference, Species> species;
+
+    public static volatile SetAttribute<Reference, Location> locations;
 }

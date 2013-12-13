@@ -4,13 +4,16 @@ import java.util.Map;
 
 import org.issg.ibis.client.CountryPerspective;
 import org.issg.ibis.client.LocationPerspective;
+import org.issg.ibis.client.MapPerspective;
 import org.issg.ibis.client.SearchView;
 import org.issg.ibis.client.SpeciesPerspective;
+import org.issg.ibis.domain.Issue;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.editor.DesignatedAreaEditor;
 import org.issg.ibis.editor.IslandEditor;
+import org.issg.ibis.editor.IssueEditor;
 import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.editor.SpeciesImpactEditor;
 import org.jrc.form.view.AbstractViewModule;
@@ -34,9 +37,13 @@ import com.vaadin.navigator.View;
 public class ViewModule extends AbstractViewModule {
 
 
+    private static final String MAP = "Map";
     private static final String SPECIES_PERSPECTIVE = "TaxonName";
     private static final String COUNTRY_PERSPECTIVE = "Country";
     private static final String LOCATION_PERSPECTIVE = "Location";
+
+    private static final String SPECIES_EDITOR = "EditSpecies";
+    public static final String ISSUE_EDITOR = "Issues";
 
     @Override
     protected void configure() {
@@ -49,11 +56,15 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(COUNTRY_PERSPECTIVE).to(CountryPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
+        mapbinder.addBinding(MAP).to(MapPerspective.class);
         
+        
+        addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
+        addBinding(ISSUE_EDITOR, IssueEditor.class, Issue.class);
+
         addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
         addBinding("EditDesignatedArea", DesignatedAreaEditor.class, Location.class);
         addBinding("EditIsland", IslandEditor.class, Location.class);
-        addBinding("EditSpecies", SpeciesEditor.class, Species.class);
 
     }
     

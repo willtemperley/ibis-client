@@ -1,5 +1,7 @@
 package org.issg.ibis.client;
 
+import java.util.Collection;
+
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesImpact_;
@@ -13,7 +15,9 @@ import org.jrc.ui.SimpleHtmlHeader;
 import org.jrc.ui.SimpleHtmlLabel;
 import org.jrc.ui.SimplePanel;
 import org.jrc.ui.baseview.TwinPanelView;
-import org.vaadin.addon.leaflet.LPolygon;
+import org.vaadin.addon.leaflet.LFeatureGroup;
+import org.vaadin.addon.leaflet.LeafletLayer;
+import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.google.inject.Inject;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -180,12 +184,14 @@ public class LocationPerspective extends TwinPanelView implements View {
             return;
         }
 
-        LPolygon p = JTS2Leaflet.getLPolygon(loc.getGeom());
+        Collection<LeafletLayer> poly = JTSUtil.toLayers(loc.getGeom());
 
-        if (p != null) {
-            map.getMap().addComponent(p);
-            map.zoomTo(loc.getEnvelope());
-        }
+        LFeatureGroup lfg = new LFeatureGroup();
+        lfg.addComponent(poly);
+        
+
+        map.getMap().addComponent(lfg);
+        map.zoomTo(loc.getEnvelope());
 
         /*
          * TODO: so much duplication

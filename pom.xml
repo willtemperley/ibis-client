@@ -10,7 +10,7 @@
 	<artifactId>ibis-client</artifactId>
 	<packaging>war</packaging>
 	<name>ibis-client</name>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 
 	<properties>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>

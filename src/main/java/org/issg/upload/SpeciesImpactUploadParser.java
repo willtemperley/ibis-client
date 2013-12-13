@@ -37,7 +37,7 @@ public class SpeciesImpactUploadParser extends BaseLocationUploadParser<SpeciesI
      */
     public void processWorkbook(Workbook wb) {
 
-        Sheet sheet = wb.getSheetAt(3);
+        Sheet sheet = wb.getSheetAt(2);
 
         processSheet(sheet, 0);
     }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.issg.ibis.client.js.SpeciesInfo;
@@ -21,11 +20,7 @@ import org.jrc.persist.ContainerManager;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimplePanel;
 import org.jrc.ui.baseview.TwinPanelView;
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LeafletClickEvent;
-import org.vaadin.addon.leaflet.LeafletClickListener;
-import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.jts.FeatureMapLayer;
 
 import com.google.inject.Inject;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -35,7 +30,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -53,9 +47,9 @@ public class SpeciesPerspective extends TwinPanelView implements View {
     private InlineSpeciesEditor speciesEditor;
     private LayerViewer map;
     
-    private List<LPolygon> polys = new ArrayList<LPolygon>();
     private List<Long> locIds = new ArrayList<Long>();
-    private List<LMarker> markers = new ArrayList<LMarker>();
+    
+    private FeatureMapLayer fml = new FeatureMapLayer();
 
     private JPAContainer<SpeciesLocation> speciesLocationContainer;
 
@@ -63,11 +57,10 @@ public class SpeciesPerspective extends TwinPanelView implements View {
      * Displays a threatened species and its locations.
      * 
      * @param dao
-     * @param speciesInfo
      * @param speciesSelector
      */
     @Inject
-    public SpeciesPerspective(Dao dao, SpeciesInfo speciesInfo) {
+    public SpeciesPerspective(Dao dao) {
 
         this.dao = dao;
         setExpandRatios(1f, 1.5f);
@@ -107,10 +100,9 @@ public class SpeciesPerspective extends TwinPanelView implements View {
              * Map
              */
             map = new LayerViewer();
+            map.getMap().addComponent(fml);
             map.setSizeFull();
             
-//            map.addWmsLayer("ibis:species_range");
-
             vl.addComponent(map);
             /*
              * Table
@@ -246,16 +238,13 @@ public class SpeciesPerspective extends TwinPanelView implements View {
          */
         speciesSummary.setSpecies(sp);
 
-
         //Clear other info
         bic.removeAllItems();
-
         locIds.clear();
 
         /*
          * Impacts
          */
-
         Set<SpeciesImpact> speciesImpacts = species.getSpeciesImpacts();
 
         for (SpeciesImpact speciesImpact : speciesImpacts) {
@@ -266,64 +255,31 @@ public class SpeciesPerspective extends TwinPanelView implements View {
             }
             locIds.add(loc.getId());
 
-            LPolygon lPoly = JTS2Leaflet.getLPolygon(loc.getGeom());
-            if (lPoly != null) {
-                lPoly.setColor("#ff0000");
-                map.getMap().addComponent(lPoly);
-                polys.add(lPoly);
-            }
+            fml.addGeometry(loc.getGeom(), "#ff0000");
         }
         
+        /*
+         * Locations
+         */
         EntityManager em = dao.getEntityManager();
         TypedQuery<SpeciesLocation> q = em.createQuery("from SpeciesLocation where species.id = :sid", SpeciesLocation.class);
         q.setParameter("sid", species.getId());
         List<SpeciesLocation> results = q.getResultList();
+
         for (SpeciesLocation speciesLocation : results) {
             Location location = speciesLocation.getLocation();
             if (locIds.contains(location.getId())) {
                 continue;
             }
             Geometry geom = location.getGeom();
-            LPolygon lPoly = JTS2Leaflet.getLPolygon(geom);
-            if (lPoly == null) {
-                continue;
-            }
-            lPoly.setColor("#00ff00");
+            fml.addGeometry(geom, "#00ff00");
 
-            map.getMap().addComponent(lPoly);
-            polys.add(lPoly);
         }
 
         map.zoomTo(getSpeciesExtent(species.getId()));
-
     }
     
     
-    private LMarker getMarkerForCentroid(Geometry geom) {
-        com.vividsolutions.jts.geom.Point c = geom.getCentroid();
-        Point p = new Point(c.getY(), c.getX());
-        LMarker lm = new LMarker(p);
-        lm.addClickListener(new LeafletClickListener() {
-            
-            @Override
-            public void onClick(LeafletClickEvent event) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
-        return lm;
-    }
-    
-    private void addTestM() {
-
-        LMarker leafletMarker = new LMarker(0,0);
-
-        leafletMarker.setTitle("this is marker two!");
-        leafletMarker.setPopup("Hello <b>world</b>");
-        map.getMap().addComponent(leafletMarker);
-    }
-
-
     private void speciesImpactSelected(SpeciesImpact speciesImpact) {
         
         if (speciesImpact == null) return;
@@ -350,16 +306,10 @@ public class SpeciesPerspective extends TwinPanelView implements View {
      */
     private Polygon getSpeciesExtent(Long id) {
         
-        EntityManager em = dao.getEntityManager();
-        TypedQuery<SpeciesExtent> q = em.createQuery(
-                "from SpeciesExtent where id = :id", SpeciesExtent.class);
-        q.setParameter("id", id);
+        SpeciesExtent extent = dao.find(SpeciesExtent.class, id);
     
-        List<SpeciesExtent> res = q.getResultList();
-        if (res.size() == 1) {
-            return res.get(0).getEnvelope();
-        }
-        return null;
+        return extent.getEnvelope();
+
     }
 
 }
