@@ -1,8 +1,9 @@
-package org.issg.ibis.domain;
+package org.issg.ibis.domain.view;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+import org.issg.ibis.domain.ResourceType;
 import org.jrc.persist.adminunits.Country;
 
 @StaticMetamodel(FacetedSearch.class)

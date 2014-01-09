@@ -1,8 +1,8 @@
 package org.issg.ibis.client;
 
-import org.issg.ibis.domain.FacetedSearch;
-import org.issg.ibis.domain.FacetedSearch_;
 import org.issg.ibis.domain.ResourceType;
+import org.issg.ibis.domain.view.FacetedSearch;
+import org.issg.ibis.domain.view.FacetedSearch_;
 import org.jrc.form.editor.EditorPanelHeading;
 import org.jrc.form.editor.EntityTable;
 import org.jrc.form.filter.FilterPanel;

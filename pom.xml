@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jrc</groupId>
 		<artifactId>biopama</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>ibis-client</artifactId>
 	<packaging>war</packaging>
@@ -163,7 +163,7 @@
 		<dependency>
 			<groupId>org.jrc</groupId>
 			<artifactId>form7</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

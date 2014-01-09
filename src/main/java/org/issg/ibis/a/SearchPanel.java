@@ -1,9 +1,12 @@
 package org.issg.ibis.a;
 
-import org.issg.ibis.a.event.SearchSelectEventListener;
-import org.issg.ibis.domain.FacetedSearch;
-import org.issg.ibis.domain.FacetedSearch_;
-import org.issg.ibis.domain.ResourceType;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.issg.ibis.client.pending.FilteringCriteriaQueryDelegate;
+import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.view.ResourceDescription;
+import org.issg.ibis.domain.view.ResourceDescription_;
 import org.jrc.form.editor.EntityTable;
 import org.jrc.form.filter.FilterPanel;
 import org.jrc.persist.ContainerManager;
@@ -15,49 +18,67 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 
-public class SearchPanel extends HorizontalLayout {
+public class SearchPanel extends VerticalLayout {
 
-    private JPAContainer<FacetedSearch> esiContainer;
+    private JPAContainer<ResourceDescription> esiContainer;
 
     private Dao dao;
 
     private SearchSelectEventListener searchListener;
 
     public SearchPanel(Dao dao) {
-        
+
         addStyleName("layout-panel");
-        
-        ContainerManager<FacetedSearch> containerManager = new ContainerManager<FacetedSearch>(
-                dao, FacetedSearch.class, true);
+
+        ContainerManager<ResourceDescription> containerManager = new ContainerManager<ResourceDescription>(
+                dao, ResourceDescription.class, true);
         this.esiContainer = containerManager.getContainer();
+
+        {
+
+            FilteringCriteriaQueryDelegate<ResourceDescription> queryModifierDelegate = new FilteringCriteriaQueryDelegate<ResourceDescription>();
+
+            TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(
+                    Species.INVASIVE, Species.class);
+            Species testobj = q.getResultList().get(0);
+
+            System.out.println(testobj);
+
+            queryModifierDelegate.addExistsPredicate(ResourceDescription_.invasiveSpecies, testobj);
+
+            esiContainer.setQueryModifierDelegate(queryModifierDelegate);
+
+        }
+
         this.dao = dao;
 
         {
             setSizeFull();
             addComponent(getFilterPanel());
-            addComponent(getFacetedSearchTable());
+            addComponent(getSearchEntityTable());
 
         }
-        
-        esiContainer.sort(new String[]{"impactCount"}, new boolean[]{false});
+
+        esiContainer.sort(new String[] { "impactCount" },
+                new boolean[] { false });
 
     }
 
-    private FilterPanel<FacetedSearch> getFilterPanel() {
+    private FilterPanel<ResourceDescription> getFilterPanel() {
 
-        FilterPanel<FacetedSearch> fp = new FilterPanel<FacetedSearch>(
+        FilterPanel<ResourceDescription> fp = new FilterPanel<ResourceDescription>(
                 esiContainer, dao);
 
-        fp.addFilterField(FacetedSearch_.name);
-        fp.addFilterField(FacetedSearch_.country);
-        fp.addFilterField(FacetedSearch_.resourceType);
-        // fp.addFilterField(FacetedSearch_.);
-//        fp.addFilterField(FacetedSearch_.designatedAreaType);
-        // fp.addFilterField(FacetedSearch_.);
+        fp.addFilterField(ResourceDescription_.name);
+
+        // fp.addFilterField(SearchEntity_.);
+        // fp.addFilterField(SearchEntity_.designatedAreaType);
+        // fp.addFilterField(SearchEntity_.);
+
         return fp;
 
     }
@@ -68,29 +89,32 @@ public class SearchPanel extends HorizontalLayout {
                 Object columnId) {
             JPAContainerItem<?> item = (JPAContainerItem<?>) source
                     .getItem(itemId);
-            final FacetedSearch si = (FacetedSearch) item.getEntity();
+            final ResourceDescription si = (ResourceDescription) item.getEntity();
             return new SearchResult(si);
         }
     }
 
     public class SearchResult extends Panel {
 
-        public SearchResult(FacetedSearch facetedSearch) {
+        public SearchResult(ResourceDescription facetedSearch) {
 
-            ResourceType rt = facetedSearch.getResourceType();
-            
-            String html = "<div class='search-result result-type-" + rt.getId() + "'>" + rt.getId() + "</div>";
+            // ResourceType rt = facetedSearch.getResourceType();
+            char initial = facetedSearch.getId().charAt(0);
+
+            String html = "<div class='search-result result-type-" + initial
+                    + "'>" + initial + "</div>";
             html += getLink(facetedSearch);
-            
+
             html += ("<div>Known impacts: " + facetedSearch.getImpactCount() + "</div>");
-            
+
             SimpleHtmlLabel shl = new SimpleHtmlLabel(html);
 
             setContent(shl);
         }
 
-        private String getLink(FacetedSearch esi) {
-            StringBuilder sb = new StringBuilder("<div class='search-description'><a href='#!");
+        private String getLink(ResourceDescription esi) {
+            StringBuilder sb = new StringBuilder(
+                    "<div class='search-description'><a href='#!");
             sb.append(esi.getId());
             sb.append("'>");
             sb.append(esi.toString());
@@ -99,10 +123,9 @@ public class SearchPanel extends HorizontalLayout {
         }
     }
 
+    private EntityTable<ResourceDescription> getSearchEntityTable() {
 
-    private EntityTable<FacetedSearch> getFacetedSearchTable() {
-
-        EntityTable<FacetedSearch> table = new EntityTable<FacetedSearch>(
+        EntityTable<ResourceDescription> table = new EntityTable<ResourceDescription>(
                 esiContainer);
         table.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
@@ -113,7 +136,7 @@ public class SearchPanel extends HorizontalLayout {
             public void valueChange(Property.ValueChangeEvent event) {
 
                 Object value = event.getProperty().getValue();
-                EntityItem<FacetedSearch> obj = esiContainer.getItem(value);
+                EntityItem<ResourceDescription> obj = esiContainer.getItem(value);
                 if (value == null) {
                     return;
                 }
@@ -126,13 +149,13 @@ public class SearchPanel extends HorizontalLayout {
         ImpactVisualizationColumn generatedColumn = new ImpactVisualizationColumn();
         table.addGeneratedColumn("id", generatedColumn);
         table.setColumnWidth("id", 400);
-//        table.addColumns(FacetedSearch_.name);
+        // table.addColumns(SearchEntity_.name);
         return table;
 
     }
 
-    protected void entitySelected(FacetedSearch facetedSearch) {
-        if(searchListener != null) {
+    protected void entitySelected(ResourceDescription facetedSearch) {
+        if (searchListener != null) {
             searchListener.onSelect(facetedSearch);
         }
     }

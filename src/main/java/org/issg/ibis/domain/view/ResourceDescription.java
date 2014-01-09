@@ -1,21 +1,27 @@
-package org.issg.ibis.domain;
+package org.issg.ibis.domain.view;
+
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
+import org.issg.ibis.domain.ResourceType;
+import org.issg.ibis.domain.Species;
 import org.jrc.persist.adminunits.Country;
 
 @Entity
-@Table(schema = "ibis", name = "faceted_search")
-public class FacetedSearch {
+@Table(schema = "ibis", name = "resource_description")
+public class ResourceDescription {
 
     private String id;
 
@@ -26,39 +32,17 @@ public class FacetedSearch {
     public void setId(String id) {
         this.id = id;
     }
-
-    private Country country;
-
-    @ManyToOne
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    private String designatedAreaType;
-
-    @Column(name="designated_area_type")
-    public String getDesignatedAreaType() {
-        return designatedAreaType;
-    }
-
-    public void setDesignatedAreaType(String designatedAreaType) {
-        this.designatedAreaType = designatedAreaType;
-    }
     
-    private ResourceType resourceType;
+    private Set<Species> invasiveSpecies;
 
-    @ManyToOne
-    @JoinColumn(name = "resource_type_id")
-    public ResourceType getResourceType() {
-        return resourceType;
+    @ManyToMany
+    @JoinTable(name = "ibis.search_entity", joinColumns = @JoinColumn(name = "search_entity_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
+    public Set<Species> getInvasiveSpecies() {
+        return invasiveSpecies;
     }
-    
-    public void setResourceType(ResourceType resouceType) {
-        this.resourceType = resouceType;
+
+    public void setInvasiveSpecies(Set<Species> invasiveSpecies) {
+        this.invasiveSpecies = invasiveSpecies;
     }
 
     private String name;
@@ -94,8 +78,8 @@ public class FacetedSearch {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj instanceof FacetedSearch) {
-           FacetedSearch otherObj = (FacetedSearch) obj;
+        if (obj instanceof ResourceDescription) {
+           ResourceDescription otherObj = (ResourceDescription) obj;
            if (otherObj.getId().equals(this.getId())) {
                 return true;
            }

@@ -7,7 +7,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 
-class ImpactVisualizationColumn2 implements Table.ColumnGenerator {
+public class ImpactVisualizationColumn2 implements Table.ColumnGenerator {
 
     public Component generateCell(Table source, Object itemId,
             Object columnId) {

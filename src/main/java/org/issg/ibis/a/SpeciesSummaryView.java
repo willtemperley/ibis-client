@@ -18,7 +18,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Table;
 
-public class SpeciesSummaryView extends CssLayout {
+public class SpeciesSummaryView extends SimplePanel {
 
     protected List<Component> contentComponents = new ArrayList<Component>();
     private SimpleHtmlHeader speciesName = new SimpleHtmlHeader();

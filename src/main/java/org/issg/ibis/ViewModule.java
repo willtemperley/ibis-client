@@ -2,11 +2,11 @@ package org.issg.ibis;
 
 import java.util.Map;
 
-import org.issg.ibis.a.MapPerspective;
+import org.issg.ibis.a.SearchPerspective;
 import org.issg.ibis.client.CountryPerspective;
 import org.issg.ibis.client.LocationPerspective;
 import org.issg.ibis.client.SearchView;
-import org.issg.ibis.client.SpeciesPerspective;
+import org.issg.ibis.a.SpeciesPerspective;
 import org.issg.ibis.domain.Issue;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
@@ -51,12 +51,12 @@ public class ViewModule extends AbstractViewModule {
                 View.class);
         
         mapbinder.addBinding(GuicedViewProvider.HOME).to(SearchView.class);
-        mapbinder.addBinding("Search").to(SearchView.class);
+//        mapbinder.addBinding("Search").to(SearchView.class);
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(COUNTRY_PERSPECTIVE).to(CountryPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
-        mapbinder.addBinding(MAP).to(MapPerspective.class);
+        mapbinder.addBinding("Search").to(SearchPerspective.class);
         
         
         addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);

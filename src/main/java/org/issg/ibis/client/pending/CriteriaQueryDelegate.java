@@ -19,6 +19,7 @@ import com.vaadin.addon.jpacontainer.util.DefaultQueryModifierDelegate;
  * Quick attempt with this: 
  * https://vaadin.com/book/vaadin6/-/page/jpacontainer.filtering.criteria-api.html
  */
+@Deprecated
 public class CriteriaQueryDelegate extends DefaultQueryModifierDelegate {
 
     private Dao dao;

@@ -22,7 +22,6 @@ public class LayerViewer extends Panel {
         setContent(map);
         map.addBaseLayer(bl, "OSM");
         
-
     }
     
     
@@ -35,7 +34,6 @@ public class LayerViewer extends Panel {
         l.setFormat("image/png");
         l.setLayers(layerName);
         
-
 
         map.addLayer(l);
     }

@@ -7,6 +7,7 @@ import it.jrc.auth.SecurityFilter;
 
 import org.apache.shiro.realm.Realm;
 import org.issg.ibis.AppUI;
+import org.issg.ibis.a.IbisUI;
 import org.jrc.inject.AbstractGuiceServletModule;
 import org.jrc.inject.GuiceApplicationServlet;
 
@@ -24,7 +25,7 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
     @Override
     protected void configureServlets() {
 
-        bind(Class.class).annotatedWith(Names.named(MVPApplicationInitParameters.P_APPLICATION_UI_CLASS)).toInstance(AppUI.class);
+        bind(Class.class).annotatedWith(Names.named(MVPApplicationInitParameters.P_APPLICATION_UI_CLASS)).toInstance(IbisUI.class);
 
         bind(Realm.class).to(JpaRealm.class);
         
