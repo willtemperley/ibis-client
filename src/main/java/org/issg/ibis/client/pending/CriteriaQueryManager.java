@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -12,8 +14,11 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.PluralAttribute;
 
+import org.issg.ibis.domain.view.ResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescriptionSpecies;
 import org.issg.ibis.domain.view.ResourceDescriptionSpecies_;
+import org.issg.ibis.domain.view.ResourceDescription_;
+import org.jrc.persist.Dao;
 
 import com.vaadin.addon.jpacontainer.util.DefaultQueryModifierDelegate;
 
@@ -22,8 +27,7 @@ import com.vaadin.addon.jpacontainer.util.DefaultQueryModifierDelegate;
  *
  * @param <T>
  */
-public class FilteringCriteriaQueryDelegate<T> extends
-        DefaultQueryModifierDelegate {
+public class CriteriaQueryManager<T> {
 
     class CorrelatedSubqueryIngredients {
     
@@ -33,7 +37,43 @@ public class FilteringCriteriaQueryDelegate<T> extends
         
     }
 
+    private Dao dao;
+    
     private Set<CorrelatedSubqueryIngredients> csis = new HashSet<CorrelatedSubqueryIngredients>();
+
+    private int pageSize;
+
+    public CriteriaQueryManager(Dao dao, int pageSize) {
+        
+        this.dao = dao;
+        this.pageSize = pageSize;
+
+    }
+    
+    public List<ResourceDescription> getResourceDescriptions() {
+
+        EntityManager em = dao.getEntityManager();
+
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+        CriteriaQuery<ResourceDescription> query = criteriaBuilder
+                .createQuery(ResourceDescription.class);
+        Root<ResourceDescription> person = query
+                .from(ResourceDescription.class);
+
+        // Main query
+        query.select(person);
+        
+        addFilters(criteriaBuilder, query);
+        
+        query.orderBy(criteriaBuilder.desc(person.get(ResourceDescription_.impactCount)));
+
+
+        // 
+        TypedQuery<ResourceDescription> typedQuery = em.createQuery(query);
+        return typedQuery.getResultList();
+    }
+
 
     public <X, C extends Collection<X>> void addExistsPredicate(
             PluralAttribute<T, C, X> attr, X memberOfCollection) {
@@ -46,18 +86,18 @@ public class FilteringCriteriaQueryDelegate<T> extends
         
     };
     
-    @Override
-    public void filtersWillBeAdded(CriteriaBuilder cb, CriteriaQuery<?> query,
-            List<Predicate> predicates) {
+    public void addFilters(CriteriaBuilder cb, CriteriaQuery<?> query) {
 
+        Predicate[] arr = new Predicate[csis.size()];
+
+        int i = 0;
         for (CorrelatedSubqueryIngredients csi : csis) {
-
             Predicate exists = getCorreleatedSubQuery(query, cb, csi.memberOfCollection);
-            predicates.add(exists);
-            
+            arr[i] = exists;
+            i++;
         }
+        query.where(arr);
 
-        super.filtersWillBeAdded(cb, query, predicates);
     }
 
 
@@ -85,7 +125,6 @@ public class FilteringCriteriaQueryDelegate<T> extends
         Predicate pred = criteriaBuilder.exists(subquery);
         
         return pred;
-
     }
 
 }

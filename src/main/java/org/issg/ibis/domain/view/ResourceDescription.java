@@ -33,16 +33,16 @@ public class ResourceDescription {
         this.id = id;
     }
     
-    private Set<Species> invasiveSpecies;
+    private Set<Species> species;
 
     @ManyToMany
     @JoinTable(name = "ibis.search_entity", joinColumns = @JoinColumn(name = "search_entity_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
-    public Set<Species> getInvasiveSpecies() {
-        return invasiveSpecies;
+    public Set<Species> getSpecies() {
+        return species;
     }
 
-    public void setInvasiveSpecies(Set<Species> invasiveSpecies) {
-        this.invasiveSpecies = invasiveSpecies;
+    public void setSpecies(Set<Species> invasiveSpecies) {
+        this.species = species;
     }
 
     private String name;

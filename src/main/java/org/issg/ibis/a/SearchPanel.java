@@ -1,22 +1,26 @@
 package org.issg.ibis.a;
 
-import javax.persistence.Query;
+import java.util.List;
+
 import javax.persistence.TypedQuery;
 
+import org.issg.ibis.client.pending.CriteriaQueryManager;
 import org.issg.ibis.client.pending.FilteringCriteriaQueryDelegate;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.view.ResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription_;
 import org.jrc.form.editor.EntityTable;
-import org.jrc.form.filter.FilterPanel;
-import org.jrc.persist.ContainerManager;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimpleHtmlLabel;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
+import com.vaadin.addon.jpacontainer.provider.CachingLocalEntityProvider;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
@@ -24,72 +28,73 @@ import com.vaadin.ui.VerticalLayout;
 
 public class SearchPanel extends VerticalLayout {
 
-    private JPAContainer<ResourceDescription> esiContainer;
+    private static final int PAGE_SIZE = 20;
 
-    private Dao dao;
+    private BeanItemContainer<ResourceDescription> bic = new BeanItemContainer<ResourceDescription>(ResourceDescription.class);
 
     private SearchSelectEventListener searchListener;
+
+    private Dao dao;
 
     public SearchPanel(Dao dao) {
 
         addStyleName("layout-panel");
 
-        ContainerManager<ResourceDescription> containerManager = new ContainerManager<ResourceDescription>(
-                dao, ResourceDescription.class, true);
-        this.esiContainer = containerManager.getContainer();
-
-        {
-
-            FilteringCriteriaQueryDelegate<ResourceDescription> queryModifierDelegate = new FilteringCriteriaQueryDelegate<ResourceDescription>();
-
-            TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(
-                    Species.INVASIVE, Species.class);
-            Species testobj = q.getResultList().get(0);
-
-            System.out.println(testobj);
-
-            queryModifierDelegate.addExistsPredicate(ResourceDescription_.invasiveSpecies, testobj);
-
-            esiContainer.setQueryModifierDelegate(queryModifierDelegate);
-
-        }
-
         this.dao = dao;
-
+        
+        CriteriaQueryManager<ResourceDescription> cqm = new CriteriaQueryManager<ResourceDescription>(dao, PAGE_SIZE);
+        
         {
             setSizeFull();
-            addComponent(getFilterPanel());
+
+            CriteriaFilterPanel<ResourceDescription> filterPanel = getFilterPanel(cqm);
+            addComponent(filterPanel);
+
             addComponent(getSearchEntityTable());
 
+            //Initialise the results
+            filterPanel.doQuery();
         }
 
-        esiContainer.sort(new String[] { "impactCount" },
-                new boolean[] { false });
+//        container.sort(new String[] { "impactCount" }, new boolean[] { false });
 
     }
 
-    private FilterPanel<ResourceDescription> getFilterPanel() {
+    private CriteriaFilterPanel<ResourceDescription> getFilterPanel(CriteriaQueryManager<ResourceDescription> cqm) {
 
-        FilterPanel<ResourceDescription> fp = new FilterPanel<ResourceDescription>(
-                esiContainer, dao);
+        CriteriaFilterPanel<ResourceDescription> fp = new CriteriaFilterPanel<ResourceDescription>(bic, cqm);
 
-        fp.addFilterField(ResourceDescription_.name);
-
-        // fp.addFilterField(SearchEntity_.);
-        // fp.addFilterField(SearchEntity_.designatedAreaType);
-        // fp.addFilterField(SearchEntity_.);
+        ComboBox cb = getFilterField(Species.INVASIVE, Species.class, "Invasive species");
+        fp.addFilterField(ResourceDescription_.species, cb);
+        
+        ComboBox cb2 = getFilterField(Species.THREATENED, Species.class, "Threatened species");
+        fp.addFilterField(ResourceDescription_.species, cb2);
+        
 
         return fp;
+    }
 
+    private ComboBox getFilterField(String queryName, Class<Species> clazz, String caption) {
+        // Invasives
+        ComboBox cb = new ComboBox();
+        cb.setCaption(caption);
+        TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(queryName, clazz);
+        List<Species> l = q.getResultList();
+        for (Species species : l) {
+            cb.addItem(species);
+        }
+
+        cb.setImmediate(true);
+        return cb;
     }
 
     class ImpactVisualizationColumn implements Table.ColumnGenerator {
 
         public Component generateCell(Table source, Object itemId,
                 Object columnId) {
-            JPAContainerItem<?> item = (JPAContainerItem<?>) source
-                    .getItem(itemId);
-            final ResourceDescription si = (ResourceDescription) item.getEntity();
+            BeanItem<?> item =  (BeanItem<?>) source.getItem(itemId);
+
+            final ResourceDescription si = (ResourceDescription) item.getBean();
             return new SearchResult(si);
         }
     }
@@ -126,22 +131,24 @@ public class SearchPanel extends VerticalLayout {
     private EntityTable<ResourceDescription> getSearchEntityTable() {
 
         EntityTable<ResourceDescription> table = new EntityTable<ResourceDescription>(
-                esiContainer);
+                bic);
+
         table.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
         table.setHeight("100%");
-        table.setPageLength(20);
+        table.setPageLength(PAGE_SIZE);
 
         table.addValueChangeListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent event) {
 
-                Object value = event.getProperty().getValue();
-                EntityItem<ResourceDescription> obj = esiContainer.getItem(value);
-                if (value == null) {
-                    return;
-                }
-                String si = (String) value;
-                entitySelected(obj.getEntity());
+                ResourceDescription entity = (ResourceDescription) event.getProperty().getValue();
+//                Object value = event.getProperty().getValue();
+//                EntityItem<ResourceDescription> obj = bic.geti.getItem(value);
+//                if (value == null) {
+//                    return;
+//                }
+//                String si = (String) value;
+                entitySelected(entity);
 
             }
         });
@@ -149,10 +156,12 @@ public class SearchPanel extends VerticalLayout {
         ImpactVisualizationColumn generatedColumn = new ImpactVisualizationColumn();
         table.addGeneratedColumn("id", generatedColumn);
         table.setColumnWidth("id", 400);
+        table.setVisibleColumns("id");
         // table.addColumns(SearchEntity_.name);
         return table;
 
     }
+
 
     protected void entitySelected(ResourceDescription facetedSearch) {
         if (searchListener != null) {

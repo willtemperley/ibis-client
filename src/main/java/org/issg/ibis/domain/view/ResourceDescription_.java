@@ -13,6 +13,7 @@ public abstract class ResourceDescription_ {
 
     public static volatile SingularAttribute<ResourceDescription, String> name;
     
-    public static volatile SetAttribute<ResourceDescription, Species> invasiveSpecies;
+    public static volatile SetAttribute<ResourceDescription, Species> species;
     
+    public static volatile SingularAttribute<ResourceDescription, Integer> impactCount;
 }

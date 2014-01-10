@@ -9,14 +9,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 
-import org.issg.ibis.client.pending.FilteringCriteriaQueryDelegate;
+import org.issg.ibis.client.pending.CriteriaQueryManager;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.domain.view.ResourceDescriptionSpecies;
-import org.issg.ibis.domain.view.ResourceDescriptionSpecies_;
 import org.issg.ibis.domain.view.ResourceDescription_;
 import org.jrc.persist.Dao;
 import org.junit.Before;
@@ -47,43 +44,21 @@ public class CriteriaBuilderTest {
     public void testCB() {
 
         // FQD
-        FilteringCriteriaQueryDelegate<ResourceDescription> queryModifier = new FilteringCriteriaQueryDelegate<ResourceDescription>();
-        queryModifier.addExistsPredicate(ResourceDescription_.invasiveSpecies,
+        CriteriaQueryManager<ResourceDescription> queryModifier = new CriteriaQueryManager<ResourceDescription>(dao, 20);
+        queryModifier.addExistsPredicate(ResourceDescription_.species,
                 getASingleInvasiveSp());
+        
+        long startTime = System.nanoTime();
 
-        // Test query
-        EntityManager em = dao.getEntityManager();
+        List<ResourceDescription> rds = queryModifier.getResourceDescriptions();
 
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        
+        System.out.println("Duration: " + duration);
 
-        CriteriaQuery<ResourceDescription> query = criteriaBuilder
-                .createQuery(ResourceDescription.class);
-        Root<ResourceDescription> person = query
-                .from(ResourceDescription.class);
-
-        // Main query
-        query.select(person);
-
-        // Pass in a list, just to extract
-        List<Predicate> predicates = new ArrayList<Predicate>();
-
-        queryModifier.filtersWillBeAdded(criteriaBuilder, query, predicates);
-
-        // and give the created predicates back to the query (done by framework
-        // in non-test code)
-        Predicate[] arr = new Predicate[predicates.size()];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = predicates.get(i);
-        }
-
-        query.where(arr);
-
-        TypedQuery<ResourceDescription> typedQuery = em.createQuery(query);
-        List<ResourceDescription> referencedResourceDescriptions = typedQuery
-                .getResultList();
-
-        for (ResourceDescription object : referencedResourceDescriptions) {
-            System.out.println(object);
+        for (ResourceDescription resourceDescription : rds) {
+            System.out.println(resourceDescription);
         }
 
     }
