@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
+import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.ResourceType;
 import org.issg.ibis.domain.Species;
 import org.jrc.persist.adminunits.Country;
@@ -33,17 +34,18 @@ public class ResourceDescription {
         this.id = id;
     }
     
-    private Set<Species> species;
-
-    @ManyToMany
-    @JoinTable(name = "ibis.search_entity", joinColumns = @JoinColumn(name = "search_entity_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
-    public Set<Species> getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(Set<Species> invasiveSpecies) {
-        this.species = species;
-    }
+    
+//    private Set<Location> location;
+//    
+//    @ManyToMany
+//    @JoinTable(name = "ibis.search_entity", joinColumns = @JoinColumn(name = "search_entity_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
+//    public Set<Location> getLocation() {
+//        return location;
+//    }
+//    
+//    public void setLocation(Set<Location> location) {
+//        this.location = location;
+//    }
 
     private String name;
 

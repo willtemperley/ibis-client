@@ -59,6 +59,7 @@ public class CriteriaFilterPanel<T> extends FormLayout {
             public void valueChange(ValueChangeEvent event) {
 
                 E val = (E) event.getProperty().getValue();
+                //null is an option
                 queryManager.addExistsPredicate(attr, val);
                 doQuery();
 

@@ -45,8 +45,9 @@ public class CriteriaBuilderTest {
 
         // FQD
         CriteriaQueryManager<ResourceDescription> queryModifier = new CriteriaQueryManager<ResourceDescription>(dao, 20);
-        queryModifier.addExistsPredicate(ResourceDescription_.species,
-                getASingleInvasiveSp());
+        //FIX ALL THIS
+//        queryModifier.addExistsPredicate(ResourceDescription_.species,
+//                getASingleInvasiveSp());
         
         long startTime = System.nanoTime();
 

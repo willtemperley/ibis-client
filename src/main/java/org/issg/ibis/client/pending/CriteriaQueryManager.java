@@ -1,8 +1,10 @@
 package org.issg.ibis.client.pending;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -39,9 +41,11 @@ public class CriteriaQueryManager<T> {
 
     private Dao dao;
     
-    private Set<CorrelatedSubqueryIngredients> csis = new HashSet<CorrelatedSubqueryIngredients>();
-
+//    private Set<CorrelatedSubqueryIngredients> csis = new HashSet<CorrelatedSubqueryIngredients>();
+    
     private int pageSize;
+    
+    private Map<String, CorrelatedSubqueryIngredients> csiMap = new HashMap<String, CorrelatedSubqueryIngredients>();
 
     public CriteriaQueryManager(Dao dao, int pageSize) {
         
@@ -78,34 +82,54 @@ public class CriteriaQueryManager<T> {
     public <X, C extends Collection<X>> void addExistsPredicate(
             PluralAttribute<T, C, X> attr, X memberOfCollection) {
         
+        // null means we need not query on this attribute any more
+        if (memberOfCollection == null) {
+            csiMap.remove(attr.getName());
+            return;
+        }
+        
         // Because we don't have the query when the filters are being added, need to store the pre-requisites
         CorrelatedSubqueryIngredients csi = new CorrelatedSubqueryIngredients();
         csi.pluralAttribute = attr;
         csi.memberOfCollection = memberOfCollection;
-        csis.add(csi);
+//        csis.add(csi);
+        csiMap.put(attr.getName(), csi);
         
     };
     
     public void addFilters(CriteriaBuilder cb, CriteriaQuery<?> query) {
 
-        Predicate[] arr = new Predicate[csis.size()];
+        Set<String> keys = csiMap.keySet();
+        Predicate[] arr = new Predicate[csiMap.size()];
+
+//        int i = 0;
+//        for (CorrelatedSubqueryIngredients csi : csis) {
+//            Predicate exists = getCorreleatedSubQuery(query, cb, csi.memberOfCollection);
+//            arr[i] = exists;
+//            i++;
+//        }
 
         int i = 0;
-        for (CorrelatedSubqueryIngredients csi : csis) {
-            Predicate exists = getCorreleatedSubQuery(query, cb, csi.memberOfCollection);
-            arr[i] = exists;
-            i++;
+        for (String string : keys) {
+            CorrelatedSubqueryIngredients csi = csiMap.get(string);
+
+//            if (csi.pluralAttribute.equals(ResourceDescription_.species)) {
+                Predicate exists = getCorreleatedSubQuery(query, cb, csi);
+                arr[i] = exists;
+                i++;
+//            }
+
         }
+
         query.where(arr);
 
     }
-
 
     private Root<T> getRoot(CriteriaQuery<?> query) {
             return (Root<T>) query.getRoots().iterator().next();
     }
 
-    public Predicate getCorreleatedSubQuery(CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder, Object s) {
+    public Predicate getCorreleatedSubQuery(CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder, CorrelatedSubqueryIngredients csi) {
 
         Root<T> root = getRoot(query);
 
@@ -114,11 +138,13 @@ public class CriteriaQueryManager<T> {
         Root<ResourceDescriptionSpecies> subRootEntity = subquery.from(ResourceDescriptionSpecies.class);
         subquery.select(subRootEntity);
 
+        //Match between the subquery and query
         Predicate correlatePredicate = criteriaBuilder.equal(subRootEntity
                 .get(ResourceDescriptionSpecies_.resourceDescription), root);
 
+        //Match inside the subquery
         Predicate relatedObjectPredicate = criteriaBuilder.equal(
-                subRootEntity.get(ResourceDescriptionSpecies_.species), s); // The species
+                subRootEntity.get(ResourceDescriptionSpecies_.species), csi.memberOfCollection); // The species
 
         subquery.where(correlatePredicate, relatedObjectPredicate);
 

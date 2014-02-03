@@ -65,12 +65,11 @@ public class SearchPanel extends VerticalLayout {
         CriteriaFilterPanel<ResourceDescription> fp = new CriteriaFilterPanel<ResourceDescription>(bic, cqm);
 
         ComboBox cb = getFilterField(Species.INVASIVE, Species.class, "Invasive species");
-        fp.addFilterField(ResourceDescription_.species, cb);
+//        fp.addFilterField(ResourceDescription_, cb);
         
         ComboBox cb2 = getFilterField(Species.THREATENED, Species.class, "Threatened species");
-        fp.addFilterField(ResourceDescription_.species, cb2);
+//        fp.addFilterField(ResourceDescription_., cb2);
         
-
         return fp;
     }
 
