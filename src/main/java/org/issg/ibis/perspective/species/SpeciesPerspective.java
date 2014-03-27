@@ -3,13 +3,10 @@ package org.issg.ibis.perspective.species;
 import it.jrc.auth.RoleManager;
 import it.jrc.form.editor.EntityTable;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.OrganismType;
-
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesImpact_;
@@ -18,7 +15,6 @@ import org.issg.ibis.domain.SpeciesLocation_;
 import org.issg.ibis.domain.view.SpeciesExtent;
 import org.issg.ibis.editor.InlineSpeciesEditor;
 import org.issg.ibis.perspective.shared.LayerViewer;
-import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimplePanel;
 import org.jrc.ui.baseview.TwinPanelView;
@@ -27,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.jts.FeatureMapLayer;
 import org.vaadin.addon.leaflet.markercluster.LMarkerClusterGroup;
-import org.vaadin.gleaflet.markercluster.client.MarkerClusterGroup;
 import org.vaadin.maddon.ListContainer;
 
 import com.google.inject.Inject;
