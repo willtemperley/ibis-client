@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.issg.ibis.ViewModule;
-import org.jrc.inject.MvpModule;
+import org.issg.ibis.client.deprecated.IbisUI;
 import org.jrc.server.IBISGuiceServletModule;
+import org.vaadin.addons.guice.ui.ScopedUI;
+import org.vaadin.addons.guice.uiscope.UIScopeModule;
 
 import com.google.common.base.Joiner;
 import com.google.inject.Guice;
@@ -49,10 +51,10 @@ public class TestResourceFactory {
         return fis;
     }
 
-    public static Injector getInjector() {
+    public static Injector getInjector(Class<? extends ScopedUI> scopedUi) {
         Injector injector = Guice.createInjector(new TestPersistModule(),
                 new IBISGuiceServletModule(), new ViewModule(),
-                new MvpModule());
+                new UIScopeModule(scopedUi));
         return injector;
     }
 

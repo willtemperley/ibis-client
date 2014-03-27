@@ -1,8 +1,9 @@
 package org.issg.ibis;
 
-import org.issg.ibis.client.CountrySelector;
-import org.issg.ibis.client.SpeciesSelector;
-import org.jrc.form.editor.EditorPanelHeading;
+import it.jrc.form.editor.EditorPanelHeading;
+
+import org.issg.ibis.client.deprecated.CountrySelector;
+import org.issg.ibis.client.deprecated.SpeciesSelector;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimplePanel;
 

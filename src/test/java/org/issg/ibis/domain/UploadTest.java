@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.issg.ibis.client.deprecated.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.upload.BaseLocationUploadParser;
@@ -22,34 +23,36 @@ import org.issg.upload.ThreatSummaryUploadParser;
 import org.jrc.persist.Dao;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 
 import com.google.inject.Injector;
+import com.mysema.query.jpa.JPQLQuery;
 
 public class UploadTest {
 
-    private Injector injector = TestResourceFactory.getInjector();
+    private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
     // private EntityManagerFactory emf = injector
     // .getInstance(EntityManagerFactory.class);
     private Workbook workbookGood;
     private Dao dao;
+    private EntityManagerFactory emf;
 
     @Before
     public void init() throws InvalidFormatException, FileNotFoundException,
             IOException {
 
-//        String wbName = "Nov30/Kiribati-November30.xlsx";
-//        String wbName = "Nov30/Cook-Islands-November30.xlsx";
+        // String wbName = "Nov30/Kiribati-November30.xlsx";
+        // String wbName = "Nov30/Cook-Islands-November30.xlsx";
         String wbName = "Nov30/Timor_Leste-November30.xlsx";
-//        String wbName = "Nov30/Fiji-November30-Revised-Snails.xlsx";
+        // String wbName = "Nov30/Fiji-November30-Revised-Snails.xlsx";
 
         this.workbookGood = WorkbookFactory.create(TestResourceFactory
                 .getFileInputStream(wbName));
 
         dao = injector.getInstance(Dao.class);
+        
+        emf = injector.getInstance(EntityManagerFactory.class);
     }
 
-    @Test
     public void species() throws IOException {
 
         SpeciesUploadParser parser = new SpeciesUploadParser(dao);
@@ -60,7 +63,7 @@ public class UploadTest {
         for (String err : parser.getErrors()) {
             System.out.println(err);
         }
-        
+
         Assert.assertFalse(parser.hasErrors());
 
         List<Species> sis = parser.getEntityList();
@@ -70,7 +73,6 @@ public class UploadTest {
 
     }
 
-    @Test
     public void speciesLocation() {
 
         SpeciesLocationUploadParser parser = new SpeciesLocationUploadParser(
@@ -87,11 +89,10 @@ public class UploadTest {
 
         List<SpeciesLocation> sls = parser.getEntityList();
         for (SpeciesLocation sl : sls) {
-             dao.persist(sl);
+            dao.persist(sl);
         }
     }
 
-    @Test
     public void speciesImpact() throws IOException {
 
         SpeciesImpactUploadParser parser = new SpeciesImpactUploadParser(dao);
@@ -111,7 +112,6 @@ public class UploadTest {
 
     }
 
-    @Test
     public void speciesSummaries() {
         EntityManager em = dao.getEntityManager();
 
@@ -134,7 +134,6 @@ public class UploadTest {
 
     }
 
-    @Test
     public void references() {
 
         EntityManager em = dao.getEntityManager();

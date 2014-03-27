@@ -1,5 +1,7 @@
-package org.issg.ibis;
+package org.issg.ibis.client.deprecated;
 
+import org.issg.ibis.HeaderView;
+import org.issg.ibis.MenuView;
 import org.jrc.persist.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +13,11 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("dashboard")
-public class AppUI extends ScopedUI  {
+public class IbisUI extends ScopedUI  {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -32,14 +35,17 @@ public class AppUI extends ScopedUI  {
     private HeaderView headerView;
 
     private MenuView menuView;
+
+    private IbisMap ibisMap;
 	
 	
 	@Inject
-	public AppUI(Dao dao, GuicedViewProvider viewProvider, HeaderView headerView, MenuView menuView) {
+	public IbisUI(Dao dao, GuicedViewProvider viewProvider, HeaderView headerView, MenuView menuView, IbisMap ibisMap) {
 
 		this.viewProvider = viewProvider;
 		this.headerView = headerView;
 		this.menuView = menuView;
+		this.ibisMap = ibisMap;
 
 	}
 
@@ -56,28 +62,20 @@ public class AppUI extends ScopedUI  {
 		headerView.setHeight("80px");
 		rootLayout.addComponent(headerView);
 		
-		rootLayout.addComponent(content);
-		content.setSizeFull();
-		rootLayout.setExpandRatio(content, 1);
+		HorizontalLayout hl = new HorizontalLayout();
 		
+		rootLayout.addComponent(hl);
+		hl.setSizeFull();
+		rootLayout.setExpandRatio(hl, 1);
+		
+		hl.addComponent(content);
+		hl.addComponent(ibisMap);
+		ibisMap.setSizeFull();
+		content.setSizeFull();
+
 		nav = new Navigator(this, content);
 		nav.addProvider(viewProvider);
-		
-//		nav.addViewChangeListener(new ViewChangeListener() {
-//            
-//            @Override
-//            public boolean beforeViewChange(ViewChangeEvent event) {
-//                
-//                return true;
-//
-//            }
-//            
-//            @Override
-//            public void afterViewChange(ViewChangeEvent event) {
-//                // TODO Auto-generated method stub
-//                
-//            }
-//        });
+
 	}
 	
 

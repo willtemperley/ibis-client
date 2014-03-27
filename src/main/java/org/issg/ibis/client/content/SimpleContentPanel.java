@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
-import org.jrc.ui.SimpleHtmlHeader;
-import org.jrc.ui.SimpleHtmlLabel;
+import org.jrc.ui.HtmlHeader;
+import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;
 
 import com.vaadin.ui.Component;
@@ -24,10 +24,10 @@ public class SimpleContentPanel  {
     protected void addContent(List<? extends Content> ss) {
         for (Content speciesSummary : ss) {
             ContentType ct = speciesSummary.getContentType();
-            SimpleHtmlHeader header = new SimpleHtmlHeader(ct.getName());
+            HtmlHeader header = new HtmlHeader(ct.getName());
             panel.addComponent(header);
     
-            SimpleHtmlLabel content = new SimpleHtmlLabel();
+            HtmlLabel content = new HtmlLabel();
             content.setValue(speciesSummary.getContent());
             panel.addComponent(content);
     

@@ -2,12 +2,11 @@ package org.issg.ibis.editor;
 
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
-import org.jrc.form.component.InlineEditor;
 import org.jrc.persist.Dao;
+import org.vaadin.addons.form.controller.EditorController;
+import org.vaadin.addons.form.view.DefaultEditorView;
 
-import com.vaadin.ui.Component;
-
-public class InlineSpeciesEditor extends InlineEditor<Species>{
+public class InlineSpeciesEditor extends EditorController<Species>{
 
     public InlineSpeciesEditor(Class<Species> clazz, Dao dao) {
         super(clazz, dao);
@@ -26,15 +25,11 @@ public class InlineSpeciesEditor extends InlineEditor<Species>{
         ff.addField(Species_.biomes);
         ff.addField(Species_.references);
         
-        init();
+        addFieldGroup("");
+        
+        init(new DefaultEditorView<Species>());
     }
 
-
-    @Override
-    protected Component initContent() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     
     protected Species commit(Species entity) {

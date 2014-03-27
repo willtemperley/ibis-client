@@ -14,7 +14,7 @@ public abstract class Location_ {
 
     public static volatile SingularAttribute<Location, Long> id;
 
-    public static volatile SingularAttribute<Location, Polygon> geom;
+//    public static volatile SingularAttribute<Location, Polygon> geom;
 
     public static volatile SingularAttribute<Location, String> name;
 

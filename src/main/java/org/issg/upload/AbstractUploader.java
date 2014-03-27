@@ -1,5 +1,7 @@
 package org.issg.upload;
 
+import it.jrc.form.editor.EditorPanelHeading;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,7 +16,6 @@ import javax.persistence.EntityManager;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.jrc.form.editor.EditorPanelHeading;
 import org.jrc.persist.Dao;
 
 import com.google.common.io.Files;

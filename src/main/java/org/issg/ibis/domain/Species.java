@@ -240,6 +240,17 @@ public class Species {
         this.speciesSummaries = speciesSummaries;
     }
 
+    private Set<SpeciesLocation> speciesLocations;
+    
+    @OneToMany(mappedBy = "species")
+    public Set<SpeciesLocation> getSpeciesLocations() {
+		return speciesLocations;
+	}
+
+    public void setSpeciesLocations(Set<SpeciesLocation> speciesLocations) {
+		this.speciesLocations = speciesLocations;
+	}
+
     /*
      * NOTE this only has references from the THREATENED species
      */

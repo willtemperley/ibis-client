@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Type;
 import org.jrc.persist.adminunits.Country;
 
-import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 @Entity
@@ -52,17 +52,18 @@ public class Location {
         this.id = id;
     }
 
-    private Geometry geom;
-
-    @Column
-    @Type(type = "org.hibernate.spatial.GeometryType")
-    public Geometry getGeom() {
-        return geom;
-    }
-
-    public void setGeom(Geometry geom) {
-        this.geom = geom;
-    }
+//    private Geometry geom;
+//
+//    @Column
+//    @Type(type = "org.hibernate.spatial.GeometryType")
+//    public Geometry getGeom() {
+//        return geom;
+//    }
+//
+//    public void setGeom(Geometry geom) {
+//        this.geom = geom;
+//    }
+    
 
     private List<LocationSummary> locationSummaries;
     
@@ -259,6 +260,29 @@ public class Location {
     public void setIucnCat(String iucnCat) {
         this.iucnCat = iucnCat;
     }
+    
+    private Point centroid;
+    
+//    @Transient
+    @Column
+    @Type(type = "org.hibernate.spatial.GeometryType")
+    public Point getCentroid() {
+    	return centroid;
+//    	if (getLongitude() == null || getLatitude() == null) {
+//    		return null;
+//		}
+//    	Double l = getLongitude();
+//        /*
+//         * Super hacky transformation
+//         */
+//        if (l <= 0) {
+//            l += 360;
+//        }
+//    	return geomFact.createPoint(new Coordinate(l, getLatitude()));
+    }
+    public void setCentroid(Point centroid) {
+		this.centroid = centroid;
+	}
     
     @Override
     public int hashCode() {

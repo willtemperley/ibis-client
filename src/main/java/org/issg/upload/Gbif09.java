@@ -1,7 +1,7 @@
 package org.issg.upload;
 
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.ws.BaseJsonClient;
+import org.issg.ibis.webservices.BaseJsonClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

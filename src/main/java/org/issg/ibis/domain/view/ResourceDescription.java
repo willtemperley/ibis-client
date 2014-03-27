@@ -4,24 +4,17 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.ResourceType;
 import org.issg.ibis.domain.Species;
-import org.jrc.persist.adminunits.Country;
 
 @Entity
-@Table(schema = "ibis", name = "resource_description")
+@Table(schema = "ibis", name = "rd")
 public class ResourceDescription {
 
     private String id;
@@ -30,23 +23,11 @@ public class ResourceDescription {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
     
-    
-//    private Set<Location> location;
-//    
-//    @ManyToMany
-//    @JoinTable(name = "ibis.search_entity", joinColumns = @JoinColumn(name = "search_entity_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
-//    public Set<Location> getLocation() {
-//        return location;
-//    }
-//    
-//    public void setLocation(Set<Location> location) {
-//        this.location = location;
-//    }
-
     private String name;
 
     @Column
@@ -64,10 +45,45 @@ public class ResourceDescription {
     public Integer getImpactCount() {
         return impactCount;
     }
+
     public void setImpactCount(Integer impactCount) {
         this.impactCount = impactCount;
     }
+    
+    private String resultType;
+    
+    @Column(name = "result_type")
+    public String getResultType() {
+		return resultType;
+	}
+    
+    public void setResultType(String resultType) {
+		this.resultType = resultType;
+	}
+    
+    private Set<Species> species;
 
+    @ManyToMany
+    @JoinTable(name = "ibis.rds", joinColumns = @JoinColumn(name = "resource_description_id"), inverseJoinColumns = @JoinColumn(name = "species_id"))
+    public Set<Species> getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Set<Species> species) {
+        this.species = species;
+    }
+
+    private Set<Location> locations;
+
+    @ManyToMany
+    @JoinTable(name = "ibis.rdl", joinColumns = @JoinColumn(name = "resource_description_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
+    public Set<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Set<Location> locations) {
+		this.locations = locations;
+	}
 
     @Override
     public int hashCode() {
