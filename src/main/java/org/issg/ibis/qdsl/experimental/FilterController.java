@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.issg.ibis.domain.view.QLocationView;
 import org.jrc.persist.Dao;
 
 import com.mysema.query.SearchResults;
@@ -16,6 +15,7 @@ import com.mysema.query.types.path.StringPath;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 
 /**
  * A K-V store for filter fields.
@@ -32,7 +32,7 @@ public class FilterController<T> {
 	private EntityPathBase<T> base;
 	private Dao dao;
 
-	private Map<StringPath, StringFilterField> fields = new HashMap<StringPath, StringFilterField>();
+	private Map<StringPath, StringFieldInterface> fields = new HashMap<StringPath, StringFieldInterface>();
 	private QdslQueryListener listener;
 
 	public FilterController(EntityPathBase<T> locationview, Dao dao) {
@@ -40,22 +40,38 @@ public class FilterController<T> {
 		this.dao = dao;
 	}
 
-	public Component createFilterField(StringPath stringPath) {
-		StringFilterField stringFilterField = new StringFilterField(stringPath);
+	public StringFieldInterface createFilterField(StringPath stringPath,
+			Boolean dropDown) {
 
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
-		SearchResults<String> results = q.from(base).distinct().listResults(stringPath);
+		StringFieldInterface stringFilterField;
 
-		List<String> items = results.getResults();
+		if (dropDown) {
 
-		for (String item : items) {
-			stringFilterField.addItem(item);
+			StringComboField stringComboField = new StringComboField(stringPath);
+			stringFilterField = stringComboField;
+
+			JPAQuery q = new JPAQuery(dao.getEntityManager());
+			SearchResults<String> results = q.from(base).distinct()
+					.listResults(stringPath);
+
+			List<String> items = results.getResults();
+
+			for (String item : items) {
+				stringComboField.addItem(item);
+			}
+
+		} else {
+
+			StringContainsField scf = new StringContainsField(stringPath);
+			stringFilterField = scf;
+
 		}
 
 		if (fields.containsKey(stringPath)) {
 			throw new RuntimeException(
 					"Shouldn't be two fields with same path.");
 		}
+
 		fields.put(stringPath, stringFilterField);
 
 		stringFilterField.addValueChangeListener(new ValueChangeListener() {
@@ -67,20 +83,30 @@ public class FilterController<T> {
 		});
 		return stringFilterField;
 	}
-	
+
 	public void addValueChangeListener(QdslQueryListener listener) {
 		this.listener = listener;
 	}
 
+	private List<BooleanExpression> x = new ArrayList<BooleanExpression>();
+
 	private void fireValueChanged() {
-		List<BooleanExpression> x = new ArrayList<BooleanExpression>();
-		for (StringFilterField sff : fields.values()) {
+		x.clear();
+		for (StringFieldInterface sff : fields.values()) {
 			BooleanExpression filter = sff.getFilter();
 			if (filter != null) {
 				x.add(filter);
 			}
 		}
 		listener.fireFilterChanged(x);
+	}
+
+	public void clear() {
+		x.clear();
+		for (StringFieldInterface sff : fields.values()) {
+			sff.setValue(null);
+		}
+
 	}
 
 }

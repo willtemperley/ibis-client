@@ -20,7 +20,7 @@ import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.view.QResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.qdsl.QDSLFilterController;
+import org.issg.ibis.z.QDSLFilterController;
 import org.jrc.persist.Dao;
 import org.junit.Before;
 import org.junit.Test;

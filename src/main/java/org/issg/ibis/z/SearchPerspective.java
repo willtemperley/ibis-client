@@ -1,4 +1,4 @@
-package org.issg.ibis.qdsl;
+package org.issg.ibis.z;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.view.QResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription;
 import org.issg.ibis.perspective.shared.LayerViewer;
-import org.issg.ibis.qdsl.SearchFilterPanel.FilterChangedListener;
+import org.issg.ibis.z.SearchFilterPanel.FilterChangedListener;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimplePanel;
 import org.jrc.ui.baseview.TwinPanelView;

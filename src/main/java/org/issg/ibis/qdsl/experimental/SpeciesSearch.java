@@ -1,5 +1,6 @@
 package org.issg.ibis.qdsl.experimental;
 
+import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
@@ -14,10 +15,12 @@ import it.jrc.form.editor.EntityTable;
 
 import com.google.inject.Inject;
 import com.vaadin.data.Property;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.NativeSelect;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class SpeciesSearch extends HorizontalLayout implements View {
@@ -43,8 +46,6 @@ public class SpeciesSearch extends HorizontalLayout implements View {
 		 */
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
-		
-
 		
 		LazyEntityContainer<Species> lec = 
 				new LazyEntityContainer<Species>(QSpecies.species1, Species.class, dao);
@@ -72,8 +73,8 @@ public class SpeciesSearch extends HorizontalLayout implements View {
 			public void valueChange(Property.ValueChangeEvent event) {
 
 				Species s = (Species) event.getProperty().getValue();
-				s = dao.find(Species.class, s.getId());
-				view.setSpecies(s);
+				Navigator nav = UI.getCurrent().getNavigator();
+				nav.navigateTo(ViewModule.SPECIES_PERSPECTIVE + "/" + s.getId());
 
 			}
 		});

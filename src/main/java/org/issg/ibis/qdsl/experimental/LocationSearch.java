@@ -2,8 +2,7 @@ package org.issg.ibis.qdsl.experimental;
 
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
+import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.view.LocationView;
 import org.issg.ibis.domain.view.LocationView_;
@@ -11,20 +10,25 @@ import org.issg.ibis.domain.view.QLocationView;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
 import org.jrc.persist.Dao;
 import org.jrc.server.lec.LazyEntityContainer;
-import org.vaadin.addons.form.field.filter.FilterPanel;
+import org.jrc.ui.HtmlHeader;
+import org.jrc.ui.SimplePanel;
 
 import com.google.inject.Inject;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Component;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
 
-public class LocationSearch extends HorizontalLayout implements View, QdslQueryListener {
+public class LocationSearch extends VerticalLayout implements View, QdslQueryListener {
 
 	private SpeciesSummaryController view;
 	private Dao dao;
@@ -45,25 +49,40 @@ public class LocationSearch extends HorizontalLayout implements View, QdslQueryL
 		/*
 		 * 
 		 */
-		FilterController<LocationView> fc = new FilterController<LocationView>(QLocationView.locationView, dao);
+		final FilterController<LocationView> fc = new FilterController<LocationView>(QLocationView.locationView, dao);
 		fc.addValueChangeListener(this);
 		
+		SearchPanel vl = new SearchPanel();
+		vl.addComponent(new HtmlHeader("Search Locations"));
+		vl.setHeight("200px");
+		Button c = new Button("Clear filters");
+		vl.addComponent(c);
+		c.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				fc.clear();
+			}
+		});
 		
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSizeFull();
 		
-		Component f1 = fc.createFilterField(QLocationView.locationView.country);
-		Component f2 = fc.createFilterField(QLocationView.locationView.name);
+		StringFieldInterface f1 = fc.createFilterField(QLocationView.locationView.country, true);
+		f1.setWidth("300px");
+		f1.setCaption("Country");
+		StringFieldInterface f2 = fc.createFilterField(QLocationView.locationView.name, false);
+		f2.setCaption("Name");
+		f2.setWidth("300px");
 		
         vl.addComponent(f1);
         vl.addComponent(f2);
 		
-
-		SimpleTable<LocationView> table = getLocationViewTable(lec);
-		
-		vl.addComponent(table);
-		vl.setExpandRatio(table, 1);
+        
+        /*
+         * Adding to root 
+         */
 		addComponent(vl);
+		SimpleTable<LocationView> table = getLocationViewTable(lec);
+		addComponent(table);
+		setExpandRatio(table, 1);
 		
 	}
 	
@@ -82,7 +101,11 @@ public class LocationSearch extends HorizontalLayout implements View, QdslQueryL
 				 * The 1:1 view-entity pattern works nicely.
 				 */
 				LocationView s = (LocationView) event.getProperty().getValue();
-				Location loc = dao.find(Location.class, s.getId());
+				if (s == null) {
+					return;
+				}
+				Navigator nav = UI.getCurrent().getNavigator();
+				nav.navigateTo(ViewModule.LOCATION_PERSPECTIVE + "/" + s.getId());
 
 			}
 		});

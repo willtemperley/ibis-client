@@ -1,4 +1,4 @@
-package org.issg.ibis.qdsl;
+package org.issg.ibis.z;
 
 import it.jrc.form.editor.EntityTable;
 
@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.qdsl.SearchSelectEventListener;
+import org.issg.ibis.z.SearchSelectEventListener;
 import org.jrc.persist.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.maddon.ListContainer;

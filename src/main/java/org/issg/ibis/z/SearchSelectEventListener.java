@@ -1,4 +1,4 @@
-package org.issg.ibis.qdsl;
+package org.issg.ibis.z;
 
 import org.issg.ibis.domain.view.ResourceDescription;
 
