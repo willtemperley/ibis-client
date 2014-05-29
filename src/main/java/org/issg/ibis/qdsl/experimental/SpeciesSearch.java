@@ -1,9 +1,13 @@
 package org.issg.ibis.qdsl.experimental;
 
+import java.util.List;
+
 import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
+import org.issg.ibis.domain.view.QSpeciesImpactView;
+import org.issg.ibis.domain.view.SpeciesImpactView;
 import org.issg.ibis.perspective.shared.SpeciesLinkColumn;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
 import org.jrc.persist.Dao;
@@ -14,6 +18,7 @@ import org.vaadin.maddon.ListContainer;
 import it.jrc.form.editor.EntityTable;
 
 import com.google.inject.Inject;
+import com.mysema.query.types.expr.BooleanExpression;
 import com.vaadin.data.Property;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -23,10 +28,11 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class SpeciesSearch extends HorizontalLayout implements View {
+public class SpeciesSearch extends HorizontalLayout implements View, QdslQueryListener {
 
 	private SpeciesSummaryController view;
 	private Dao dao;
+	private LazyEntityContainer<Species> lec;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -47,8 +53,16 @@ public class SpeciesSearch extends HorizontalLayout implements View {
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
 		
-		LazyEntityContainer<Species> lec = 
-				new LazyEntityContainer<Species>(QSpecies.species1, Species.class, dao);
+		lec = new LazyEntityContainer<Species>(QSpecies.species1, Species.class, dao);
+		
+		/*
+		 * 
+		 */
+//		final FilterController<SpeciesImpactView> fc = new FilterController<SpeciesImpactView>(QSpeciesImpactView.speciesImpactView, dao);
+//		fc.addValueChangeListener(this);
+//		
+//		StringFieldInterface f1 = fc.createFilterField(QSpeciesImpactView.speciesImpactView.country, true);
+//		vl.addComponent(f1);
 
 		SimpleTable<Species> table = getSpeciesTable(lec);
 		
@@ -81,6 +95,11 @@ public class SpeciesSearch extends HorizontalLayout implements View {
 
 		table.build();
 		return table;
+	}
+
+	@Override
+	public void fireFilterChanged(List<BooleanExpression> expressions) {
+		lec.setFilters(expressions);
 	}
 	
 

@@ -54,7 +54,7 @@ public class LocationSearch extends VerticalLayout implements View, QdslQueryLis
 		
 		SearchPanel vl = new SearchPanel();
 		vl.addComponent(new HtmlHeader("Search Locations"));
-		vl.setHeight("200px");
+		vl.setHeight("250px");
 		Button c = new Button("Clear filters");
 		vl.addComponent(c);
 		c.addClickListener(new ClickListener() {
@@ -67,13 +67,18 @@ public class LocationSearch extends VerticalLayout implements View, QdslQueryLis
 		
 		StringFieldInterface f1 = fc.createFilterField(QLocationView.locationView.country, true);
 		f1.setWidth("300px");
-		f1.setCaption("Country");
+		f1.setCaption("Filter by Country");
 		StringFieldInterface f2 = fc.createFilterField(QLocationView.locationView.name, false);
-		f2.setCaption("Name");
+		f2.setCaption("Filter by Name");
 		f2.setWidth("300px");
+
+		StringFieldInterface f3 = fc.createFilterField(QLocationView.locationView.region, true);
+		f3.setCaption("Filter by region");
+		f3.setWidth("300px");
 		
         vl.addComponent(f1);
         vl.addComponent(f2);
+        vl.addComponent(f3);
 		
         
         /*
