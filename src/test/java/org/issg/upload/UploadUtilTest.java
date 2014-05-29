@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.issg.ibis.client.deprecated.IbisUI;
+import org.issg.ibis.AppUI;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.jrc.persist.Dao;
 import org.junit.Assert;
@@ -17,7 +17,7 @@ import com.google.inject.Injector;
 
 public class UploadUtilTest {
 
-    private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
+    private Injector injector = TestResourceFactory.getInjector(AppUI.class);
     private Workbook workbookGood;
     private Dao dao;
 

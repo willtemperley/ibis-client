@@ -7,7 +7,7 @@
 }
 
 .v-vaadin-version:after {
-	content: "7.1.10";
+	content: "7.2.0";
 }
 
 .v-generated-body {
@@ -271,6 +271,14 @@
 	width: 100%;
 }
 
+.v-debugwindow-selector > span.value {
+	width: 100%;
+}
+
+.v-debugwindow-selector :hover {
+	background: rgba(255, 32, 32, 0.5);
+}
+
 .v-debugwindow-log {
 	font-family: monospace;
 }
@@ -310,6 +318,23 @@
 
 .v-debugwindow-network .v-debugwindow-row > span {
 	display: inline;
+}
+
+@font-face {
+	font-family: "FontAwesome";
+	src: url(../base/fonts/fontawesome-webfont.eot);
+	src: url(../base/fonts/fontawesome-webfont.eot?#iefix) format("embedded-opentype"), url(../base/fonts/fontawesome-webfont.woff) format("woff"), url(../base/fonts/fontawesome-webfont.ttf) format("truetype"), url(../base/fonts/fontawesome-webfont.svg) format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+.FontAwesome {
+	font-family: "FontAwesome";
+	font-style: normal;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
 }
 
 @import url('http://fonts.googleapis.com/css?family=Lato');
@@ -2122,6 +2147,10 @@ body .dashboard.v-app .v-app-loading {
 	line-height: normal;
 }
 
+.v-ff .dashboard .v-scrollable {
+	font-size: 14px;
+}
+
 .v-ios.v-webkit .dashboard .v-scrollable {
 	-webkit-overflow-scrolling: touch;
 }
@@ -2357,10 +2386,6 @@ body .dashboard.v-app .v-app-loading {
 	padding-right: 12px;
 }
 
-.dashboard .v-customcomponent {
-	overflow: hidden;
-}
-
 .dashboard .v-customlayout {
 	overflow: hidden;
 }
@@ -2432,7 +2457,7 @@ body .dashboard.v-app .v-app-loading {
 	border: 1px solid #ddd;
 }
 
-.dashboard .v-disabled .v-datefield-calendarpanel-day, .dashboard .v-disabled .v-datefield-calendarpanel-day-today {
+.dashboard .v-disabled .v-datefield-calendarpanel-day, .dashboard .v-disabled .v-datefield-calendarpanel-day-today, .dashboard .v-disabled.v-datefield-popupcalendar .v-datefield-button {
 	cursor: default;
 }
 
@@ -2544,7 +2569,7 @@ body .dashboard.v-app .v-app-loading {
 	border: 1px solid #ddd;
 }
 
-.dashboard .v-disabled .v-inline-datefield-calendarpanel-day, .dashboard .v-disabled .v-inline-datefield-calendarpanel-day-today {
+.dashboard .v-disabled .v-inline-datefield-calendarpanel-day, .dashboard .v-disabled .v-inline-datefield-calendarpanel-day-today, .dashboard .v-disabled.v-inline-datefield-popupcalendar .v-inline-datefield-button {
 	cursor: default;
 }
 
@@ -2595,6 +2620,8 @@ body .dashboard.v-app .v-app-loading {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	position: relative;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 
 .dashboard [draggable=true] {
@@ -3456,6 +3483,8 @@ body .dashboard.v-app .v-app-loading {
 	height: 12px;
 	margin-top: -5px;
 	font-size: 0;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 
 .dashboard .v-slider-vertical {
@@ -3511,6 +3540,8 @@ body .dashboard.v-app .v-app-loading {
 	background: #ddd;
 	cursor: e-resize;
 	cursor: col-resize;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 
 .dashboard .v-disabled .v-splitpanel-hsplitter div {
@@ -3526,6 +3557,8 @@ body .dashboard.v-app .v-app-loading {
 	background: #ddd;
 	cursor: s-resize;
 	cursor: row-resize;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 
 .dashboard .v-disabled .v-splitpanel-vsplitter div {
@@ -3936,6 +3969,14 @@ body .dashboard.v-app .v-app-loading {
 	cursor: default;
 }
 
+.dashboard .v-tabsheet-tabitem-focus .v-captiontext {
+	text-decoration: underline;
+}
+
+.dashboard .v-tabsheet-tabitem-selected.v-tabsheet-tabitem-focus .v-captiontext {
+	text-decoration: inherit;
+}
+
 .dashboard .v-tabsheet-content {
 	border: 1px solid #aaa;
 	border-top: none;
@@ -4223,7 +4264,6 @@ body .dashboard.v-app .v-app-loading {
 }
 
 .dashboard .v-treetable .v-table-row .v-table-cell-content, .dashboard .v-treetable .v-table-row-odd .v-table-cell-content {
-	position: relative;
 	z-index: 10;
 }
 
@@ -5580,7 +5620,7 @@ body .dashboard.v-app .v-app-loading {
 
 .dashboard .menu .v-nativebutton.selected {
 	background: -moz-linear-gradient(top, #2d2f30 0%, #333537 10%, #333537 90%, #2d2f30 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $bg-selected2), color-stop(10%, $bg-selected), color-stop(90%, $bg-selected), color-stop(100%, $bg-selected2));
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2d2f30), color-stop(10%, #333537), color-stop(90%, #333537), color-stop(100%, #2d2f30));
 	background: -webkit-linear-gradient(top, #2d2f30 0%, #333537 10%, #333537 90%, #2d2f30 100%);
 	background: -o-linear-gradient(top, #2d2f30 0%, #333537 10%, #333537 90%, #2d2f30 100%);
 	background: -ms-linear-gradient(top, #2d2f30 0%, #333537 10%, #333537 90%, #2d2f30 100%);
@@ -5599,7 +5639,7 @@ body .dashboard.v-app .v-app-loading {
 	border-bottom: 1px solid #353637;
 	border-bottom-color: rgba(0, 0, 0, 0.18);
 	background: transparent;
-	color: rgb(46, 112, 215);
+	color: #2e70d7;
 	font-weight: normal;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 	text-align: center;
@@ -5672,7 +5712,7 @@ body .dashboard.v-app .v-app-loading {
 }
 
 .dashboard .progress-indicator .v-nativebutton {
-	color: rgb(46, 112, 215);
+	color: #2e70d7;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -5681,7 +5721,7 @@ body .dashboard.v-app .v-app-loading {
 }
 
 .dashboard .display-panel .display-panel-header {
-	color: rgb(46, 112, 215);
+	color: #2e70d7;
 	border-bottom: 1px solid #eee;
 	margin-bottom: 10px;
 }
@@ -5722,15 +5762,15 @@ body .dashboard.v-app .v-app-loading {
 }
 
 .dashboard .rt-D {
-	background-color: rgb(46, 112, 215);
+	background-color: #2e70d7;
 }
 
 .dashboard .rt-I {
-	background-color: rgb(255, 85, 0);
+	background-color: #ff5500;
 }
 
 .dashboard .rt-L {
-	background-color: rgb(255, 85, 0);
+	background-color: #ff5500;
 }
 
 .dashboard .header {
@@ -5796,8 +5836,31 @@ body .dashboard.v-app .v-app-loading {
 	background-repeat: no-repeat;
 }
 
-.dashboard .simple-html-label {
-	margin-bottom: 20px;
+.dashboard .field-menu.v-menubar {
+	height: 28px;
+	padding-left: 5px;
+}
+
+.dashboard .nav-menu {
+	margin-left: 20px;
+	margin-top: 35px;
+}
+
+.dashboard .nav-menu .v-menubar-menuitem {
+	margin-left: 10px;
+	font-size: 20px;
+	font-weight: 200;
+	border-bottom: 2px solid transparent;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard .nav-menu .v-menubar-menuitem:hover {
+	color: #fff;
+	cursor: pointer;
+}
+
+.dashboard .nav-menu .v-menubar-menuitem-checked {
+	border-bottom: 2px solid #2e70d7;
 }
 
 .dashboard .v-errorindicator {
@@ -5841,7 +5904,7 @@ body .dashboard.v-app .v-app-loading {
 	float: left;
 	font-weight: 600;
 	font-size: 13px;
-	color: rgb(46, 112, 215);
+	color: #2e70d7;
 	text-transform: uppercase;
 	padding: 0 20px;
 	line-height: 38px;

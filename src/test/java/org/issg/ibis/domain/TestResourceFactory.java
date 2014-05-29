@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.issg.ibis.ViewModule;
-import org.issg.ibis.client.deprecated.IbisUI;
 import org.jrc.server.IBISGuiceServletModule;
 import org.vaadin.addons.guice.ui.ScopedUI;
 import org.vaadin.addons.guice.uiscope.UIScopeModule;

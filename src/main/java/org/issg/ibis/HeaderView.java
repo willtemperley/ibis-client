@@ -14,6 +14,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
@@ -22,19 +23,20 @@ public class HeaderView extends HorizontalLayout implements View {
 
     private AccountDetails accountDetails;
     private String contextPath;
+	private NavMenu navMenu;
 
     @Inject
-    public HeaderView(AccountOptionView menuView,
-            @Named("context_path") String contextPath, RoleManager roleManager) {
-
+    public HeaderView(NavMenu navMenu, @Named("context_path") String contextPath, RoleManager roleManager) {
+    	
         this.setStyleName("header");
         this.setSizeFull();
 
         this.contextPath = contextPath;
 
         addLogo();
-        addHomeLink();
 
+        this.navMenu = navMenu;
+        addComponent(navMenu);
         accountDetails = new AccountDetails(roleManager);
         addComponent(accountDetails);
 
@@ -124,59 +126,6 @@ public class HeaderView extends HorizontalLayout implements View {
         addComponent(label);
     }
 
-    private void addHomeLink() {
-        ExternalResource r = new ExternalResource("");
-        addComponent(new Link("Home", r));
-    }
-
-    // private void addSearchBox() {
-    //
-    // HorizontalLayout hl = new HorizontalLayout();
-    //
-    // final TextField t = new TextField();
-    //
-    // final Button b = FontelloButtonMaker
-    // .getButton(FontelloButtonMaker.ButtonIcon.icon_search);
-    //
-    // hl.addComponent(t);
-    // hl.addComponent(b);
-    // hl.addStyleName("search-box");
-    //
-    // // silly wrapper to make full size then centre the hl
-    // HorizontalLayout wrapper = new HorizontalLayout();
-    // wrapper.setSizeFull();
-    // wrapper.addComponent(hl);
-    // wrapper.setComponentAlignment(hl, Alignment.MIDDLE_CENTER);
-    //
-    // addComponent(wrapper);
-    //
-    // b.addClickListener(new Button.ClickListener() {
-    //
-    // @Override
-    // public void buttonClick(ClickEvent event) {
-    // getUI().getNavigator().navigateTo("Search/" + t.getValue());
-    // }
-    //
-    // });
-    //
-    // /*
-    // * Add and remove click shortcuts
-    // */
-    // t.addFocusListener(new FieldEvents.FocusListener() {
-    // @Override
-    // public void focus(FocusEvent event) {
-    // b.setClickShortcut(KeyCode.ENTER);
-    // }
-    // });
-    //
-    // t.addBlurListener(new FieldEvents.BlurListener() {
-    // @Override
-    // public void blur(BlurEvent event) {
-    // b.removeClickShortcut();
-    // }
-    // });
-    //
-    // }
 
     private void addPartnerLogos() {
         Label logoLabel = new Label();
@@ -191,5 +140,9 @@ public class HeaderView extends HorizontalLayout implements View {
     public void enter(ViewChangeEvent event) {
 
     }
+    
+    public NavMenu getNavMenu() {
+		return navMenu;
+	}
 
 }

@@ -6,9 +6,10 @@ import static org.mockito.Mockito.*;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import org.issg.ibis.client.deprecated.IbisUI;
+import org.issg.ibis.AppUI;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.QLocation;
@@ -33,7 +34,7 @@ import com.vaadin.ui.Field;
 
 public class QueryDSLTest {
 
-    private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
+    private Injector injector = TestResourceFactory.getInjector(AppUI.class);
     private Dao dao;
 
     @Before
@@ -82,6 +83,19 @@ public class QueryDSLTest {
             System.out.println(t);
         }
 
+    }
+    
+    
+    @Test
+    public void testLocation() {
+    	
+        EntityManager em = getEntityManager();
+        TypedQuery<String> q = em.createQuery("select distinct name from LocationView", String.class);
+        List<String> l = q.getResultList();
+        for (String string : l) {
+        	System.out.println(string);
+		}
+    	
     }
 
     @Test

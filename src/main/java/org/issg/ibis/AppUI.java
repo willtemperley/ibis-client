@@ -31,15 +31,13 @@ public class AppUI extends ScopedUI  {
 
     private HeaderView headerView;
 
-    private MenuView menuView;
 	
 	
 	@Inject
-	public AppUI(Dao dao, GuicedViewProvider viewProvider, HeaderView headerView, MenuView menuView) {
+	public AppUI(Dao dao, GuicedViewProvider viewProvider, HeaderView headerView) {
 
 		this.viewProvider = viewProvider;
 		this.headerView = headerView;
-		this.menuView = menuView;
 
 	}
 
@@ -63,21 +61,8 @@ public class AppUI extends ScopedUI  {
 		nav = new Navigator(this, content);
 		nav.addProvider(viewProvider);
 		
-//		nav.addViewChangeListener(new ViewChangeListener() {
-//            
-//            @Override
-//            public boolean beforeViewChange(ViewChangeEvent event) {
-//                
-//                return true;
-//
-//            }
-//            
-//            @Override
-//            public void afterViewChange(ViewChangeEvent event) {
-//                // TODO Auto-generated method stub
-//                
-//            }
-//        });
+		nav.addViewChangeListener(headerView.getNavMenu());
+
 	}
 	
 

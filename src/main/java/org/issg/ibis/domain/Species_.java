@@ -28,6 +28,8 @@ public abstract class Species_ {
 
     public static volatile SingularAttribute<Species, String> authority;
 
+    public static volatile SingularAttribute<Species, String> link;
+
     public static volatile SingularAttribute<Species, Long> id;
 
     public static volatile SingularAttribute<Species, RedlistCategory> redlistCategory;

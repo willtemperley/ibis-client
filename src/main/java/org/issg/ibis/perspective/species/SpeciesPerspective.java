@@ -45,12 +45,15 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 	private Logger logger = LoggerFactory.getLogger(SpeciesPerspective.class);
 	private Dao dao;
 	private Species species;
-	private ListContainer<SpeciesImpact> speciesImpactContainer = new ListContainer<SpeciesImpact>(
-			SpeciesImpact.class);
-	private ListContainer<SpeciesLocation> speciesLocationContainer = new ListContainer<SpeciesLocation>(
-			SpeciesLocation.class);
-	private SpeciesSummaryView speciesSummary;
+
+	private ListContainer<SpeciesImpact> speciesImpactContainer = new ListContainer<SpeciesImpact>(SpeciesImpact.class);
+
+	private ListContainer<SpeciesLocation> speciesLocationContainer = new ListContainer<SpeciesLocation>(SpeciesLocation.class);
+
+	private SpeciesSummaryController speciesSummary;
+
 	private InlineSpeciesEditor speciesEditor;
+
 	private LayerViewer map;
 
 	private FeatureMapLayer fml = new FeatureMapLayer();
@@ -80,7 +83,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			 */
 			SimplePanel leftPanel = getLeftPanel();
 			leftPanel.setWidth("600px");
-			this.speciesSummary = new SpeciesSummaryView(leftPanel);
+			this.speciesSummary = new SpeciesSummaryController(leftPanel);
 
 			if (roleManager.getRole().getIsSuperUser()) {
 				addEditButton(leftPanel);
@@ -160,6 +163,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		// speciesEditor.edit(dao.find(Species.class, species.getId()));
 	}
 
+	@SuppressWarnings("unchecked")
 	private EntityTable<SpeciesLocation> getSpeciesLocationTable() {
 
 		EntityTable<SpeciesLocation> table = new EntityTable<SpeciesLocation>(
@@ -179,6 +183,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		return table;
 	}
 
+	@SuppressWarnings("unchecked")
 	private EntityTable<SpeciesImpact> getSpeciesImpactTable() {
 
 		EntityTable<SpeciesImpact> table = new EntityTable<SpeciesImpact>(
@@ -265,10 +270,10 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		}
 		int lCount = 0;
 		for (Location location : locationSet) {
-			Point c = location.getCentroid();
-			if (c != null) {
+			Point point = location.getCentroid();
+			if (point != null) {
 				lCount++;
-				LMarker lMarker = new LMarker(c);
+				LMarker lMarker = new LMarker(point);
 				lMarker.setPopup(location.getName());
 				mapClusterGroup.addComponent(lMarker);
 			}
@@ -276,24 +281,9 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 
 		legend.descr.setValue(lCount + " georeferenced locations shown.");
 
-		map.getMap().zoomToContent(mapClusterGroup);
-
-		// EntityManager em = dao.getEntityManager();
-		// TypedQuery<SpeciesLocation> q = em.createQuery(
-		// "from SpeciesLocation where species.id = :sid",
-		// SpeciesLocation.class);
-		// q.setParameter("sid", species.getId());
-		// List<SpeciesLocation> results = q.getResultList();
-		//
-		// for (SpeciesLocation speciesLocation : results) {
-		// Location location = speciesLocation.getLocation();
-		// if (locIds.contains(location.getId())) {
-		// continue;
-		// }
-		// // Geometry geom = location.getGeom();
-		// // fml.addGeometry(geom, "#00ff00");
-		//
-		// }
+		if (lCount > 0) {
+			map.getMap().zoomToContent(mapClusterGroup);
+		}
 
 	}
 

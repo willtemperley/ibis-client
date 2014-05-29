@@ -2,7 +2,6 @@ package org.jrc.server;
 
 import org.issg.ibis.AppUI;
 import org.issg.ibis.ViewModule;
-import org.issg.ibis.client.deprecated.IbisUI;
 import org.vaadin.addons.guice.uiscope.UIScopeModule;
 
 import com.google.inject.Guice;

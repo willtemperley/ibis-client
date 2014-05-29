@@ -265,6 +265,17 @@ public class Species {
         this.speciesImpacts = speciesImpacts;
     }
 
+    private String link;
+    
+    @Column
+    public String getLink() {
+		return link;
+	}
+    
+    public void setLink(String link) {
+		this.link = link;
+	}
+
     @Override
     public String toString() {
         return name;
@@ -274,6 +285,7 @@ public class Species {
     public String getScientificName() {
         return "<i>" + name + "</i> " + getAuthority();
     }
+
 
     @Override
     public int hashCode() {

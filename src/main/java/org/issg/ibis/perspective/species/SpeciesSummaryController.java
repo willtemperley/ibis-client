@@ -13,25 +13,24 @@ import org.jrc.ui.SimplePanel;
 
 import com.vaadin.ui.Component;
 
-public class SpeciesSummaryView extends SimpleContentPanel {
+public class SpeciesSummaryController extends SimpleContentPanel {
 
     private HtmlHeader speciesName = new HtmlHeader();
+    private HtmlHeader speciesSecondaryName = new HtmlHeader();
     private HtmlLabel speciesImage = new HtmlLabel();
     private HtmlLabel redlistStatus = new HtmlLabel();
-    private HtmlLabel commonName = new HtmlLabel();
 
     
-    public SpeciesSummaryView(SimplePanel panel) {
+    public SpeciesSummaryController(SimplePanel panel) {
 
         super(panel);
 
         panel.addComponent(speciesName);
+        panel.addComponent(speciesSecondaryName);
         speciesName.addStyleName("header-large");
 
-        panel.addComponent(commonName);
         panel.addComponent(speciesImage);
 
-        panel.addComponent(new HtmlHeader("Conservation status"));
         panel.addComponent(redlistStatus);
     }
 
@@ -39,8 +38,16 @@ public class SpeciesSummaryView extends SimpleContentPanel {
     	
         String img = ArkiveV1Search.getSpeciesImage(sp.getName());
 
-        speciesName.setValue(sp.getScientificName());
-        commonName.setValue(sp.getCommonName());
+        String commonName = sp.getCommonName();
+        
+        if (commonName == null || commonName.isEmpty()) {
+        	speciesName.setValue(sp.getScientificName());
+        	speciesSecondaryName.setVisible(false);
+        } else {
+        	speciesName.setValue(commonName);
+        	speciesSecondaryName.setVisible(true);
+        	speciesSecondaryName.setValue(sp.getScientificName());
+        }
 
         speciesImage.setValue(img);
         
@@ -59,11 +66,15 @@ public class SpeciesSummaryView extends SimpleContentPanel {
 //        commonName.setValue(sp.getCommonName());
 
         if (sp.getRedlistCategory() != null) {
-            String redlistImgUrl = String
-                    .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
-                            sp.getRedlistCategory().getRedlistCode());
-            redlistStatus.setValue(redlistImgUrl);
+            String code = sp.getRedlistCategory().getRedlistCode();
+            redlistStatus.setValue(code);
+
         }
+//            String redlistImgUrl = String
+//                    .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
+//                            sp.getRedlistCategory().getRedlistCode());
+//            redlistStatus.setValue(redlistImgUrl);
+//        }
 
     }
 

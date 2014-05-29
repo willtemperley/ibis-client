@@ -12,8 +12,9 @@ import org.issg.ibis.editor.SpeciesImpactEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.shared.CountryPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
-import org.issg.ibis.perspective.species.SpeciesSearch;
 import org.issg.ibis.qdsl.SearchPerspective;
+import org.issg.ibis.qdsl.experimental.LocationSearch;
+import org.issg.ibis.qdsl.experimental.SpeciesSearch;
 import org.jrc.persist.adminunits.Country;
 import org.vaadin.addons.form.inject.AbstractViewModule;
 import org.vaadin.addons.form.inject.GuicedViewProvider;
@@ -36,12 +37,14 @@ public class ViewModule extends AbstractViewModule {
 
 
     private static final String MAP = "Map";
-    private static final String SPECIES_PERSPECTIVE = "Species";
-    private static final String COUNTRY_PERSPECTIVE = "Country";
-    private static final String LOCATION_PERSPECTIVE = "Location";
+    public static final String SPECIES_PERSPECTIVE = "Species";
+    public static final String COUNTRY_PERSPECTIVE = "Country";
+    public static final String LOCATION_PERSPECTIVE = "Location";
 
-    private static final String SPECIES_EDITOR = "EditSpecies";
+    public static final String SPECIES_EDITOR = "EditSpecies";
     public static final String ISSUE_EDITOR = "Issues";
+	public static final String SPECIES_SEARCH = "SearchBySpecies";
+	public static final String LOCATION_SEARCH = "SearchByLocation";
 
     @Override
     protected void configure() {
@@ -53,10 +56,9 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(COUNTRY_PERSPECTIVE).to(CountryPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
+        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class);
+        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class);
 
-        mapbinder.addBinding("SearchBySpecies").to(SpeciesSearch.class);
-//        mapbinder.addBinding("Search").to(SearchPerspective.class);
-        
         
         addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 
