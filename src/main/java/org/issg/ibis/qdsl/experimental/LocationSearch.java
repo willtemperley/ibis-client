@@ -79,7 +79,6 @@ public class LocationSearch extends VerticalLayout implements View, QdslQueryLis
         vl.addComponent(f1);
         vl.addComponent(f2);
         vl.addComponent(f3);
-		
         
         /*
          * Adding to root 

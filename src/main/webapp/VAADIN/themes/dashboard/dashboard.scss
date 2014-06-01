@@ -61,6 +61,17 @@ $rl-darkred: #D81E05;
 	/*** Custom ******************/
 	@include display-panel;
 	
+	.search-panel {
+		background-color: #ffffff;
+
+		.display-panel-header {
+			color: $esp-blue;
+			border-bottom: 1px solid #eee;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	}
+	
 	.v-tabsheet-content {
 		background-color: #fcfcfc;
 	}

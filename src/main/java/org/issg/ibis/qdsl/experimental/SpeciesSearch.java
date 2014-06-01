@@ -5,13 +5,16 @@ import java.util.List;
 import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.Species_;
 import org.issg.ibis.domain.view.QSpeciesImpactView;
 import org.issg.ibis.domain.view.SpeciesImpactView;
+import org.issg.ibis.domain.view.SpeciesImpactView_;
 import org.issg.ibis.perspective.shared.SpeciesLinkColumn;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
 import org.jrc.persist.Dao;
 import org.jrc.server.lec.LazyEntityContainer;
+import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.SimplePanel;
 import org.vaadin.maddon.ListContainer;
 
@@ -19,6 +22,7 @@ import it.jrc.form.editor.EntityTable;
 
 import com.google.inject.Inject;
 import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.path.StringPath;
 import com.vaadin.data.Property;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -28,16 +32,21 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class SpeciesSearch extends HorizontalLayout implements View, QdslQueryListener {
+public class SpeciesSearch extends VerticalLayout implements View, QdslQueryListener {
 
 	private SpeciesSummaryController view;
+
 	private Dao dao;
-	private LazyEntityContainer<Species> lec;
+
+	private LazyEntityContainer<SpeciesImpactView> lec;
+
+	private VerticalLayout vl = new VerticalLayout();
+
+	private FilterController<SpeciesImpactView> fc;
+
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Inject
@@ -48,47 +57,64 @@ public class SpeciesSearch extends HorizontalLayout implements View, QdslQueryLi
 		setSpacing(true);
 		
 		/*
-		 * 
+		 * Do we use a view class for filters?
 		 */
-		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
+		vl.addStyleName("search-panel");
+		vl.addComponent(new HtmlHeader("Search Species and Impacts"));
+		lec = new LazyEntityContainer<SpeciesImpactView>(QSpeciesImpactView.speciesImpactView, SpeciesImpactView.class, dao);
+		fc = new FilterController<SpeciesImpactView>(QSpeciesImpactView.speciesImpactView, dao);
+		fc.addValueChangeListener(this);
 		
-		lec = new LazyEntityContainer<Species>(QSpecies.species1, Species.class, dao);
-		
-		/*
-		 * 
-		 */
-//		final FilterController<SpeciesImpactView> fc = new FilterController<SpeciesImpactView>(QSpeciesImpactView.speciesImpactView, dao);
-//		fc.addValueChangeListener(this);
-//		
-//		StringFieldInterface f1 = fc.createFilterField(QSpeciesImpactView.speciesImpactView.country, true);
-//		vl.addComponent(f1);
+		addSearchField(QSpeciesImpactView.speciesImpactView.country, "Filter by Country");
+		addSearchField(QSpeciesImpactView.speciesImpactView.biologicalStatus, "Filter by Biological Status");
+		addSearchField(QSpeciesImpactView.speciesImpactView.impactMechanism, "Filter by Impact Mechanism");
+		addSearchField(QSpeciesImpactView.speciesImpactView.location, "Filter by Location");
+		addSearchField(QSpeciesImpactView.speciesImpactView.invasiveSpecies, "Filter by Invasive Species");
+		addSearchField(QSpeciesImpactView.speciesImpactView.nativeSpecies, "Filter by Native Species");
 
-		SimpleTable<Species> table = getSpeciesTable(lec);
+		SimpleTable<SpeciesImpactView> table = getSpeciesTable(lec);
 		
-		vl.addComponent(table);
-		vl.setExpandRatio(table, 1);
 		addComponent(vl);
+		vl.setHeight("320px");
+		addComponent(table);
+		setExpandRatio(table, 1);
 		
 	}
+
+	private void addSearchField(StringPath stringPath, String caption) {
+		StringFieldInterface f = fc.createFilterField(stringPath, true);
+		vl.addComponent(f);
+		f.setWidth("300px");
+		f.setCaption(caption);
+	}
 	
-	private SimpleTable<Species> getSpeciesTable(LazyEntityContainer<Species> lec) {
+	private SimpleTable<SpeciesImpactView> getSpeciesTable(LazyEntityContainer<SpeciesImpactView> lec2) {
 
-		SimpleTable<Species> table = new SimpleTable<Species>();
-		table.setContainerDataSource(lec);
+		SimpleTable<SpeciesImpactView> table = new SimpleTable<SpeciesImpactView>();
+		table.setContainerDataSource(lec2);
 
-		table.addGeneratedColumn(Species_.link, new SpeciesLinkColumn());
-		table.addColumn(Species_.redlistCategory);
+		table.addColumn(SpeciesImpactView_.nativeSpecies);
+		table.addColumn(SpeciesImpactView_.invasiveSpecies);
+		table.addColumn(SpeciesImpactView_.impactMechanism);
+		table.addColumn(SpeciesImpactView_.biologicalStatus);
+		table.addColumn(SpeciesImpactView_.location);
+		table.addColumn(SpeciesImpactView_.country);
 
 		table.setHeight("100%");
 		table.setWidth("100%");
 
 		table.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(Property.ValueChangeEvent event) {
+				
+				//MADDON!! TYPESAFE TABLES
 
-				Species s = (Species) event.getProperty().getValue();
+				SpeciesImpactView s = (SpeciesImpactView) event.getProperty().getValue();
+				SpeciesImpact si = dao.find(SpeciesImpact.class, s.getId());
+				
+				//MADDON!! Navigate to.  In View??
 				Navigator nav = UI.getCurrent().getNavigator();
-				nav.navigateTo(ViewModule.SPECIES_PERSPECTIVE + "/" + s.getId());
+				nav.navigateTo(ViewModule.SPECIES_PERSPECTIVE + "/" + si.getThreatenedSpecies().getId());
 
 			}
 		});
