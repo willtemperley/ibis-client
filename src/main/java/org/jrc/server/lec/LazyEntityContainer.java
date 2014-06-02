@@ -31,7 +31,6 @@ public class LazyEntityContainer<T> extends ListContainer<T>{
 		super(clazz);
 		this.clazz = clazz;
 		this.dao = emp;
-		
 
         this.entityPath = entityPath;
         this.query = new JPAQuery(emp.getEntityManager()).from(entityPath);

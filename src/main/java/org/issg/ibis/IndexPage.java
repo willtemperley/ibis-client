@@ -4,6 +4,7 @@ import it.jrc.form.editor.EditorPanelHeading;
 
 import org.issg.excel.download.Exporter;
 import org.jrc.persist.Dao;
+import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;
 
 import com.google.inject.Inject;
@@ -35,7 +36,11 @@ public class IndexPage extends HorizontalLayout implements View {
 //	        sp.setSizeFull();
 	        
 	        sp.addComponent(new EditorPanelHeading("About us"));
+	        sp.addComponent(new HtmlLabel("IBIS is focused on the threat of invasive alien species on native species and ecosystems on islands."));
+	        
+	        
 	        addComponent(sp);
+
 	        setComponentAlignment(sp, Alignment.MIDDLE_CENTER);
 	        
 

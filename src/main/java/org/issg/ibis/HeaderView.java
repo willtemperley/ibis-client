@@ -40,7 +40,7 @@ public class HeaderView extends HorizontalLayout implements View {
         accountDetails = new AccountDetails(roleManager);
         addComponent(accountDetails);
 
-        addPartnerLogos();
+//        addPartnerLogos();
 
         accountDetails.setRole(roleManager.getRole());
     }

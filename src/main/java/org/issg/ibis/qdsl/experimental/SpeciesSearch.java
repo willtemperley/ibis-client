@@ -40,7 +40,7 @@ public class SpeciesSearch extends VerticalLayout implements View, QdslQueryList
 
 	private LazyEntityContainer<SpeciesImpactView> lec;
 
-	private VerticalLayout vl = new VerticalLayout();
+	private SearchPanel vl = new SearchPanel();
 
 	private FilterController<SpeciesImpactView> fc;
 
@@ -54,7 +54,7 @@ public class SpeciesSearch extends VerticalLayout implements View, QdslQueryList
 		
 		this.dao = dao;
 		setSizeFull();
-		setSpacing(true);
+//		setSpacing(true);
 		
 		/*
 		 * Do we use a view class for filters?

@@ -7,6 +7,7 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.jrc.persist.Dao;
 import org.jrc.server.lec.LazyEntityContainer;
+import org.vaadin.addons.form.util.AdminStringUtil;
 
 import com.vaadin.data.Container.ItemSetChangeEvent;
 import com.vaadin.ui.Table;
@@ -50,7 +51,8 @@ public class SimpleTable<T> extends Table {
 		Object[] x = visibleColumns.toArray();
 		this.setVisibleColumns(x);
 		for (String string : visibleColumns) {
-		    this.setColumnHeader(string, string);
+			String header = AdminStringUtil.splitCamelCase(string);
+		    this.setColumnHeader(string, header);
         }
 
 	}

@@ -6,6 +6,7 @@ import it.jrc.form.editor.EntityTable;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.issg.excel.download.ExportBar;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
@@ -61,6 +62,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 	private MapLegend legend;
 	private LMarkerClusterGroup mapClusterGroup = new LMarkerClusterGroup();
 	private Window w;
+	private ExportBar exporter;
 
 	/**
 	 * Displays a threatened species and its locations.
@@ -85,6 +87,8 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			leftPanel.setWidth("600px");
 			this.speciesSummary = new SpeciesSummaryController(leftPanel);
 
+			exporter = new ExportBar();
+			leftPanel.addComponent(exporter);
 			if (roleManager.getRole().getIsSuperUser()) {
 				addEditButton(leftPanel);
 			}
@@ -230,6 +234,8 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			Notification.show("Could not find species: " + id);
 			return;
 		}
+		
+		exporter.setEntity(sp);
 
 		/*
 		 * Species display
@@ -244,17 +250,6 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		 */
 		Set<SpeciesImpact> speciesImpacts = species.getSpeciesImpacts();
 		speciesImpactContainer.addAll(speciesImpacts);
-
-		// map.getMap().addLayer(lmg);
-		// LMarkerClusterGroup lmg = new LMarkerClusterGroup();
-		// for (SpeciesImpact speciesImpact : speciesImpacts) {
-		// Location l = speciesImpact.getLocation();
-		// Point centroid = l.getCentroid();
-		// if (centroid != null) {
-		// lmg.addComponent(new LMarker(centroid));
-		// }
-		// }
-		// map.getMap().addComponent(lmg);
 
 		Set<SpeciesLocation> speciesLocations = species.getSpeciesLocations();
 		speciesLocationContainer.addAll(speciesLocations);

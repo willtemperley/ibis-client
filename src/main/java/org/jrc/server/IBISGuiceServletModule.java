@@ -6,6 +6,7 @@ import it.jrc.auth.JpaRealm;
 import it.jrc.auth.SecurityFilter;
 
 import org.apache.shiro.realm.Realm;
+import org.jrc.server.webservices.DataServlet;
 import org.vaadin.addons.form.inject.AbstractGuiceServletModule;
 import org.vaadin.addons.guice.servlet.VGuiceApplicationServlet;
 
@@ -46,6 +47,9 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
         
         
         serve("/login").with(AnonymousAuthServlet.class);
+
+
+        serve("/download").with(DataServlet.class);
 //        serve("/login").with(AuthServlet.class);
 //        serve("/login").with(FakeAuthServlet.class);
 //        serve("/login").with(OAuthServlet.class);
