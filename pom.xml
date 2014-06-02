@@ -86,13 +86,7 @@
 
 				</configuration>
 				<executions>
-					<execution>
-						<id>vaadin-compile-on-mvn-install</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<phase>compile</phase>
-					</execution>
+					<!--
 					<execution>
 						<id>vaadin-clean-on-mvn-install</id>
 						<goals>
@@ -100,6 +94,7 @@
 						</goals>
 						<phase>clean</phase>
 					</execution>
+					-->
 					<execution>
 						<id>vaadin-compile-theme</id>
 						<goals>
