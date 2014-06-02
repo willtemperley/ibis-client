@@ -69,6 +69,7 @@
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.plugin.version}</version>
 				<configuration>
+					<skip>${env.skipGwtCompile}</skip>
 					<!-- 
 					<extraJvmArgs>-Xmx4096M -Xss1024k</extraJvmArgs>
 					 -->
