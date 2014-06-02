@@ -20,7 +20,6 @@ import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.view.QResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.z.QDSLFilterController;
 import org.jrc.persist.Dao;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,112 +100,115 @@ public class QueryDSLTest {
     @Test
     public void testFilter() {
 
-        EntityManager em = getEntityManager();
-
-        QDSLFilterController<ResourceDescription> fp = new QDSLFilterController<ResourceDescription>(
-                QResourceDescription.resourceDescription);
-
-        //Invasive
-        ComboBox cb = new ComboBox();
-        {
-            for (Species sp : getInvasiveSpp()) {
-                cb.addItem(sp);
-            }
-
-            fp.addContainsField(cb,
-                    QResourceDescription.resourceDescription.species);
-            cb.setValue(getASingleInvasiveSp());
-        }
-
-        //Threatened
-        {
-            ComboBox cb2 = new ComboBox();
-            for (Species sp : getThreatenedSpp()) {
-                cb2.addItem(sp);
-            }
-
-            fp.addContainsField(cb2,
-                    QResourceDescription.resourceDescription.species);
-            cb2.setValue(getASingleThreatenedSp());
-        }
-
-        List<ResourceDescription> x = fp.getResults(em);
-
-        for (ResourceDescription resourceDescription : x) {
-            System.out.println(resourceDescription);
-        }
-
-        // The number of locations with that invasive
-        assertEquals(12, x.size());
-
-        
-        
-        cb.setValue(null);
-        
-        x = fp.getResults(em);
-
-        // Un-set the value in a combo
-        
+    	//Could be some useful code commented out below
     }
 
-    private void beginTest() {
-        long startTime = System.nanoTime();
+//        EntityManager em = getEntityManager();
 
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+//        QDSLFilterController<ResourceDescription> fp = new QDSLFilterController<ResourceDescription>(
+//                QResourceDescription.resourceDescription);
 
-        System.out.println("Duration: " + duration);
-    }
-
-    @Test
-    public void qdslBasic() {
-
-
-    }
-    
-    public Location getSuwarrow(String locName) {
-
-        EntityManager em = getEntityManager();
-        QLocation location = QLocation.location;
-        JPAQuery query = new JPAQuery();
-
-        JPAQuery q1 = query.clone(em);
-        Location suwarrow = q1.from(location).where(location.name.eq(locName))
-                .uniqueResult(location);
-    	
-        return suwarrow;
-    }
-
-    @Test
-    public void impacts() {
-    
-    	Location loc = getSuwarrow("Viti Levu");
-
-        QSpeciesImpact spImpact = QSpeciesImpact.speciesImpact;
-        JPAQuery query = new JPAQuery(dao.getEntityManager());
-        SearchResults<SpeciesImpact> impacts = query.from(spImpact).where(spImpact.location.eq(loc)).listResults(spImpact.speciesImpact);
-        List<SpeciesImpact> resImpacts = impacts.getResults();
-        System.out.println("Size: " + resImpacts.size());
-    }
-    
-    
-    @Test
-    public void resultBySppType() {
-    	
-    	OrganismType ot = dao.find(OrganismType.class, 8l);
-//    	System.out.println(ot);
-
-
-        QSpecies sp = QSpecies.species1;
-        JPAQuery query = new JPAQuery(dao.getEntityManager());
-        SearchResults<Species> species = query.from(sp).where(sp.organismType.eq(ot)).listResults(sp.species1);
-
-        List<Species> results = species.getResults();
-        for (Species s : results) {
-        	System.out.println(s);
-		}
+//        //Invasive
+//        ComboBox cb = new ComboBox();
+//        {
+//            for (Species sp : getInvasiveSpp()) {
+//                cb.addItem(sp);
+//            }
+//
+//            fp.addContainsField(cb,
+//                    QResourceDescription.resourceDescription.species);
+//            cb.setValue(getASingleInvasiveSp());
+//        }
+//
+//        //Threatened
+//        {
+//            ComboBox cb2 = new ComboBox();
+//            for (Species sp : getThreatenedSpp()) {
+//                cb2.addItem(sp);
+//            }
+//
+//            fp.addContainsField(cb2,
+//                    QResourceDescription.resourceDescription.species);
+//            cb2.setValue(getASingleThreatenedSp());
+//        }
+//
+//        List<ResourceDescription> x = fp.getResults(em);
+//
+//        for (ResourceDescription resourceDescription : x) {
+//            System.out.println(resourceDescription);
+//        }
+//
+//        // The number of locations with that invasive
+//        assertEquals(12, x.size());
+//
+//        
+//        
+//        cb.setValue(null);
+//        
+//        x = fp.getResults(em);
+//
+//        // Un-set the value in a combo
+//        
+//    }
+//
+//    private void beginTest() {
+//        long startTime = System.nanoTime();
+//
+//        long endTime = System.nanoTime();
+//        long duration = endTime - startTime;
+//
+//        System.out.println("Duration: " + duration);
+//    }
+//
+//    @Test
+//    public void qdslBasic() {
+//
+//
+//    }
+//    
+//    public Location getSuwarrow(String locName) {
+//
+//        EntityManager em = getEntityManager();
+//        QLocation location = QLocation.location;
+//        JPAQuery query = new JPAQuery();
+//
+//        JPAQuery q1 = query.clone(em);
+//        Location suwarrow = q1.from(location).where(location.name.eq(locName))
+//                .uniqueResult(location);
+//    	
+//        return suwarrow;
+//    }
+//
+//    @Test
+//    public void impacts() {
+//    
+//    	Location loc = getSuwarrow("Viti Levu");
+//
+//        QSpeciesImpact spImpact = QSpeciesImpact.speciesImpact;
+//        JPAQuery query = new JPAQuery(dao.getEntityManager());
+//        SearchResults<SpeciesImpact> impacts = query.from(spImpact).where(spImpact.location.eq(loc)).listResults(spImpact.speciesImpact);
+//        List<SpeciesImpact> resImpacts = impacts.getResults();
 //        System.out.println("Size: " + resImpacts.size());
-    }
+//    }
+//    
+//    
+//    @Test
+//    public void resultBySppType() {
+//    	
+//    	OrganismType ot = dao.find(OrganismType.class, 8l);
+////    	System.out.println(ot);
+//
+//
+//        QSpecies sp = QSpecies.species1;
+//        JPAQuery query = new JPAQuery(dao.getEntityManager());
+//        SearchResults<Species> species = query.from(sp).where(sp.organismType.eq(ot)).listResults(sp.species1);
+//
+//        List<Species> results = species.getResults();
+//        for (Species s : results) {
+//        	System.out.println(s);
+//		}
+////        System.out.println("Size: " + resImpacts.size());
+//    }
     
 
     private EntityManager getEntityManager() {

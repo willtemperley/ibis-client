@@ -14,7 +14,6 @@ import org.issg.ibis.perspective.shared.CountryPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.qdsl.experimental.LocationSearch;
 import org.issg.ibis.qdsl.experimental.SpeciesSearch;
-import org.issg.ibis.z.SearchPerspective;
 import org.jrc.persist.adminunits.Country;
 import org.vaadin.addons.form.inject.AbstractViewModule;
 import org.vaadin.addons.form.inject.GuicedViewProvider;
@@ -51,7 +50,7 @@ public class ViewModule extends AbstractViewModule {
         mapbinder = MapBinder.newMapBinder(binder(), String.class,
                 View.class);
         
-        mapbinder.addBinding(GuicedViewProvider.HOME).to(SearchPerspective.class);
+        mapbinder.addBinding(GuicedViewProvider.HOME).to(IndexPage.class);
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(COUNTRY_PERSPECTIVE).to(CountryPerspective.class);

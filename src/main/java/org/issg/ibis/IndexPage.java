@@ -1,16 +1,18 @@
-package org.issg.ibis.z;
+package org.issg.ibis;
 
 import it.jrc.form.editor.EditorPanelHeading;
 
-import org.issg.ibis.client.deprecated.CountrySelector;
-import org.issg.ibis.client.deprecated.SpeciesSelector;
+import org.issg.excel.download.Exporter;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimplePanel;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
 /**
@@ -21,7 +23,6 @@ import com.vaadin.ui.HorizontalLayout;
  */
 public class IndexPage extends HorizontalLayout implements View {
 
-	private SpeciesSelector ss;
 
     @Inject
 	public IndexPage(Dao dao) {
@@ -33,31 +34,17 @@ public class IndexPage extends HorizontalLayout implements View {
 //	        sp.setHeight("100%");
 //	        sp.setSizeFull();
 	        
-	        sp.addComponent(new EditorPanelHeading("Search by species"));
+	        sp.addComponent(new EditorPanelHeading("About us"));
 	        addComponent(sp);
 	        setComponentAlignment(sp, Alignment.MIDDLE_CENTER);
 	        
-	        ss = new SpeciesSelector(dao);
-	        sp.addComponent(ss);
-
 
 	    }
 	    
-	    {
-	        SimplePanel sp = new SimplePanel();
-	        addComponent(sp);
-	        setComponentAlignment(sp, Alignment.MIDDLE_CENTER);
-	        
-	        sp.addComponent(new EditorPanelHeading("Search by Country"));
-	        CountrySelector cs = new CountrySelector(dao);
-	        sp.addComponent(cs);
-	        
-	    }
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-	    String filterText = event.getParameters();
-	    ss.setSearchText(filterText);
+		
 	}
 }
