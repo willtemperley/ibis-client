@@ -20,6 +20,7 @@ import org.issg.ibis.domain.Species_;
 import org.issg.ibis.domain.Taxon;
 import org.issg.ibis.domain.TaxonomicRank;
 import org.issg.ibis.domain.TaxonomicRank_;
+import org.issg.ibis.webservices.GbifApi09;
 import org.jrc.persist.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,7 +134,7 @@ public class TempSpeciesUploadParser extends UploadParser<Species> {
                 Long id = getCellValueAsLong(row, 1);
                 if (id != null) {
                     species.setRedlistId(id.intValue());
-                    Gbif09.populateSpeciesFromRedlistId(species);
+                    GbifApi09.populateSpeciesFromRedlistId(species);
                 }
                 
                 if (species.getUri() == null) {
@@ -146,7 +147,7 @@ public class TempSpeciesUploadParser extends UploadParser<Species> {
                 String gbifUri = getCellValueAsString(row, 1);
                 species.setUri(gbifUri);
                 
-                Gbif09.populateSpeciesFromGbifUri(species);
+                GbifApi09.populateSpeciesFromGbifUri(species);
                 
             } else {
                 recordError("Unknown prefix: " + prefix);

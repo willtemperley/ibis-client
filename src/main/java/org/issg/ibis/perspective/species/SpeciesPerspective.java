@@ -16,6 +16,7 @@ import org.issg.ibis.domain.SpeciesLocation_;
 import org.issg.ibis.domain.view.SpeciesExtent;
 import org.issg.ibis.editor.InlineSpeciesEditor;
 import org.issg.ibis.perspective.shared.LayerViewer;
+import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.persist.Dao;
 import org.jrc.ui.SimplePanel;
 import org.jrc.ui.baseview.TwinPanelView;
@@ -85,7 +86,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			 */
 			SimplePanel leftPanel = getLeftPanel();
 			leftPanel.setWidth("600px");
-			this.speciesSummary = new SpeciesSummaryController(leftPanel);
+			this.speciesSummary = new SpeciesSummaryController(leftPanel, new ArkiveV1Search(dao));
 
 			exporter = new ExportBar();
 			leftPanel.addComponent(exporter);

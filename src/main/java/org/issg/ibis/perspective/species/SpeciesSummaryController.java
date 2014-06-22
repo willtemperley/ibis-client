@@ -15,71 +15,77 @@ import com.vaadin.ui.Component;
 
 public class SpeciesSummaryController extends SimpleContentPanel {
 
-    private HtmlHeader speciesName = new HtmlHeader();
-    private HtmlHeader speciesSecondaryName = new HtmlHeader();
-    private HtmlLabel speciesImage = new HtmlLabel();
-    private HtmlLabel redlistStatus = new HtmlLabel();
+	private HtmlHeader speciesName = new HtmlHeader();
+	private HtmlHeader speciesSecondaryName = new HtmlHeader();
+	private HtmlLabel speciesImage = new HtmlLabel();
+	private HtmlLabel redlistStatus = new HtmlLabel();
 
-    
-    public SpeciesSummaryController(SimplePanel panel) {
+	private Taxonomy taxonomy = new Taxonomy();
+	private ArkiveV1Search arkiveSearch;
 
-        super(panel);
+	public SpeciesSummaryController(SimplePanel panel,
+			ArkiveV1Search arkiveSearch) {
 
-        panel.addComponent(speciesName);
-        panel.addComponent(speciesSecondaryName);
-        speciesName.addStyleName("header-large");
+		super(panel);
 
-        panel.addComponent(speciesImage);
+		this.arkiveSearch = arkiveSearch;
 
-        panel.addComponent(redlistStatus);
-    }
+		panel.addComponent(speciesName);
+		panel.addComponent(speciesSecondaryName);
+		speciesName.addStyleName("header-large");
 
-    public void setSpecies(Species sp) {
-    	
-        String img = ArkiveV1Search.getSpeciesImage(sp.getName());
+		panel.addComponent(speciesImage);
 
-        String commonName = sp.getCommonName();
-        
-        if (commonName == null || commonName.isEmpty()) {
-        	speciesName.setValue(sp.getScientificName());
-        	speciesSecondaryName.setVisible(false);
-        } else {
-        	speciesName.setValue(commonName);
-        	speciesSecondaryName.setVisible(true);
-        	speciesSecondaryName.setValue(sp.getScientificName());
-        }
+		panel.addComponent(redlistStatus);
+		panel.addComponent(taxonomy);
+	}
 
-        speciesImage.setValue(img);
-        
-        
-        //Clear content
-        for (Component cc : contentComponents) {
-            panel.removeComponent(cc);
-        }
-        contentComponents.clear();
-        
-        
-        List<SpeciesSummary> ss = sp.getSpeciesSummaries();
+	public void setSpecies(Species sp) {
 
-        addContent(ss);
+		String img = arkiveSearch.getSpeciesImage(sp.getName());
 
-//        commonName.setValue(sp.getCommonName());
+		String commonName = sp.getCommonName();
 
-        if (sp.getRedlistCategory() != null) {
-            String code = sp.getRedlistCategory().getRedlistCode();
-            redlistStatus.setValue(code);
+		if (commonName == null || commonName.isEmpty()) {
+			speciesName.setValue(sp.getScientificName());
+			speciesSecondaryName.setVisible(false);
+		} else {
+			speciesName.setValue(commonName);
+			speciesSecondaryName.setVisible(true);
+			speciesSecondaryName.setValue(sp.getScientificName());
+		}
 
-        }
-//            String redlistImgUrl = String
-//                    .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
-//                            sp.getRedlistCategory().getRedlistCode());
-//            redlistStatus.setValue(redlistImgUrl);
-//        }
+		speciesImage.setValue(img);
 
-    }
+		taxonomy.setSpecies(sp);
 
-    public void setLocation(Location location) {
-        
-    }
+		// Clear content
+		for (Component cc : contentComponents) {
+			panel.removeComponent(cc);
+		}
+		contentComponents.clear();
+
+		List<SpeciesSummary> ss = sp.getSpeciesSummaries();
+
+		addContent(ss);
+
+		// commonName.setValue(sp.getCommonName());
+
+		if (sp.getRedlistCategory() != null) {
+			String code = sp.getRedlistCategory().getRedlistCode();
+			redlistStatus.setValue(code);
+
+		}
+		// String redlistImgUrl = String
+		// .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
+		// sp.getRedlistCategory().getRedlistCode());
+		// redlistStatus.setValue(redlistImgUrl);
+		// }
+
+	}
+
+	public void setLocation(Location location) {
+
+	}
 
 }

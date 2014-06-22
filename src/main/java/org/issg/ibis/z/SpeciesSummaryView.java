@@ -14,6 +14,7 @@ import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;
 
+import com.google.inject.Inject;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Table;
@@ -24,8 +25,12 @@ public class SpeciesSummaryView extends SimplePanel {
     private HtmlHeader speciesName = new HtmlHeader();
     private HtmlLabel speciesImage = new HtmlLabel();
     private HtmlLabel redlistStatus = new HtmlLabel();
+	private ArkiveV1Search arkiveSearch;
 
-    public SpeciesSummaryView() {
+    @Inject
+    public SpeciesSummaryView(ArkiveV1Search arkiveSearch) {
+    	
+    	this.arkiveSearch = arkiveSearch;
 
         addComponent(speciesName);
         speciesName.addStyleName("header-large");
@@ -39,7 +44,7 @@ public class SpeciesSummaryView extends SimplePanel {
 
     public void setSpecies(Species sp) {
 
-        String img = ArkiveV1Search.getSpeciesImage(sp.getName());
+        String img = arkiveSearch.getSpeciesImage(sp.getName());
 
         speciesName.setValue(sp.getScientificName());
         speciesImage.setValue(img);

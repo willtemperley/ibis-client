@@ -1,15 +1,9 @@
-package org.issg.upload;
+package org.issg.ibis.webservices;
 
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.webservices.BaseJsonClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 /**
  * 
@@ -18,9 +12,11 @@ import com.google.gson.JsonParser;
  * @author Will Temperley
  * 
  */
-public class Gbif09 extends BaseJsonClient {
+public class GbifApi09 extends BaseJsonClient {
 
-    private static String REDLIST_TEMPLATE_URL = "http://api.gbif.org/v0.9/species?datasetKey=19491596-35ae-4a91-9a98-85cf505f1bd3&sourceId=%s";
+    private static String REDLIST_URL_TEMPLATE = "http://api.gbif.org/v0.9/species?datasetKey=19491596-35ae-4a91-9a98-85cf505f1bd3&sourceId=%s";
+
+    private static String OCCURRENCE_URL_TEMPLATE = "http://api.gbif.org/v0.9/species/%s";
 
     public static void populateSpeciesFromGbifUri(Species species) {
 
@@ -36,9 +32,10 @@ public class Gbif09 extends BaseJsonClient {
         try {
 
             Integer rlId = species.getRedlistId();
-            String url = String.format(REDLIST_TEMPLATE_URL, rlId);
+            String url = String.format(REDLIST_URL_TEMPLATE, rlId);
             JSONObject json = readJsonFromUrl(url);
 
+            prettyPrint(json.toString());
             // return json.toString();
 
             JSONArray jsonArray = (JSONArray) json.get("results");
@@ -47,7 +44,6 @@ public class Gbif09 extends BaseJsonClient {
                 populateSpecies(species, res);
             }
 
-//            prettyPrint(json.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -83,16 +79,6 @@ public class Gbif09 extends BaseJsonClient {
             e.printStackTrace();
         }
 
-    }
-
-    private static void prettyPrint(String uglyJSONString) {
-        // TODO Auto-generated method stub
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(uglyJSONString);
-        String prettyJsonString = gson.toJson(je);
-        System.out.println(prettyJsonString);
     }
 
     public static void main(String[] args) {

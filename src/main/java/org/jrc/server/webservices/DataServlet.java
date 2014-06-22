@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.issg.ibis.domain.QSpeciesImpact;
+import org.issg.ibis.domain.QSpeciesLocation;
 import org.issg.ibis.domain.SpeciesImpact;
+import org.issg.ibis.domain.SpeciesLocation;
 import org.jrc.persist.Dao;
 
 import com.google.inject.Inject;
@@ -39,29 +43,50 @@ public class DataServlet extends HttpServlet {
         Long id = Long.valueOf(sid);
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
+		XSSFWorkbook workbook = new XSSFWorkbook();
+
 	     response.setHeader("Content-Disposition", 
 	    "attachment; filename=sampleName.xlsx");
-	     
-	     List<String> headers = new ArrayList<String>();
-	     headers.add("1");
-	     headers.add("2");
-	     //Use dynabean stuff?
         
-        ExcelWriter e = new ExcelWriter(headers);
-        
-        JPAQuery j = new JPAQuery(emp.get());
-        SearchResults<SpeciesImpact> x = 
-        		j.from(QSpeciesImpact.speciesImpact).where(QSpeciesImpact.speciesImpact.threatenedSpecies.id.eq(id)).listResults(QSpeciesImpact.speciesImpact);
-        List<SpeciesImpact> l = x.getResults();
-        
-		for (SpeciesImpact si :l) {
-			e.writeRow(si);
-		}
+        writeSpeciesImpacts(id, workbook);
+        writeLocations(id, workbook);
 		
         ServletOutputStream out = response.getOutputStream();
-		e.write(out);
+		workbook.write(out);
+
 		out.flush();
 		out.close();
 
     }
+
+	private void writeSpeciesImpacts(Long id, XSSFWorkbook workbook) {
+		WorksheetFactory e = new WorksheetFactory();
+        XSSFSheet worksheet = workbook.createSheet("Impacts");
+        QSpeciesImpact speciesimpact = QSpeciesImpact.speciesImpact;
+        e.addColumn(speciesimpact.invasiveSpecies);
+		e.addColumn(speciesimpact.impactMechanism);
+		e.addColumn(speciesimpact.impactOutcome);
+        e.addColumn(speciesimpact.threatenedSpecies);
+        e.addColumn(speciesimpact.location);
+        
+        JPAQuery j = new JPAQuery(emp.get());
+        SearchResults<SpeciesImpact> x = j.from(speciesimpact).where(speciesimpact.threatenedSpecies.id.eq(id)).listResults(speciesimpact);
+        List<SpeciesImpact> results = x.getResults();
+        
+        e.writeSheet(worksheet, results);
+	}
+
+	private void writeLocations(Long id, XSSFWorkbook workbook) {
+		WorksheetFactory e = new WorksheetFactory();
+	    XSSFSheet worksheet = workbook.createSheet("Locations");
+	    QSpeciesLocation entityPath = QSpeciesLocation.speciesLocation;
+	    e.addColumn(entityPath.location);
+		e.addColumn(entityPath.species);
+	    
+	    JPAQuery j = new JPAQuery(emp.get());
+	    SearchResults<SpeciesLocation> x = j.from(entityPath).where(entityPath.species.id.eq(id)).listResults(entityPath);
+	    List<SpeciesLocation> results = x.getResults();
+	    
+	    e.writeSheet(worksheet, results);
+	}
 }

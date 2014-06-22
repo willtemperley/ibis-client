@@ -12,7 +12,14 @@ public abstract class Species_ {
 
     public static volatile SingularAttribute<Species, String> uri;
 
-    public static volatile SingularAttribute<Species, Taxon> genus;
+//    public static volatile SingularAttribute<Species, Taxon> genus;
+
+    public static volatile SingularAttribute<Species, String> kingdom;
+    public static volatile SingularAttribute<Species, String> phylum;
+    public static volatile SingularAttribute<Species, String> clazz;
+    public static volatile SingularAttribute<Species, String> order;
+    public static volatile SingularAttribute<Species, String> family;
+    public static volatile SingularAttribute<Species, String> genus;
 
     public static volatile SingularAttribute<Species, Long> nubKey;
 

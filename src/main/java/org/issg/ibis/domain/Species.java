@@ -21,291 +21,378 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.issg.ibis.domain.json.GbifSpecies;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @Entity
 @NamedQueries({
-        @NamedQuery(name = Species.THREATENED, query = "from Species s where exists (select 1 from SpeciesImpact i where i.threatenedSpecies.id = s.id) order by name"),
-        @NamedQuery(name = Species.INVASIVE, query = "from Species s where exists (select 1 from SpeciesImpact i where i.invasiveSpecies.id = s.id) order by name") }
-)
+		@NamedQuery(name = Species.THREATENED, query = "from Species s where exists (select 1 from SpeciesImpact i where i.threatenedSpecies.id = s.id) order by name"),
+		@NamedQuery(name = Species.INVASIVE, query = "from Species s where exists (select 1 from SpeciesImpact i where i.invasiveSpecies.id = s.id) order by name") })
 @Table(schema = "ibis", name = "species")
 public class Species {
-    
-    public static final String THREATENED = "Threatened";
 
-    public static final String INVASIVE = "Invasive";
+	public static final String THREATENED = "Threatened";
 
-    private Long id;
+	public static final String INVASIVE = "Invasive";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
-    @SequenceGenerator(allocationSize = 1, name = "seq", sequenceName = "ibis.species_id_seq")
-    public Long getId() {
-        return id;
-    }
+	public void populateFromJson() {
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+		String json = getGbifJson();
 
-    private String uri;
+		if (json != null && !json.isEmpty()) {
 
-    @Column
-    @NotNull
-    public String getUri() {
-        return uri;
-    }
+			Gson g = new Gson();
+			GbifSpecies gsp = g.fromJson(json, GbifSpecies.class);
 
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
+			setKingdom(gsp.getKingdom());
+			setPhylum(gsp.getPhylum());
+			setClazz(gsp.getClazz());
+			setOrder(gsp.getOrder());
+			setFamily(gsp.getFamily());
+			setGenus(gsp.getGenus());
+		}
+	}
 
-    private String name;
+	private Long id;
 
-    @Column
-    public String getName() {
-        return name;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
+	@SequenceGenerator(allocationSize = 1, name = "seq", sequenceName = "ibis.species_id_seq")
+	public Long getId() {
+		return id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    private Long nubKey;
+	private String uri;
 
-    @Column(name = "nub_key")
-    public Long getNubKey() {
-        return nubKey;
-    }
+	@Column
+	@NotNull
+	public String getUri() {
+		return uri;
+	}
 
-    public void setNubKey(Long nubKey) {
-        this.nubKey = nubKey;
-    }
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
 
-    private Taxon genus;
+	private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "genus_id")
-    public Taxon getGenus() {
-        return genus;
-    }
+	@Column
+	public String getName() {
+		return name;
+	}
 
-    public void setGenus(Taxon genus) {
-        this.genus = genus;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    private String species;
+	private Long nubKey;
 
-    @Column
-    public String getSpecies() {
-        return species;
-    }
+	@Column(name = "nub_key")
+	public Long getNubKey() {
+		return nubKey;
+	}
 
-    public void setSpecies(String species) {
-        this.species = species;
-    }
+	public void setNubKey(Long nubKey) {
+		this.nubKey = nubKey;
+	}
 
-    private String synonyms;
+	// private Taxon genus;
+	//
+	// @ManyToOne
+	// @JoinColumn(name = "genus_id")
+	// public Taxon getGenus() {
+	// return genus;
+	// }
+	//
+	// public void setGenus(Taxon genus) {
+	// this.genus = genus;
+	// }
 
-    @Column
-    public String getSynonyms() {
-        return synonyms;
-    }
+	private String species;
 
-    public void setSynonyms(String synonyms) {
-        this.synonyms = synonyms;
-    }
+	@Column
+	public String getSpecies() {
+		return species;
+	}
 
-    private OrganismType organismType;
+	public void setSpecies(String species) {
+		this.species = species;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "organism_type_id")
-    public OrganismType getOrganismType() {
-        return organismType;
-    }
+	private String synonyms;
 
-    public void setOrganismType(OrganismType organismType) {
-        this.organismType = organismType;
-    }
+	@Column
+	public String getSynonyms() {
+		return synonyms;
+	}
 
-    private String gisdLink;
+	public void setSynonyms(String synonyms) {
+		this.synonyms = synonyms;
+	}
 
-    @Column(name = "gisd_link")
-    public String getGisdLink() {
-        return gisdLink;
-    }
+	private OrganismType organismType;
 
-    public void setGisdLink(String gisdLink) {
-        this.gisdLink = gisdLink;
-    }
+	@ManyToOne
+	@JoinColumn(name = "organism_type_id")
+	public OrganismType getOrganismType() {
+		return organismType;
+	}
 
-    private String commonName;
+	public void setOrganismType(OrganismType organismType) {
+		this.organismType = organismType;
+	}
 
-    @Column(name = "common_name")
-    public String getCommonName() {
-        return commonName;
-    }
+	private String gisdLink;
 
-    public void setCommonName(String commonName) {
-        this.commonName = commonName;
-    }
+	@Column(name = "gisd_link")
+	public String getGisdLink() {
+		return gisdLink;
+	}
 
-    private String authority;
+	public void setGisdLink(String gisdLink) {
+		this.gisdLink = gisdLink;
+	}
 
-    @Column
-    public String getAuthority() {
-        return authority;
-    }
+	private String commonName;
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
+	@Column(name = "common_name")
+	public String getCommonName() {
+		return commonName;
+	}
 
-    private String gbifJson;
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
+	}
 
-    @Column(name = "gbif_json")
-    public String getGbifJson() {
-        return gbifJson;
-    }
+	private String authority;
 
-    public void setGbifJson(String gbifJson) {
-        this.gbifJson = gbifJson;
-    }
+	@Column
+	public String getAuthority() {
+		return authority;
+	}
 
-    private RedlistCategory redlistCategory;
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "redlist_category_id")
-    public RedlistCategory getRedlistCategory() {
-        return redlistCategory;
-    }
+	private String gbifJson;
 
-    public void setRedlistCategory(RedlistCategory redlistCategory) {
-        this.redlistCategory = redlistCategory;
-    }
+	@Column(name = "gbif_json")
+	public String getGbifJson() {
+		return gbifJson;
+	}
 
-    private Integer redlistId;
+	public void setGbifJson(String gbifJson) {
+		this.gbifJson = gbifJson;
+	}
 
-    @Column(name = "redlist_id")
-    public Integer getRedlistId() {
-        return redlistId;
-    }
+	private RedlistCategory redlistCategory;
 
-    public void setRedlistId(Integer redlistId) {
-        this.redlistId = redlistId;
-    }
+	@ManyToOne
+	@JoinColumn(name = "redlist_category_id")
+	public RedlistCategory getRedlistCategory() {
+		return redlistCategory;
+	}
 
-    private Set<Biome> biomes;
+	public void setRedlistCategory(RedlistCategory redlistCategory) {
+		this.redlistCategory = redlistCategory;
+	}
 
-    @ManyToMany
-    @JoinTable(name = "ibis.species_biome", joinColumns = @JoinColumn(name = "species_id"), inverseJoinColumns = @JoinColumn(name = "biome_id"))
-    public Set<Biome> getBiomes() {
-        return biomes;
-    }
+	private Integer redlistId;
 
-    public void setBiomes(Set<Biome> biomes) {
-        this.biomes = biomes;
-    }
+	@Column(name = "redlist_id")
+	public Integer getRedlistId() {
+		return redlistId;
+	}
 
-    private Set<Reference> references;
+	public void setRedlistId(Integer redlistId) {
+		this.redlistId = redlistId;
+	}
 
-    @ManyToMany
-    @JoinTable(name = "ibis.species_reference", joinColumns = @JoinColumn(name = "species_id"), inverseJoinColumns = @JoinColumn(name = "reference_id"))
-    public Set<Reference> getReferences() {
-        return references;
-    }
+	private Set<Biome> biomes;
 
-    public void setReferences(Set<Reference> references) {
-        this.references = references;
-    }
+	@ManyToMany
+	@JoinTable(name = "ibis.species_biome", joinColumns = @JoinColumn(name = "species_id"), inverseJoinColumns = @JoinColumn(name = "biome_id"))
+	public Set<Biome> getBiomes() {
+		return biomes;
+	}
 
-    private String imageUrl;
+	public void setBiomes(Set<Biome> biomes) {
+		this.biomes = biomes;
+	}
 
-    @Column(name = "image_url")
-    public String getImageUrl() {
-        return imageUrl;
-    }
+	private Set<Reference> references;
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+	@ManyToMany
+	@JoinTable(name = "ibis.species_reference", joinColumns = @JoinColumn(name = "species_id"), inverseJoinColumns = @JoinColumn(name = "reference_id"))
+	public Set<Reference> getReferences() {
+		return references;
+	}
 
-    private List<SpeciesSummary> speciesSummaries;
+	public void setReferences(Set<Reference> references) {
+		this.references = references;
+	}
 
-    @OneToMany(mappedBy = "species")
-    @OrderBy("contentType.id ASC")
-    public List<SpeciesSummary> getSpeciesSummaries() {
-        return speciesSummaries;
-    }
+	private String imageUrl;
 
-    public void setSpeciesSummaries(List<SpeciesSummary> speciesSummaries) {
-        this.speciesSummaries = speciesSummaries;
-    }
+	@Column(name = "image_url")
+	public String getImageUrl() {
+		return imageUrl;
+	}
 
-    private Set<SpeciesLocation> speciesLocations;
-    
-    @OneToMany(mappedBy = "species")
-    public Set<SpeciesLocation> getSpeciesLocations() {
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	private List<SpeciesSummary> speciesSummaries;
+
+	@OneToMany(mappedBy = "species")
+	@OrderBy("contentType.id ASC")
+	public List<SpeciesSummary> getSpeciesSummaries() {
+		return speciesSummaries;
+	}
+
+	public void setSpeciesSummaries(List<SpeciesSummary> speciesSummaries) {
+		this.speciesSummaries = speciesSummaries;
+	}
+
+	private Set<SpeciesLocation> speciesLocations;
+
+	@OneToMany(mappedBy = "species")
+	public Set<SpeciesLocation> getSpeciesLocations() {
 		return speciesLocations;
 	}
 
-    public void setSpeciesLocations(Set<SpeciesLocation> speciesLocations) {
+	public void setSpeciesLocations(Set<SpeciesLocation> speciesLocations) {
 		this.speciesLocations = speciesLocations;
 	}
 
-    /*
-     * NOTE this only has references from the THREATENED species
-     */
-    private Set<SpeciesImpact> speciesImpacts;
+	/*
+	 * NOTE this only has references from the THREATENED species
+	 */
+	private Set<SpeciesImpact> speciesImpacts;
 
-    @OneToMany(mappedBy = "threatenedSpecies")
-    public Set<SpeciesImpact> getSpeciesImpacts() {
-        return speciesImpacts;
-    }
+	@OneToMany(mappedBy = "threatenedSpecies")
+	public Set<SpeciesImpact> getSpeciesImpacts() {
+		return speciesImpacts;
+	}
 
-    public void setSpeciesImpacts(Set<SpeciesImpact> speciesImpacts) {
-        this.speciesImpacts = speciesImpacts;
-    }
+	public void setSpeciesImpacts(Set<SpeciesImpact> speciesImpacts) {
+		this.speciesImpacts = speciesImpacts;
+	}
 
-    private String link;
-    
-    @Column
-    public String getLink() {
+	private String link;
+
+	@Column
+	public String getLink() {
 		return link;
 	}
-    
-    public void setLink(String link) {
+
+	public void setLink(String link) {
 		this.link = link;
 	}
 
-    @Override
-    public String toString() {
-        return name;
-    }
+	private String kingdom;
 
-    @Transient
-    public String getScientificName() {
-        return "<i>" + name + "</i> " + getAuthority();
-    }
+	@Column
+	public String getKingdom() {
+		return kingdom;
+	}
 
+	public void setKingdom(String kingdom) {
+		this.kingdom = kingdom;
+	}
 
-    @Override
-    public int hashCode() {
-        if (id != null) {
-            return id.intValue();
-        }
-        return super.hashCode();
-    }
+	private String phylum;
 
-    @Override
-    public boolean equals(Object obj) {
+	@Column
+	public String getPhylum() {
+		return phylum;
+	}
 
-        if (obj instanceof Species) {
-            Species otherObj = (Species) obj;
-            if (otherObj.getId().equals(this.getId())) {
-                return true;
-            }
-            return false;
-        }
-        return super.equals(obj);
-    }
+	public void setPhylum(String phylum) {
+		this.phylum = phylum;
+	}
+
+	private String clazz;
+
+	@Column
+	public String getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
+	}
+
+	private String order;
+
+	@Column(name = "order_")
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	private String family;
+
+	@Column
+	public String getFamily() {
+		return family;
+	}
+
+	public void setFamily(String family) {
+		this.family = family;
+	}
+
+	private String genus;
+
+	@Column
+	public String getGenus() {
+		return genus;
+	}
+
+	public void setGenus(String genus) {
+		this.genus = genus;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	@Transient
+	public String getScientificName() {
+		return "<i>" + name + "</i> " + getAuthority();
+	}
+
+	@Override
+	public int hashCode() {
+		if (id != null) {
+			return id.intValue();
+		}
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj instanceof Species) {
+			Species otherObj = (Species) obj;
+			if (otherObj.getId().equals(this.getId())) {
+				return true;
+			}
+			return false;
+		}
+		return super.equals(obj);
+	}
 
 }

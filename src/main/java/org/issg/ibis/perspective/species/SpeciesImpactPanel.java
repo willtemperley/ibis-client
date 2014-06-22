@@ -41,8 +41,8 @@ public class SpeciesImpactPanel extends SimplePanel {
 		} else {
 			organismType.setValue(null);
 		}
-		String speciesImage = ArkiveV1Search.getSpeciesImage(invasiveSpecies.getName());
-		image.setValue(speciesImage);
+//		String speciesImage = ArkiveV1Search.getSpeciesImage(invasiveSpecies.getName());
+//		image.setValue(speciesImage);
 		
 		Location loc = si.getLocation();
 		location.setValue(loc.getName());

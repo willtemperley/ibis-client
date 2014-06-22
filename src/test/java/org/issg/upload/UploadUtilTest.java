@@ -7,12 +7,17 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.issg.ibis.AppUI;
+import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
+import org.issg.ibis.domain.json.GbifSpecies;
+import org.issg.ibis.webservices.GbifApi09;
 import org.jrc.persist.Dao;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Injector;
 
 public class UploadUtilTest {
@@ -31,6 +36,18 @@ public class UploadUtilTest {
                 .getFileInputStream(wbName));
 
         dao = injector.getInstance(Dao.class);
+    }
+    
+    @Test
+    public void test2() {
+    	Species s = dao.find(Species.class, 3786l);
+    	String t = s.getGbifJson();
+//    	GbifApi09.prettyPrint(t);
+    	
+    	Gson g = new Gson();
+    	GbifSpecies z = g.fromJson(t, GbifSpecies.class);
+
+    	System.out.println(z.getKingdom());
     }
 
     @Test

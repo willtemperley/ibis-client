@@ -14,6 +14,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 public class BaseJsonClient {
     
     private static Logger logger = LoggerFactory.getLogger(BaseJsonClient.class);
@@ -48,7 +53,16 @@ public class BaseJsonClient {
         return sb.toString();
     }
 
-    public BaseJsonClient() {
+    public static void prettyPrint(String uglyJSONString) {
+	
+	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	    JsonParser jp = new JsonParser();
+	    JsonElement je = jp.parse(uglyJSONString);
+	    String prettyJsonString = gson.toJson(je);
+	    System.out.println(prettyJsonString);
+	}
+
+	public BaseJsonClient() {
         super();
     }
 

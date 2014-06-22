@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
+
 import java.util.Set;
 
 @Entity
@@ -62,6 +63,11 @@ public class Reference {
 
     public void setLocations(Set<Location> locations) {
         this.locations = locations;
+    }
+    
+    @Override
+    public String toString() {
+    	return content;
     }
 
     @Override
