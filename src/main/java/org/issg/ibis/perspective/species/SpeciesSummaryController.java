@@ -12,6 +12,7 @@ import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 
 public class SpeciesSummaryController extends SimpleContentPanel {
 
@@ -34,10 +35,14 @@ public class SpeciesSummaryController extends SimpleContentPanel {
 		panel.addComponent(speciesSecondaryName);
 		speciesName.addStyleName("header-large");
 
-		panel.addComponent(speciesImage);
-
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.addComponent(speciesImage);
+		hl.addComponent(taxonomy);
+//		panel.addComponent(speciesImage);
+//		panel.addComponent(taxonomy);
+		panel.addComponent(hl);
+		hl.setWidth("100%");
 		panel.addComponent(redlistStatus);
-		panel.addComponent(taxonomy);
 	}
 
 	public void setSpecies(Species sp) {
@@ -71,16 +76,15 @@ public class SpeciesSummaryController extends SimpleContentPanel {
 
 		// commonName.setValue(sp.getCommonName());
 
-		if (sp.getRedlistCategory() != null) {
-			String code = sp.getRedlistCategory().getRedlistCode();
-			redlistStatus.setValue(code);
-
-		}
-		// String redlistImgUrl = String
-		// .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
-		// sp.getRedlistCategory().getRedlistCode());
-		// redlistStatus.setValue(redlistImgUrl);
-		// }
+//		if (sp.getRedlistCategory() != null) {
+//			String code = sp.getRedlistCategory().getRedlistCode();
+//			redlistStatus.setValue(code);
+//
+//		}
+		 String redlistImgUrl = String
+		 .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
+		 sp.getRedlistCategory().getRedlistCode());
+		 redlistStatus.setValue(redlistImgUrl);
 
 	}
 
