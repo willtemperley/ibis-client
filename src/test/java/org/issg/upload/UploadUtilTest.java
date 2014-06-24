@@ -2,6 +2,7 @@ package org.issg.upload;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -22,59 +23,57 @@ import com.google.inject.Injector;
 
 public class UploadUtilTest {
 
-    private Injector injector = TestResourceFactory.getInjector(AppUI.class);
-    private Workbook workbookGood;
-    private Dao dao;
+	private Injector injector = TestResourceFactory.getInjector(AppUI.class);
+	private Workbook workbookGood;
+	private Dao dao;
 
-    @Before
-    public void init() throws InvalidFormatException, FileNotFoundException,
-            IOException {
+	@Before
+	public void init() throws InvalidFormatException, FileNotFoundException,
+			IOException {
 
-        String wbName = "Nov30/Kiribati-November30.xlsx";
+		String wbName = "Nov30/Kiribati-November30.xlsx";
 
-        this.workbookGood = WorkbookFactory.create(TestResourceFactory
-                .getFileInputStream(wbName));
+		this.workbookGood = WorkbookFactory.create(TestResourceFactory
+				.getFileInputStream(wbName));
 
-        dao = injector.getInstance(Dao.class);
-    }
-    
-    @Test
-    public void test2() {
-    	Species s = dao.find(Species.class, 3786l);
-    	String t = s.getGbifJson();
-//    	GbifApi09.prettyPrint(t);
-    	
-    	Gson g = new Gson();
-    	GbifSpecies z = g.fromJson(t, GbifSpecies.class);
+		dao = injector.getInstance(Dao.class);
+	}
 
-    	System.out.println(z.getKingdom());
-    }
+	public void populateFromJson() {
 
-    @Test
-    public void testWhitespace() {
-        
-        SpeciesUploadParser parser = new SpeciesUploadParser(dao);
-        boolean isAlpha = parser.isCharAlpha(' ');
-        Assert.assertFalse(isAlpha);
-        
-        String withNormalWhitespace = " Pterodactylus antiquus ";
-        
-        String cleaned = parser.cleanWhitepace(withNormalWhitespace);
-        
-        //Should be cleaned
-        Assert.assertTrue(parser.isCharAlpha(cleaned.charAt(cleaned.length() - 1)));
-        
+		List<Species> spp = dao.all(Species.class);
+		for (Species species : spp) {
+			String j = species.getGbifJson();
+			species.populateFromJson();
+			dao.merge(species);
+		}
+	}
 
-        System.out.println("'" + cleaned + "'");
+	@Test
+	public void testWhitespace() {
 
-        String withHorribleWhitespace = " Pterodactylus antiquus" + String.valueOf((char) 160);
+		SpeciesUploadParser parser = new SpeciesUploadParser(dao);
+		boolean isAlpha = parser.isCharAlpha(' ');
+		Assert.assertFalse(isAlpha);
 
-        String cleanedHorribleWhitespace = parser.cleanWhitepace(withHorribleWhitespace);
+		String withNormalWhitespace = " Pterodactylus antiquus ";
 
-        Assert.assertTrue(parser.isCharAlpha(cleaned.charAt(cleaned.length() - 1)));
+		String cleaned = parser.cleanWhitepace(withNormalWhitespace);
 
-        System.out.println("'" + cleanedHorribleWhitespace + "'");
-    }
+		// Should be cleaned
+		Assert.assertTrue(parser.isCharAlpha(cleaned.charAt(cleaned.length() - 1)));
 
+		System.out.println("'" + cleaned + "'");
+
+		String withHorribleWhitespace = " Pterodactylus antiquus"
+				+ String.valueOf((char) 160);
+
+		String cleanedHorribleWhitespace = parser
+				.cleanWhitepace(withHorribleWhitespace);
+
+		Assert.assertTrue(parser.isCharAlpha(cleaned.charAt(cleaned.length() - 1)));
+
+		System.out.println("'" + cleanedHorribleWhitespace + "'");
+	}
 
 }

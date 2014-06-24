@@ -4,9 +4,9 @@
   <head> 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
     <title>Login</title> 
-    <link rel="stylesheet" href="${contextPath}/VAADIN/themes/biopama/login_style.css" type="text/css" media="screen" charset="utf-8" /> 
+    <link rel="stylesheet" href="${contextPath}/VAADIN/themes/dashboard/login/login_style.css" type="text/css" media="screen" charset="utf-8" /> 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script> 
-    <script type="text/javascript" src="${contextPath}/VAADIN/themes/biopama/js/openid-select.js">
+    <script type="text/javascript" src="${contextPath}/VAADIN/themes/dashboard/login/openid-select.js">
     </script> 
     <script type="text/javascript"><!--//
     
@@ -14,7 +14,7 @@
     
     $(function() {
       $('#openid').openid({
-        img_path: '${contextPath}/VAADIN/themes/biopama/img',
+        img_path: '${contextPath}/VAADIN/themes/dashboard/login',
         txt: {
           label: 'Enter your {username} for <b>{provider}</b>',
           username: 'username',
