@@ -19,4 +19,9 @@ public abstract class SpeciesImpactView_ {
     public static volatile SingularAttribute<SpeciesImpactView, Long> id;
 
     public static volatile SingularAttribute<SpeciesImpactView, String> invasiveSpecies;
+
+	public static volatile SingularAttribute<SpeciesImpactView, String> impactOutcome;
+
+	public static volatile SingularAttribute<SpeciesImpactView, String> invasiveCommonName;
+	
 }

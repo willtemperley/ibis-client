@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.issg.ibis.domain.json.GbifSpecies;
+import org.issg.ibis.domain.view.SpeciesImpactView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -273,9 +274,9 @@ public class Species {
 		this.speciesLocations = speciesLocations;
 	}
 
-	/*
-	 * NOTE this only has references from the THREATENED species
-	 */
+//	/*
+//	 * NOTE this only has references from the THREATENED species
+//	 */
 	private Set<SpeciesImpact> speciesImpacts;
 
 	@OneToMany(mappedBy = "threatenedSpecies")
@@ -285,6 +286,17 @@ public class Species {
 
 	public void setSpeciesImpacts(Set<SpeciesImpact> speciesImpacts) {
 		this.speciesImpacts = speciesImpacts;
+	}
+
+	private Set<SpeciesImpactView> speciesImpactViews;
+
+	@OneToMany(mappedBy = "nativeSpecies")
+	public Set<SpeciesImpactView> getSpeciesImpactViews() {
+		return speciesImpactViews;
+	}
+
+	public void setSpeciesImpactViews(Set<SpeciesImpactView> speciesImpactViews) {
+		this.speciesImpactViews = speciesImpactViews;
 	}
 
 	private String link;

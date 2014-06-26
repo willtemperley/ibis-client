@@ -3,7 +3,11 @@ package org.issg.ibis.domain.view;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.issg.ibis.domain.Species;
 
 @Entity
 @Table(schema = "ibis", name = "species_impact_view")
@@ -19,14 +23,15 @@ public class SpeciesImpactView {
         this.id = id;
     }
 
-    private String nativeSpecies;
+    private Species nativeSpecies;
 
-    @Column(name="native_species")
-    public String getNativeSpecies() {
+    @ManyToOne
+    @JoinColumn(name="native_species_id")
+    public Species getNativeSpecies() {
         return nativeSpecies;
     }
 
-    public void setNativeSpecies(String nativeSpecies) {
+    public void setNativeSpecies(Species nativeSpecies) {
         this.nativeSpecies = nativeSpecies;
     }
 
@@ -50,6 +55,17 @@ public class SpeciesImpactView {
 
     public void setImpactMechanism(String impactMechanism) {
         this.impactMechanism = impactMechanism;
+    }
+
+    private String impactOutcome;
+
+    @Column(name="impact_outcome")
+    public String getImpactOutcome() {
+        return impactOutcome;
+    }
+
+    public void setImpactOutcome(String impactOutcome) {
+        this.impactOutcome = impactOutcome;
     }
 
     private String biologicalStatus;
@@ -83,6 +99,17 @@ public class SpeciesImpactView {
 
     public void setInvasiveSpecies(String invasiveSpecies) {
         this.invasiveSpecies = invasiveSpecies;
+    }
+
+    private String invasiveCommonName;
+
+    @Column(name="invasive_common_name")
+    public String getInvasiveCommonName() {
+        return invasiveCommonName;
+    }
+
+    public void setInvasiveCommonName(String invasiveCommonName) {
+        this.invasiveCommonName = invasiveCommonName;
     }
 
     @Override

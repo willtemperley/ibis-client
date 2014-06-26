@@ -71,7 +71,7 @@ public class SpeciesSearch extends VerticalLayout implements View, QdslQueryList
 		addSearchField(QSpeciesImpactView.speciesImpactView.impactMechanism, "Filter by Impact Mechanism");
 		addSearchField(QSpeciesImpactView.speciesImpactView.location, "Filter by Location");
 		addSearchField(QSpeciesImpactView.speciesImpactView.invasiveSpecies, "Filter by Invasive Species");
-		addSearchField(QSpeciesImpactView.speciesImpactView.nativeSpecies, "Filter by Native Species");
+//		addSearchField(QSpeciesImpactView.speciesImpactView.nativeSpecies, "Filter by Native Species");
 
 		SimpleTable<SpeciesImpactView> table = getSpeciesTable(lec);
 		
