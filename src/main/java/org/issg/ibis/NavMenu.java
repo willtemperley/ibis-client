@@ -24,8 +24,7 @@ public class NavMenu extends MenuBar implements ViewChangeListener {
 
 	public NavMenu() {
 		add("Home", ViewModule.HOME);
-		add("Species", ViewModule.SPECIES_SEARCH);
-		add("Locations", ViewModule.LOCATION_SEARCH);
+		add("Search", ViewModule.SEARCH);
 		addStyleName("nav-menu");
 	}
 
@@ -62,7 +61,6 @@ public class NavMenu extends MenuBar implements ViewChangeListener {
 	private void navigate(String whereTo) {
 		Navigator nav = UI.getCurrent().getNavigator();
 		nav.navigateTo(whereTo);
-
 	}
 
 	@Override

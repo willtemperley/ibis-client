@@ -1,5 +1,6 @@
 package org.issg.ibis;
 
+import org.issg.ibis.responsive.HeaderView;
 import org.jrc.persist.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

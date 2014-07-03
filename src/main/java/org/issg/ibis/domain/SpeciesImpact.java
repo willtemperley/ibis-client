@@ -26,17 +26,17 @@ public class SpeciesImpact {
         this.id = id;
     }
 
-    private Species threatenedSpecies;
+    private Species nativeSpecies;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name="threatened_species_id")
-    public Species getThreatenedSpecies() {
-        return threatenedSpecies;
+    public Species getNativeSpecies() {
+        return nativeSpecies;
     }
 
-    public void setThreatenedSpecies(Species threatenedSpecies) {
-        this.threatenedSpecies = threatenedSpecies;
+    public void setNativeSpecies(Species nativeSpecies) {
+        this.nativeSpecies = nativeSpecies;
     }
 
     private Species invasiveSpecies;

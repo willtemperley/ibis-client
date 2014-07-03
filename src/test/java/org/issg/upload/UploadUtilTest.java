@@ -8,11 +8,15 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.issg.ibis.AppUI;
+import org.issg.ibis.domain.QLocation;
+import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.json.GbifSpecies;
 import org.issg.ibis.webservices.GbifApi09;
 import org.jrc.persist.Dao;
+import org.jrc.persist.adminunits.Country;
+import org.jrc.persist.adminunits.QCountry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +24,7 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Injector;
+import com.mysema.query.jpa.impl.JPAQuery;
 
 public class UploadUtilTest {
 
@@ -39,13 +44,42 @@ public class UploadUtilTest {
 		dao = injector.getInstance(Dao.class);
 	}
 
+	@Test
 	public void populateFromJson() {
 
 		List<Species> spp = dao.all(Species.class);
 		for (Species species : spp) {
 			String j = species.getGbifJson();
-			species.populateFromJson();
-			dao.merge(species);
+			Gson g = new Gson();
+			GbifSpecies gsp = g.fromJson(j, GbifSpecies.class);
+//			dao.merge(species);
+		}
+	}
+	
+	@Test
+	public void go() {
+		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		
+		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
+		QCountry c = QCountry.country;
+		q = q.from(c, si).where(c.eq(si.location.country));
+		q = q.distinct();
+		List<Country> results = q.list(c);
+		for (Country country : results) {
+			System.out.println(country);
+		}
+	}
+	@Test
+	public void go2() {
+		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		
+		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
+
+		QCountry c = QCountry.country;
+
+		List<Country> results = q.list(si.location.country);
+		for (Country country : results) {
+			System.out.println(country);
 		}
 	}
 

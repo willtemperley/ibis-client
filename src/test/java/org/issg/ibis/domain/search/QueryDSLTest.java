@@ -59,7 +59,7 @@ public class QueryDSLTest {
     public List<Species> getThreatenedSpp() {
 
         TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(
-                Species.THREATENED, Species.class);
+                Species.NATIVE, Species.class);
         return q.getResultList();
     }
 

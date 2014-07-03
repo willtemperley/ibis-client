@@ -99,8 +99,8 @@ public class LocationPerspective extends TwinPanelView implements View {
 			 */
 			TabSheet ts = new TabSheet();
 			ts.setSizeFull();
-			ts.addTab( getSpeciesImpactTable(), "Impacts");
-			ts.addTab(getSpeciesLocationTable(), "Locations");
+			ts.addTab( getSpeciesImpactTable(), "IAS Impacts");
+			ts.addTab(getSpeciesLocationTable(), "Occurrences");
 			vl.addComponent(ts);
 			vl.setSpacing(true);
 
@@ -109,6 +109,7 @@ public class LocationPerspective extends TwinPanelView implements View {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private EntityTable<SpeciesLocation> getSpeciesLocationTable() {
 
 		EntityTable<SpeciesLocation> table = new EntityTable<SpeciesLocation>(
@@ -125,9 +126,11 @@ public class LocationPerspective extends TwinPanelView implements View {
 
 		table.addColumns(SpeciesLocation_.species,
 				SpeciesLocation_.biologicalStatus);
+		table.setItalicColumn("species");
 		return table;
 	}
 
+	@SuppressWarnings("unchecked")
 	private EntityTable<SpeciesImpact> getSpeciesImpactTable() {
 
 		EntityTable<SpeciesImpact> table = new EntityTable<SpeciesImpact>(
@@ -136,25 +139,19 @@ public class LocationPerspective extends TwinPanelView implements View {
 		table.setSizeFull();
 		table.setPageLength(40);
 
-		table.addValueChangeListener(new Property.ValueChangeListener() {
-			public void valueChange(Property.ValueChangeEvent event) {
-
-				SpeciesImpact si = (SpeciesImpact) event.getProperty()
-						.getValue();
-
-				System.out.println(si);
-			}
-		});
 
 		// ImpactVisualizationColumn generatedColumn = new
 		// ImpactVisualizationColumn();
 		// table.addGeneratedColumn("id", generatedColumn);
 		// table.setColumnWidth("id", 400);
 		table.addColumns(
-				SpeciesImpact_.threatenedSpecies,
+				SpeciesImpact_.nativeSpecies,
 				SpeciesImpact_.invasiveSpecies,
 				SpeciesImpact_.impactMechanism, 
-				SpeciesImpact_.impactOutcome);
+				SpeciesImpact_.impactOutcome
+				);
+		
+		table.setItalicColumn("nativeSpecies", "invasiveSpecies");
 		return table;
 
 	}

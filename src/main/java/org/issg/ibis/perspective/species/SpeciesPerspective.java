@@ -10,12 +10,11 @@ import org.issg.excel.download.ExportBar;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.domain.SpeciesImpact_;
+import org.issg.ibis.domain.SpeciesImpactAdapter;
 import org.issg.ibis.domain.SpeciesLocation;
+import org.issg.ibis.domain.SpeciesLocationAdapter;
 import org.issg.ibis.domain.SpeciesLocation_;
 import org.issg.ibis.domain.view.SpeciesExtent;
-import org.issg.ibis.domain.view.SpeciesImpactView;
-import org.issg.ibis.domain.view.SpeciesImpactView_;
 import org.issg.ibis.editor.InlineSpeciesEditor;
 import org.issg.ibis.perspective.shared.LayerViewer;
 import org.issg.ibis.webservices.ArkiveV1Search;
@@ -50,9 +49,10 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 	private Dao dao;
 	private Species species;
 
-	private ListContainer<SpeciesImpactView> speciesImpactContainer = new ListContainer<SpeciesImpactView>(SpeciesImpactView.class);
+	private ListContainer<SpeciesImpactAdapter> speciesImpactContainer = new ListContainer<SpeciesImpactAdapter>( SpeciesImpactAdapter.class);
 
-	private ListContainer<SpeciesLocation> speciesLocationContainer = new ListContainer<SpeciesLocation>(SpeciesLocation.class);
+	private ListContainer<SpeciesLocationAdapter> speciesLocationContainer = new ListContainer<SpeciesLocationAdapter>(
+			SpeciesLocationAdapter.class);
 
 	private SpeciesSummaryController speciesSummary;
 
@@ -65,7 +65,10 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 	private LMarkerClusterGroup mapClusterGroup = new LMarkerClusterGroup();
 	private Window w;
 
-			private ExportBar exporter = new ExportBar();
+	private ExportBar exporter = new ExportBar();
+	private EntityTable<SpeciesImpactAdapter> speciesImpactTable;
+	private TabSheet ts;
+
 	/**
 	 * Displays a threatened species and its locations.
 	 * 
@@ -87,7 +90,8 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			 */
 			SimplePanel leftPanel = getLeftPanel();
 			leftPanel.setWidth("600px");
-			this.speciesSummary = new SpeciesSummaryController(leftPanel, new ArkiveV1Search(dao));
+			this.speciesSummary = new SpeciesSummaryController(leftPanel,
+					new ArkiveV1Search(dao));
 
 			if (roleManager.getRole().getIsSuperUser()) {
 				addEditButton(leftPanel);
@@ -110,18 +114,20 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			mapLayout.setSpacing(true);
 			mapLayout.setSizeFull();
 			mapLayout.addComponent(map);
-//			legend = new MapLegend();
-//			mapLayout.addComponent(legend);
+			// legend = new MapLegend();
+			// mapLayout.addComponent(legend);
 
 			vl.addComponent(mapLayout);
 
 			/*
 			 * Tables in tabsheet
 			 */
-			TabSheet ts = new TabSheet();
+			ts = new TabSheet();
 			ts.setSizeFull();
-			ts.addTab(getSpeciesImpactTable(), "Invasive Species Impacts");
-			ts.addTab(getSpeciesLocationTable(), "Locations");
+			speciesImpactTable = getSpeciesImpactTable();
+			speciesImpactTable.setItalicColumn("name");
+			ts.addTab(speciesImpactTable);
+			ts.addTab(getSpeciesLocationAdapterTable(), "Occurrences");
 			ts.addTab(exporter, "Download");
 			vl.addComponent(ts);
 			vl.setSpacing(true);
@@ -168,34 +174,10 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		// speciesEditor.edit(dao.find(Species.class, species.getId()));
 	}
 
-	@SuppressWarnings("unchecked")
-	private EntityTable<SpeciesLocation> getSpeciesLocationTable() {
+	private EntityTable<SpeciesLocationAdapter> getSpeciesLocationAdapterTable() {
 
-		EntityTable<SpeciesLocation> table = new EntityTable<SpeciesLocation>(
+		EntityTable<SpeciesLocationAdapter> table = new EntityTable<SpeciesLocationAdapter>(
 				speciesLocationContainer);
-
-		table.setHeight("300px");
-		table.setPageLength(20);
-
-		table.addValueChangeListener(new Property.ValueChangeListener() {
-			public void valueChange(Property.ValueChangeEvent event) {
-
-			}
-		});
-
-		table.addColumns(SpeciesLocation_.location, SpeciesLocation_.biologicalStatus);
-		return table;
-	}
-
-	@SuppressWarnings("unchecked")
-	private EntityTable<SpeciesImpactView> getSpeciesImpactTable() {
-
-		EntityTable<SpeciesImpactView> table = new EntityTable<SpeciesImpactView>(
-				speciesImpactContainer);
-
-		table.addColumns(SpeciesImpactView_.invasiveSpecies, SpeciesImpactView_.invasiveCommonName,
-				SpeciesImpactView_.location, SpeciesImpactView_.impactMechanism,
-				SpeciesImpactView_.impactOutcome);
 
 		table.setHeight("100%");
 		table.setWidth("100%");
@@ -204,7 +186,28 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		table.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(Property.ValueChangeEvent event) {
 
-				SpeciesImpactView si = (SpeciesImpactView) event.getProperty()
+			}
+		});
+
+		table.addColumns("location", "country", "biologicalStatus");
+		return table;
+	}
+
+	private EntityTable<SpeciesImpactAdapter> getSpeciesImpactTable() {
+
+		EntityTable<SpeciesImpactAdapter> table = new EntityTable<SpeciesImpactAdapter>(
+				speciesImpactContainer);
+
+		table.addColumns("name", "commonName", "country", "location");
+
+		table.setHeight("100%");
+		table.setWidth("100%");
+		table.setPageLength(20);
+
+		table.addValueChangeListener(new Property.ValueChangeListener() {
+			public void valueChange(Property.ValueChangeEvent event) {
+
+				SpeciesImpactAdapter si = (SpeciesImpactAdapter) event.getProperty()
 						.getValue();
 				speciesImpactSelected(si);
 
@@ -235,6 +238,12 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			return;
 		}
 		
+		if (species.getIsInvasive()) {
+			ts.getTab(speciesImpactTable).setCaption("Native species impacts");
+		} else {
+			ts.getTab(speciesImpactTable).setCaption("Invasive species impacts");
+		}
+
 		exporter.setEntity(sp);
 
 		/*
@@ -248,14 +257,16 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		/*
 		 * Impacts
 		 */
-		speciesImpactContainer.addAll(species.getSpeciesImpactViews());
+		speciesImpactContainer.addAll(species.getSpeciesImpactAdapters());
 
 		Set<SpeciesLocation> speciesLocations = species.getSpeciesLocations();
-		speciesLocationContainer.addAll(speciesLocations);
+		for (SpeciesLocation speciesLocation : speciesLocations) {
+			speciesLocationContainer.addItem(new SpeciesLocationAdapter(speciesLocation));
+		}
 
 		mapClusterGroup.removeAllComponents();
 
-		Set<SpeciesImpact> speciesImpacts = species.getSpeciesImpacts();
+		Set<SpeciesImpact> speciesImpacts = species.getNativeSpeciesImpacts();
 		Set<Location> locationSet = new HashSet<Location>();
 		for (SpeciesImpact si : speciesImpacts) {
 			locationSet.add(si.getLocation());
@@ -274,7 +285,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			}
 		}
 
-//		legend.descr.setValue(lCount + " georeferenced locations shown.");
+		// legend.descr.setValue(lCount + " georeferenced locations shown.");
 
 		if (lCount > 0) {
 			map.getMap().zoomToContent(mapClusterGroup);
@@ -282,9 +293,9 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 
 	}
 
-	private void speciesImpactSelected(SpeciesImpactView speciesImpactView) {
-		
-		SpeciesImpact speciesImpact = dao.find(SpeciesImpact.class, speciesImpactView.getId());
+	private void speciesImpactSelected(SpeciesImpactAdapter si) {
+
+		SpeciesImpact speciesImpact = dao.find(SpeciesImpact.class, si.getId());
 
 		Location location = speciesImpact.getLocation();
 		if (location == null) {

@@ -1,5 +1,6 @@
 package org.issg.ibis.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,19 +23,18 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.issg.ibis.domain.json.GbifSpecies;
-import org.issg.ibis.domain.view.SpeciesImpactView;
+import org.issg.ibis.domain.view.LocationView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = Species.THREATENED, query = "from Species s where exists (select 1 from SpeciesImpact i where i.threatenedSpecies.id = s.id) order by name"),
+		@NamedQuery(name = Species.NATIVE, query = "from Species s where exists (select 1 from SpeciesImpact i where i.nativeSpecies.id = s.id) order by name"),
 		@NamedQuery(name = Species.INVASIVE, query = "from Species s where exists (select 1 from SpeciesImpact i where i.invasiveSpecies.id = s.id) order by name") })
 @Table(schema = "ibis", name = "species")
 public class Species {
 
-	public static final String THREATENED = "Threatened";
+	public static final String NATIVE = "Native";
 
 	public static final String INVASIVE = "Invasive";
 
@@ -274,30 +274,77 @@ public class Species {
 		this.speciesLocations = speciesLocations;
 	}
 
-//	/*
-//	 * NOTE this only has references from the THREATENED species
-//	 */
-	private Set<SpeciesImpact> speciesImpacts;
-
-	@OneToMany(mappedBy = "threatenedSpecies")
-	public Set<SpeciesImpact> getSpeciesImpacts() {
-		return speciesImpacts;
+	private Set<LocationView> speciesLocationViews;
+	
+	@OneToMany(mappedBy = "species")
+	public Set<LocationView> getSpeciesLocationViews() {
+		return speciesLocationViews;
+	}
+	
+	public void setSpeciesLocationViews(Set<LocationView> speciesLocationViews) {
+		this.speciesLocationViews = speciesLocationViews;
 	}
 
-	public void setSpeciesImpacts(Set<SpeciesImpact> speciesImpacts) {
-		this.speciesImpacts = speciesImpacts;
+
+	private Set<SpeciesImpact> nativeSpeciesImpacts;
+
+
+	@OneToMany(mappedBy = "invasiveSpecies")
+	public Set<SpeciesImpact> getNativeSpeciesImpacts() {
+		return nativeSpeciesImpacts;
 	}
 
-	private Set<SpeciesImpactView> speciesImpactViews;
+	public void setNativeSpeciesImpacts(Set<SpeciesImpact> nativeSpeciesImpacts) {
+		this.nativeSpeciesImpacts = nativeSpeciesImpacts;
+	}
+	
+	@Transient
+	public boolean getIsInvasive() {
 
+		Set<SpeciesImpact> isi = getNativeSpeciesImpacts();
+		if (isi != null && isi.size() > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Builds a list of all impacts
+	 * 
+	 * @return
+	 */
+	@Transient
+	public List<SpeciesImpactAdapter> getSpeciesImpactAdapters() {
+		
+		ArrayList<SpeciesImpactAdapter> sia = new ArrayList<SpeciesImpactAdapter>();
+
+		Set<SpeciesImpact> nsi = getNativeSpeciesImpacts();
+		Set<SpeciesImpact> isi = getInvasiveSpeciesImpacts();
+
+		if (nsi != null && nsi.size() > 0) {
+			for (SpeciesImpact speciesImpact : nsi) {
+				sia.add(new SpeciesImpactAdapter(speciesImpact, false));
+			}
+		} else if (isi != null && isi.size() > 0) {
+			for (SpeciesImpact speciesImpact : isi) {
+				sia.add(new SpeciesImpactAdapter(speciesImpact, true));
+			}
+		}
+		return sia;
+	}
+
+	private Set<SpeciesImpact> invasiveSpeciesImpacts;
+	
 	@OneToMany(mappedBy = "nativeSpecies")
-	public Set<SpeciesImpactView> getSpeciesImpactViews() {
-		return speciesImpactViews;
+	public Set<SpeciesImpact> getInvasiveSpeciesImpacts() {
+		return invasiveSpeciesImpacts;
 	}
 
-	public void setSpeciesImpactViews(Set<SpeciesImpactView> speciesImpactViews) {
-		this.speciesImpactViews = speciesImpactViews;
+	public void setInvasiveSpeciesImpacts( Set<SpeciesImpact> invasiveSpeciesImpacts) {
+		this.invasiveSpeciesImpacts = invasiveSpeciesImpacts;
 	}
+
 
 	private String link;
 
@@ -406,5 +453,6 @@ public class Species {
 		}
 		return super.equals(obj);
 	}
+
 
 }

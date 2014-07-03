@@ -56,7 +56,7 @@ public class SpeciesImpactUploadParser extends BaseLocationUploadParser<SpeciesI
         {
             // Threatened species
             Species sp = getEntity(Species_.name, row, 0);
-            speciesImpact.setThreatenedSpecies(sp);
+            speciesImpact.setNativeSpecies(sp);
         }
 
         //Location information

@@ -1,4 +1,4 @@
-package org.issg.ibis.z;
+package org.issg.ibis.qdsl.search;
 
 import java.util.ArrayList;
 import java.util.List;

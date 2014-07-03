@@ -72,6 +72,7 @@ $rl-darkred: #D81E05;
 		}
 	}
 	
+	
 	.v-tabsheet-content {
 		background-color: #fcfcfc;
 	}
@@ -81,6 +82,10 @@ $rl-darkred: #D81E05;
 	}
 
 	/** Search stuff **/
+	
+	.v-table-cell-content-species {
+		font-style: italic;
+	}
 	
 	.search-result {
 		color: white;
@@ -121,6 +126,44 @@ $rl-darkred: #D81E05;
 		/*height: 65px;*/
 	}
 	
+	/*
+	*/
+	.v-generated-body &.v-app .v-app-loading { 
+	height: 100%; 
+	width: 100%;
+	background-image: url(img/issg-logo.gif);
+	background-repeat: no-repeat;
+	background-position: 50%;
+}
+
+	.logo-container {
+			
+		width: 100%;
+
+		div { 
+			float: left;
+		}
+			
+        .issg-logo {
+                width: 66px;
+                height: 61px;
+                background-image: url(img/issg-logo.gif);
+        }
+                        
+        .iucn-logo {
+                width: 66px;
+                height: 61px;
+                background-image: url(img/iucn.jpg);
+        }
+                                        
+        .ec-logo {
+                width: 66px;
+                height: 61px;
+                background-image: url(img/ec2.png);
+                background-repeat: no-repeat;
+        }
+    }
+
 	.header {
 		padding-left: 20px;
 		padding-top: 5px;
@@ -162,27 +205,6 @@ $rl-darkred: #D81E05;
 				float: right;
 				padding-top: 5px;
 			
-				.issg-logo {
-					height: 50px;
-					width: 50px;
-					margin-right: 20px;
-					background-image: url(http://tib.islandconservation.org/images/logos/ISSG.png);
-				}
-				
-				.iucn-logo {
-					height: 48px;
-					width: 50px;
-					margin-right: 20px;
-					background-image: url(img/iucn.png);
-				}
-				
-				.ec-logo {
-					height: 48px;
-					width: 50px;
-					margin-right: 20px;
-					background-image: url(img/ec2.png);
-					background-repeat: no-repeat;
-				}
 			
 			}
 			

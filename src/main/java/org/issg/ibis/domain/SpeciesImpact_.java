@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(SpeciesImpact.class)
 public abstract class SpeciesImpact_ {
 
-    public static volatile SingularAttribute<SpeciesImpact,Species> threatenedSpecies;
+    public static volatile SingularAttribute<SpeciesImpact,Species> nativeSpecies;
 
     public static volatile SingularAttribute<SpeciesImpact,Species> invasiveSpecies;
 

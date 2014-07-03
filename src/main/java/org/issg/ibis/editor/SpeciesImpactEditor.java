@@ -20,7 +20,7 @@ public class SpeciesImpactEditor extends
         super(SpeciesImpact.class, dao);
 
         getTable().addColumns(
-                SpeciesImpact_.threatenedSpecies,
+                SpeciesImpact_.nativeSpecies,
                 SpeciesImpact_.invasiveSpecies,
                 SpeciesImpact_.impactMechanism, 
                 SpeciesImpact_.impactOutcome);
@@ -28,7 +28,7 @@ public class SpeciesImpactEditor extends
 //        filterPanel.addFilterField(SpeciesImpact_.threatenedSpecies);
 //         filterPanel.addFilterField(TableDescription_.schema);
          
-        ff.addField(SpeciesImpact_.threatenedSpecies);
+        ff.addField(SpeciesImpact_.nativeSpecies);
         ff.addField(SpeciesImpact_.invasiveSpecies);
 
         ff.addField(SpeciesImpact_.impactMechanism);

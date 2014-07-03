@@ -10,10 +10,11 @@ import org.issg.ibis.editor.IslandEditor;
 import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.editor.SpeciesImpactEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
-import org.issg.ibis.perspective.shared.CountryPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.qdsl.experimental.LocationSearch;
 import org.issg.ibis.qdsl.experimental.SpeciesSearch;
+import org.issg.ibis.qdsl.search.SimpleSearch;
+import org.issg.ibis.responsive.Dashboard;
 import org.jrc.persist.adminunits.Country;
 import org.vaadin.addons.form.inject.AbstractViewModule;
 import org.vaadin.addons.form.inject.GuicedViewProvider;
@@ -44,20 +45,21 @@ public class ViewModule extends AbstractViewModule {
     public static final String ISSUE_EDITOR = "Issues";
 	public static final String SPECIES_SEARCH = "SearchBySpecies";
 	public static final String LOCATION_SEARCH = "SearchByLocation";
+	public static final String SEARCH = "Search";
 
     @Override
     protected void configure() {
         mapbinder = MapBinder.newMapBinder(binder(), String.class,
                 View.class);
         
-        mapbinder.addBinding(GuicedViewProvider.HOME).to(IndexPage.class);
+        mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class);
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
-        mapbinder.addBinding(COUNTRY_PERSPECTIVE).to(CountryPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
         mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class);
         mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class);
 
+        mapbinder.addBinding(SEARCH).to(SimpleSearch.class);
         
         addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 

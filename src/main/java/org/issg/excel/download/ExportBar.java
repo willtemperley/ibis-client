@@ -7,7 +7,6 @@ import java.util.Set;
 import org.apache.poi.ss.usermodel.Row;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.domain.view.QSpeciesImpactView;
 import org.jrc.persist.Dao;
 
 import com.mysema.query.jpa.impl.JPAQuery;

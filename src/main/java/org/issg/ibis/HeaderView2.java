@@ -19,14 +19,14 @@ import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 
-public class HeaderView extends HorizontalLayout implements View {
+public class HeaderView2 extends HorizontalLayout implements View {
 
     private AccountDetails accountDetails;
     private String contextPath;
 	private NavMenu navMenu;
 
     @Inject
-    public HeaderView(NavMenu navMenu, @Named("context_path") String contextPath, RoleManager roleManager) {
+    public HeaderView2(NavMenu navMenu, @Named("context_path") String contextPath, RoleManager roleManager) {
     	
         this.setStyleName("header");
         this.setSizeFull();
@@ -130,8 +130,7 @@ public class HeaderView extends HorizontalLayout implements View {
     private void addPartnerLogos() {
         Label logoLabel = new Label();
         logoLabel.setContentMode(ContentMode.HTML);
-        logoLabel
-                .setValue("<div class='logo-container'><div class='issg-logo'></div><div class='ec-logo'></div><div class='iucn-logo'></div></div>");
+        logoLabel.setValue("<div class='logo-container'><div class='issg-logo'></div><div class='ec-logo'></div><div class='iucn-logo'></div></div>");
 
         addComponent(logoLabel);
     }

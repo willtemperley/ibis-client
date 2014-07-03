@@ -3,9 +3,14 @@ package org.issg.ibis.domain.view;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.issg.ibis.domain.Species;
 
 @Entity
 @Table(schema = "ibis", name = "location_view")
@@ -20,6 +25,20 @@ public class LocationView {
     public void setId(Long id) {
         this.id = id;
     }
+
+    private Species species;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="species_id")
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
+    }
+
 
     private String country;
 

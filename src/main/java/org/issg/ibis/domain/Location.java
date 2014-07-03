@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -37,8 +39,13 @@ import com.vividsolutions.jts.geom.Polygon;
                 resultSetMapping = "Location.implicit")
     }
 )
+@NamedQueries({
+		@NamedQuery(name = Location.HAS_IMPACT, query = "from Location l where exists (select 1 from SpeciesImpact i where i.location.id = l.id) order by name")
+})
 @Table(schema = "ibis", name = "location")
 public class Location {
+	
+	public static final String HAS_IMPACT = "Has Impact";
 
     private Long id;
 

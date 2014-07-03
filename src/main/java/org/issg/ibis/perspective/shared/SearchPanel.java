@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.z.SearchSelectEventListener;
+import org.issg.ibis.qdsl.search.SearchSelectEventListener;
 import org.jrc.persist.Dao;
 import org.jrc.ui.HtmlLabel;
 

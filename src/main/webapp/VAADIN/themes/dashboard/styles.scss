@@ -2,6 +2,8 @@
 @import "dashboard.scss";
 @import "leaflet.scss";
 
+@import "responsive/responsive.scss";
+
 /* Font embeds and keyframe definitions need to be 
  * on the top level of the stylesheet, not nested 
  * with any selectors, so we output them here */
@@ -13,5 +15,6 @@
 /* Output the actual theme selectors */
 .dashboard {
 	@include dashboard;
+	@include responsive;
 }
 

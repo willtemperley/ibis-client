@@ -66,11 +66,11 @@ public class DataServlet extends HttpServlet {
         e.addColumn(speciesimpact.invasiveSpecies);
 		e.addColumn(speciesimpact.impactMechanism);
 		e.addColumn(speciesimpact.impactOutcome);
-        e.addColumn(speciesimpact.threatenedSpecies);
+        e.addColumn(speciesimpact.nativeSpecies);
         e.addColumn(speciesimpact.location);
         
         JPAQuery j = new JPAQuery(emp.get());
-        SearchResults<SpeciesImpact> x = j.from(speciesimpact).where(speciesimpact.threatenedSpecies.id.eq(id)).listResults(speciesimpact);
+        SearchResults<SpeciesImpact> x = j.from(speciesimpact).where(speciesimpact.nativeSpecies.id.eq(id)).listResults(speciesimpact);
         List<SpeciesImpact> results = x.getResults();
         
         e.writeSheet(worksheet, results);

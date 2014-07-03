@@ -23,6 +23,7 @@ public class SpeciesSummary implements Content {
     public Long getId() {
         return id;
     }
+    
     public void setId(Long id) {
         this.id = id;
     }

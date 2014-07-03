@@ -1,0 +1,38 @@
+	// Fix so that the item outlines are shown
+@mixin responsive {
+
+.grid {
+overflow: visible;
+}
+
+// Style the items in the grid
+.grid > v-csslayout {
+outline: 1px dotted rgba(0,0,0,.3);
+text-align: center;
+padding: 2em 0;
+font-size: 16px;
+font-weight: bold;
+}
+
+.grid > div.v-csslayout {
+display: inline;
+}
+
+// We want the items in the grid to stay between 100px and 200px, if possible
+  .grid[width-range~="0-400px"] .v-label {
+    width: 100%;
+  }
+
+  .grid[width-range~="401px-800px"] > .v-label {
+    width: 50%;
+  }
+  
+  .grid[width-range~="801px-1000px"] > .v-label {
+    width: 33.3333%;
+  }
+  
+  
+  .grid[width-range~="1001px-"] > .v-label {
+    width: 33.3333%;
+  }
+ }
