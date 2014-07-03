@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<vaadin.version>7.2.3</vaadin.version>
+		<vaadin.version>7.2.4</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<version.guice-servlet>3.0</version.guice-servlet>
 		<version.google-guava>13.0.1</version.google-guava>
@@ -69,8 +69,8 @@
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.plugin.version}</version>
 				<configuration>
-					<skip>${env.skipGwtCompile}</skip>
 					<!-- 
+					<skip>${env.skipGwtCompile}</skip>
 					<extraJvmArgs>-Xmx4096M -Xss1024k</extraJvmArgs>
 					 -->
 					<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
