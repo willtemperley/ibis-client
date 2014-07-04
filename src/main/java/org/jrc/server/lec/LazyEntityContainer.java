@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jrc.persist.Dao;
+import org.vaadin.maddon.ListContainer;
 
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.impl.JPAQuery;
@@ -37,7 +38,7 @@ public class LazyEntityContainer<T> extends ListContainer<T>{
         
         SearchResults<T> r = query.listResults(entityPath);
 
-		backingList.addAll(r.getResults());
+		addAll(r.getResults());
 	}
 	
     public void setFilters(List<BooleanExpression> expressions) {
@@ -49,7 +50,7 @@ public class LazyEntityContainer<T> extends ListContainer<T>{
         SearchResults<T> x = q.where(arr)
                 .listResults(entityPath);
         
-        backingList.clear();
+        removeAllItems();
         addAll(x.getResults());
     }
 

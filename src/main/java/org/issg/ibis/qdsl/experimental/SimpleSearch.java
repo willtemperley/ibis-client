@@ -1,4 +1,4 @@
-package org.issg.ibis.qdsl.search;
+package org.issg.ibis.qdsl.experimental;
 
 import org.issg.ibis.responsive.LocationSearch;
 import org.issg.ibis.responsive.SpeciesSearch;

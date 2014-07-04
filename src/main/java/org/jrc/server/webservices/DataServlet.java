@@ -1,7 +1,6 @@
 package org.jrc.server.webservices;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,7 +16,6 @@ import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.QSpeciesLocation;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesLocation;
-import org.jrc.persist.Dao;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

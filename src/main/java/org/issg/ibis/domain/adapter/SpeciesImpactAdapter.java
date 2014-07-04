@@ -1,7 +1,12 @@
-package org.issg.ibis.domain;
+package org.issg.ibis.domain.adapter;
+
+import org.issg.ibis.domain.Reference;
+import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.SpeciesImpact;
 
 public class SpeciesImpactAdapter {
 
+	private static final String EMPTY_STRING = "";
 	private SpeciesImpact si;
 	private Species species;
 
@@ -54,6 +59,14 @@ public class SpeciesImpactAdapter {
 
 	public Long getId() {
 		return si.getId();
+	}
+	
+	public String getReference() {
+		Reference reference = si.getReference();
+		if (reference != null) {
+			return reference.toString();
+		}
+		return EMPTY_STRING;
 	}
 
 }

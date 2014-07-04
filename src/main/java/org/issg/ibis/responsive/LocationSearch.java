@@ -10,17 +10,22 @@ import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
-import org.issg.ibis.qdsl.search.TypedSelect;
-import org.issg.ibis.qdsl.search.TypedSelect.ValueChangeListener;
 import org.jrc.persist.Dao;
 import org.jrc.persist.adminunits.Country;
 import org.jrc.persist.adminunits.QCountry;
 import org.jrc.ui.SimplePanel;
+import org.vaadin.maddon.fields.MValueChangeEvent;
+import org.vaadin.maddon.fields.MValueChangeListener;
+import org.vaadin.maddon.fields.TypedSelect;
 
 import com.google.inject.Inject;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.vaadin.data.Property;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Field.ValueChangeEvent;
+import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -49,29 +54,33 @@ public class LocationSearch extends VerticalLayout {
 	}
 
 	private TypedSelect<Location> getLocationSelector() {
-		TypedSelect<Location> select = new TypedSelect<Location>("Location");
+		
+		
+		TypedSelect<Location> select = new TypedSelect<Location>("Location").withSelectType(ListSelect.class);
 		TypedQuery<Location> q = dao.getEntityManager().createNamedQuery(
 				Location.HAS_IMPACT, Location.class);
-		for (Location l : q.getResultList()) {
-			select.addItem(l);
-		}
-		select.addVCL(new TypedSelect.ValueChangeListener<Location>() {
+		List<Location> resultList = q.getResultList();
+		select.setOptions(resultList);
+		select.addTypedValueChangeListener(new MValueChangeListener<Location>() {
+
 
 			@Override
-			public void onValueChange(Location val) {
+			public void valueChange(MValueChangeEvent<Location> event) {
+				// TODO Auto-generated method stub
+				Location val = event.getValue();
 				if (val != null) {
 					Navigator nav = UI.getCurrent().getNavigator();
 					nav.navigateTo(ViewModule.LOCATION_PERSPECTIVE + "/"
 							+ val.getId());
 				}
-
+				
 			}
 		});
 		return select;
 	}
 
 	private TypedSelect<Country> getCountrySelector() {
-		TypedSelect<Country> select = new TypedSelect<Country>("Country");
+		TypedSelect<Country> select = new TypedSelect<Country>("Country").withSelectType(ComboBox.class);
 
 		JPAQuery q = new JPAQuery(dao.getEntityManager());
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
@@ -79,16 +88,14 @@ public class LocationSearch extends VerticalLayout {
 		q = q.from(c, si).where(c.eq(si.location.country));
 		q = q.distinct();
 		List<Country> results = q.list(c);
-		for (Country country : results) {
-			select.addItem(country);
-		}
+		select.setOptions(results);
 
-		select.addVCL(new TypedSelect.ValueChangeListener<Country>() {
+		select.addTypedValueChangeListener(new MValueChangeListener<Country>() {
+
 			@Override
-			public void onValueChange(Country val) {
-				List<Location> x = getLocationsForCountry(val);
-				locationSelector.removeAllItems();
-				locationSelector.addItems(x);
+			public void valueChange(MValueChangeEvent<Country> event) {
+				List<Location> x = getLocationsForCountry(event.getValue());
+				locationSelector.setOptions(x);
 			}
 		});
 

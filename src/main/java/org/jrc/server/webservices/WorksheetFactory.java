@@ -12,9 +12,9 @@ import com.mysema.query.types.Path;
 
 public class WorksheetFactory {
 
-	public List<Path<?>> cols = new ArrayList<Path<?>>();
-	protected int currentRow = 0;
+	private List<Path<?>> cols = new ArrayList<Path<?>>();
 
+	private int currentRow = 0;
 
 	public <X> void addColumn(Path<X> id) {
 		cols.add(id);
@@ -33,9 +33,15 @@ public class WorksheetFactory {
 			currentRow++;
 		}
 	}
-	
-	private void addCells(Row r, Object value) {
-		short num = r.getLastCellNum();
+
+	/**
+	 * Append all the values in the bean to a row
+	 * 
+	 * @param row
+	 * @param value
+	 */
+	private void addCells(Row row, Object value) {
+		short num = row.getLastCellNum();
 		if (num < 0) {
 			num = 0;
 		}
@@ -43,7 +49,7 @@ public class WorksheetFactory {
 		WrapDynaBean db = new WrapDynaBean(value);
 	
 		for (Path<?> p : cols) {
-			Cell c = r.createCell(num, Cell.CELL_TYPE_STRING);
+			Cell c = row.createCell(num, Cell.CELL_TYPE_STRING);
 	
 			Object v = db.get(p.getMetadata().getName());
 	
@@ -54,12 +60,18 @@ public class WorksheetFactory {
 		}
 	}
 
-	protected void addCell(Row r, Object value) {
-		short num = r.getLastCellNum();
+	/**
+	 * Appends a value to the end of a row
+	 * 
+	 * @param row
+	 * @param value
+	 */
+	protected void addCell(Row row, Object value) {
+		short num = row.getLastCellNum();
 		if (num < 0) {
 			num = 0;
 		}
-		Cell c = r.createCell(num, Cell.CELL_TYPE_STRING);
+		Cell c = row.createCell(num, Cell.CELL_TYPE_STRING);
 		if (value != null) {
 			c.setCellValue(value.toString());
 		}

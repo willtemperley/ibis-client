@@ -9,11 +9,12 @@ import org.issg.ibis.editor.DesignatedAreaEditor;
 import org.issg.ibis.editor.IslandEditor;
 import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.editor.SpeciesImpactEditor;
+import org.issg.ibis.mobile.MyFirstMobileUI;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.qdsl.experimental.LocationSearch;
+import org.issg.ibis.qdsl.experimental.SimpleSearch;
 import org.issg.ibis.qdsl.experimental.SpeciesSearch;
-import org.issg.ibis.qdsl.search.SimpleSearch;
 import org.issg.ibis.responsive.Dashboard;
 import org.jrc.persist.adminunits.Country;
 import org.vaadin.addons.form.inject.AbstractViewModule;
@@ -60,6 +61,8 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class);
 
         mapbinder.addBinding(SEARCH).to(SimpleSearch.class);
+        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class);
+
         
         addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 

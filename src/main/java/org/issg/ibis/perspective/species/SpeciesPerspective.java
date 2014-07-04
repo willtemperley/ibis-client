@@ -6,15 +6,15 @@ import it.jrc.form.editor.EntityTable;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.issg.excel.download.ExportBar;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.domain.SpeciesImpactAdapter;
 import org.issg.ibis.domain.SpeciesLocation;
-import org.issg.ibis.domain.SpeciesLocationAdapter;
 import org.issg.ibis.domain.SpeciesLocation_;
+import org.issg.ibis.domain.adapter.SpeciesImpactAdapter;
+import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
 import org.issg.ibis.domain.view.SpeciesExtent;
+import org.issg.ibis.download.ExportBar;
 import org.issg.ibis.editor.InlineSpeciesEditor;
 import org.issg.ibis.perspective.shared.LayerViewer;
 import org.issg.ibis.webservices.ArkiveV1Search;
@@ -126,8 +126,8 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			ts.setSizeFull();
 			speciesImpactTable = getSpeciesImpactTable();
 			speciesImpactTable.setItalicColumn("name");
-			ts.addTab(speciesImpactTable);
 			ts.addTab(getSpeciesLocationAdapterTable(), "Occurrences");
+			ts.addTab(speciesImpactTable);
 			ts.addTab(exporter, "Download");
 			vl.addComponent(ts);
 			vl.setSpacing(true);
@@ -189,7 +189,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			}
 		});
 
-		table.addColumns("location", "country", "biologicalStatus");
+		table.addColumns("country", "location", "biologicalStatus");
 		return table;
 	}
 
@@ -198,7 +198,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		EntityTable<SpeciesImpactAdapter> table = new EntityTable<SpeciesImpactAdapter>(
 				speciesImpactContainer);
 
-		table.addColumns("name", "commonName", "country", "location");
+		table.addColumns("name", "commonName", "country", "location", "impactMechanism", "reference");
 
 		table.setHeight("100%");
 		table.setWidth("100%");

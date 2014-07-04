@@ -39,7 +39,6 @@ public class AppUI extends ScopedUI  {
 
 		this.viewProvider = viewProvider;
 		this.headerView = headerView;
-
 	}
 
 	@Override

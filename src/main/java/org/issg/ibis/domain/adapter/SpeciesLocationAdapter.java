@@ -1,4 +1,6 @@
-package org.issg.ibis.domain;
+package org.issg.ibis.domain.adapter;
+
+import org.issg.ibis.domain.SpeciesLocation;
 
 public class SpeciesLocationAdapter {
 	

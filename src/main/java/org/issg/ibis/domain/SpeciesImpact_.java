@@ -19,4 +19,6 @@ public abstract class SpeciesImpact_ {
     public static volatile SingularAttribute<SpeciesImpact,Location> location;
 
     public static volatile SingularAttribute<SpeciesImpact,UploadLog> uploadLog;
+
+    public static volatile SingularAttribute<SpeciesImpact,Reference> reference;
 }

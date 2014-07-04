@@ -131,8 +131,6 @@ public class HeaderView extends HorizontalLayout implements View {
     }
 
 
-
-
     private void addLogo() {
         Label label = new Label();
         label.setContentMode(ContentMode.HTML);

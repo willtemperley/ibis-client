@@ -1,11 +1,9 @@
 package org.issg.ibis.perspective.species;
 
 import org.issg.ibis.domain.Species;
-import org.jrc.server.lec.ListContainer.DynaBeanItem;
 
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 public class Taxonomy extends FormLayout {
 	

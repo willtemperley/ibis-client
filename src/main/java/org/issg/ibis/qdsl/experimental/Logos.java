@@ -1,4 +1,4 @@
-package org.issg.ibis.qdsl.search;
+package org.issg.ibis.qdsl.experimental;
 
 import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;

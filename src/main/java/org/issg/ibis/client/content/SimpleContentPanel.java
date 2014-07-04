@@ -28,6 +28,7 @@ public class SimpleContentPanel  {
             panel.addComponent(header);
     
             HtmlLabel content = new HtmlLabel();
+            content.addStyleName("content");
             content.setValue(speciesSummary.getContent());
             panel.addComponent(content);
     

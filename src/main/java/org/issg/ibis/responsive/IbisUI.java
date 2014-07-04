@@ -13,6 +13,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("responsive")
+//@Theme("touchkit")
 public class IbisUI extends ScopedUI {
 
 	Dao dao;

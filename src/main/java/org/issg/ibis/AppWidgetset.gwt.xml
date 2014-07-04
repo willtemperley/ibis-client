@@ -14,6 +14,7 @@
 	<inherits name="org.vaadin.addon.leaflet.markercluster.Widgetset" />
 	<inherits name="org.vaadin.addon.leaflet.draw.DrawWidgetset" />
     <!-- Add on widgetsets
+	<inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
      --> 
     
 </module>

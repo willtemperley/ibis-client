@@ -1,4 +1,4 @@
-package org.issg.excel.download;
+package org.issg.ibis.download;
 
 import java.util.ArrayList;
 import java.util.List;

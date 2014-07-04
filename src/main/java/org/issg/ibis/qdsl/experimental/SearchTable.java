@@ -1,4 +1,4 @@
-package org.issg.ibis.perspective.shared;
+package org.issg.ibis.qdsl.experimental;
 
 import it.jrc.form.editor.EntityTable;
 
@@ -8,87 +8,93 @@ import javax.persistence.TypedQuery;
 
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.qdsl.search.SearchSelectEventListener;
+import org.issg.ibis.qdsl.experimental.SearchSelectEventListener;
 import org.jrc.persist.Dao;
 import org.jrc.ui.HtmlLabel;
+import org.vaadin.maddon.ListContainer;
+import org.vaadin.maddon.ListContainer.DynaBeanItem;
 
+import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
-public class SearchPanel extends VerticalLayout {
+public class SearchTable extends CssLayout {
 
-	private BeanItemContainer<ResourceDescription> bic = new BeanItemContainer<ResourceDescription>(
+	private static final int COL_WIDTH = 400;
+
+	private static final String TABLE_WIDTH = "450px";
+
+	private ListContainer<ResourceDescription> bic = new ListContainer<ResourceDescription>(
 			ResourceDescription.class);
 
 	private SearchSelectEventListener searchListener;
 
 	private Dao dao;
 
-	public SearchPanel(Dao dao) {
+	public void setResults(List<ResourceDescription> l) {
+		bic.removeAllItems();
+		bic.addAll(l);
+	}
 
-		addStyleName("layout-panel");
-
+	public SearchTable(Dao dao) {
 		this.dao = dao;
-
-		setSizeFull();
-
 		addComponent(getSearchEntityTable());
+		setSizeFull();
 	}
 
 	class ImpactVisualizationColumn implements Table.ColumnGenerator {
 
 		public Component generateCell(Table source, Object itemId,
 				Object columnId) {
-			BeanItem<?> item = (BeanItem<?>) source.getItem(itemId);
+			
+			ResourceDescription resourceDescription = (ResourceDescription) itemId;
+			
+			char initial = resourceDescription.getId().charAt(0);
 
-			final ResourceDescription si = (ResourceDescription) item.getBean();
-			return new SearchResult(si);
-		}
-	}
+			StringBuilder sb = new StringBuilder("<div class='search-result rt-");
+			String resultType = resourceDescription.getResultType();
+			
+			if (resultType == null) {
+				resultType = "IN";
+			}
 
-	public class SearchResult extends Panel {
+			sb.append(initial)
+			.append("'>")
+			.append(resultType)
+			.append("</div>");
 
-		public SearchResult(ResourceDescription facetedSearch) {
-
-			// ResourceType rt = facetedSearch.getResourceType();
-			char initial = facetedSearch.getId().charAt(0);
-
-			String html = "<div class='search-result result-type-" + initial
-					+ "'>" + initial + "</div>";
-			html += getLink(facetedSearch);
-
-			html += ("<div>Known impacts: " + facetedSearch.getImpactCount() + "</div>");
-
-			HtmlLabel shl = new HtmlLabel(html);
-
-			setContent(shl);
-		}
-
-		private String getLink(ResourceDescription esi) {
-			StringBuilder sb = new StringBuilder(
-					"<div class='search-description'><a href='#!");
-			sb.append(esi.getId());
+			/*
+			 * The link
+			 */
+			sb.append("<div class='search-description'><a href='#!");
+			sb.append(resourceDescription.getId());
 			sb.append("'>");
-			sb.append(esi.toString());
+			sb.append(resourceDescription.toString());
 			sb.append("</a></div>");
-			return sb.toString();
+
+			sb.append("<div>Known impacts: ").append(resourceDescription.getImpactCount()).append("</div>");
+
+
+			return new HtmlLabel(sb.toString());
 		}
 	}
 
 	private EntityTable<ResourceDescription> getSearchEntityTable() {
 
-		EntityTable<ResourceDescription> table = new EntityTable<ResourceDescription>(
-				bic);
+		EntityTable<ResourceDescription> table = new EntityTable<ResourceDescription>(bic);
+		setSizeFull();
 
 		table.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
 
-		table.setHeight("100%");
+		 table.setHeight("100%");
+		 table.setWidth(TABLE_WIDTH);
 
 		table.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(Property.ValueChangeEvent event) {
@@ -109,9 +115,8 @@ public class SearchPanel extends VerticalLayout {
 
 		ImpactVisualizationColumn generatedColumn = new ImpactVisualizationColumn();
 		table.addGeneratedColumn("id", generatedColumn);
-		table.setColumnWidth("id", 400);
+		table.setColumnWidth("id", COL_WIDTH);
 		table.setVisibleColumns("id");
-		// table.addColumns(SearchEntity_.name);
 		return table;
 
 	}

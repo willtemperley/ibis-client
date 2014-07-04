@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.issg.ibis.domain.adapter.SpeciesImpactAdapter;
 import org.issg.ibis.domain.json.GbifSpecies;
 import org.issg.ibis.domain.view.LocationView;
 

@@ -104,6 +104,19 @@ public class SpeciesImpact {
         this.biologicalStatus = biologicalStatus;
     }
 
+    private Reference reference;
+
+    @ManyToOne
+    @JoinColumn(name="reference_id")
+    public Reference getReference() {
+		return reference;
+	}
+
+    public void setReference(Reference reference) {
+		this.reference = reference;
+	}
+
+
     @Override
     public int hashCode() {
         if (id != null) {
