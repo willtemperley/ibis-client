@@ -64,7 +64,6 @@ public class SpeciesSummary implements Content {
     /* (non-Javadoc)
      * @see org.issg.ibis.domain.Content#setContent(java.lang.String)
      */
-    @Override
     public void setContent(String content) {
         this.content = content;
     }

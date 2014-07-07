@@ -276,19 +276,17 @@ public class Species {
 	}
 
 	private Set<LocationView> speciesLocationViews;
-	
+
 	@OneToMany(mappedBy = "species")
 	public Set<LocationView> getSpeciesLocationViews() {
 		return speciesLocationViews;
 	}
-	
+
 	public void setSpeciesLocationViews(Set<LocationView> speciesLocationViews) {
 		this.speciesLocationViews = speciesLocationViews;
 	}
 
-
 	private Set<SpeciesImpact> nativeSpeciesImpacts;
-
 
 	@OneToMany(mappedBy = "invasiveSpecies")
 	public Set<SpeciesImpact> getNativeSpeciesImpacts() {
@@ -298,7 +296,7 @@ public class Species {
 	public void setNativeSpeciesImpacts(Set<SpeciesImpact> nativeSpeciesImpacts) {
 		this.nativeSpeciesImpacts = nativeSpeciesImpacts;
 	}
-	
+
 	@Transient
 	public boolean getIsInvasive() {
 
@@ -306,7 +304,7 @@ public class Species {
 		if (isi != null && isi.size() > 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -317,7 +315,7 @@ public class Species {
 	 */
 	@Transient
 	public List<SpeciesImpactAdapter> getSpeciesImpactAdapters() {
-		
+
 		ArrayList<SpeciesImpactAdapter> sia = new ArrayList<SpeciesImpactAdapter>();
 
 		Set<SpeciesImpact> nsi = getNativeSpeciesImpacts();
@@ -336,16 +334,16 @@ public class Species {
 	}
 
 	private Set<SpeciesImpact> invasiveSpeciesImpacts;
-	
+
 	@OneToMany(mappedBy = "nativeSpecies")
 	public Set<SpeciesImpact> getInvasiveSpeciesImpacts() {
 		return invasiveSpeciesImpacts;
 	}
 
-	public void setInvasiveSpeciesImpacts( Set<SpeciesImpact> invasiveSpeciesImpacts) {
+	public void setInvasiveSpeciesImpacts(
+			Set<SpeciesImpact> invasiveSpeciesImpacts) {
 		this.invasiveSpeciesImpacts = invasiveSpeciesImpacts;
 	}
-
 
 	private String link;
 
@@ -429,9 +427,21 @@ public class Species {
 		return name;
 	}
 
+	private String scientificName;
+
 	@Transient
 	public String getScientificName() {
-		return "<i>" + name + "</i> " + getAuthority();
+		if (scientificName == null) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("<i>");
+			sb.append(name);
+			sb.append("</i> ");
+			if (getAuthority() != null) {
+				sb.append(getAuthority());
+			}
+			scientificName = sb.toString();
+		}
+		return scientificName;
 	}
 
 	@Override
@@ -454,6 +464,5 @@ public class Species {
 		}
 		return super.equals(obj);
 	}
-
 
 }

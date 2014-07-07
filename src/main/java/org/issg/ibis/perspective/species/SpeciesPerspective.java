@@ -46,7 +46,9 @@ import com.vividsolutions.jts.geom.Polygon;
 public class SpeciesPerspective extends TwinPanelView implements View {
 
 	private Logger logger = LoggerFactory.getLogger(SpeciesPerspective.class);
+
 	private Dao dao;
+
 	private Species species;
 
 	private ListContainer<SpeciesImpactAdapter> speciesImpactContainer = new ListContainer<SpeciesImpactAdapter>( SpeciesImpactAdapter.class);
@@ -63,11 +65,16 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 	private FeatureMapLayer fml = new FeatureMapLayer();
 
 	private LMarkerClusterGroup mapClusterGroup = new LMarkerClusterGroup();
+	
 	private Window w;
 
 	private ExportBar exporter = new ExportBar();
+
 	private EntityTable<SpeciesImpactAdapter> speciesImpactTable;
+
 	private TabSheet ts;
+
+//	private Refs refs;
 
 	/**
 	 * Displays a threatened species and its locations.
@@ -78,8 +85,6 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 	@Inject
 	public SpeciesPerspective(Dao dao, RoleManager roleManager) {
 
-		setId("species-perspective");
-
 		this.dao = dao;
 
 		this.speciesEditor = new InlineSpeciesEditor(Species.class, dao);
@@ -88,13 +93,19 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			/*
 			 * Species info
 			 */
-			SimplePanel leftPanel = getLeftPanel();
-			leftPanel.setWidth("600px");
-			this.speciesSummary = new SpeciesSummaryController(leftPanel,
-					new ArkiveV1Search(dao));
+			VerticalLayout vl = new VerticalLayout();
+			replaceComponent(getLeftPanel(), vl);
+			vl.addStyleName("display-panel");
+			vl.setWidth("600px");
+			vl.setHeight("100%");
+			this.speciesSummary = new SpeciesSummaryController(new ArkiveV1Search(dao));
+			vl.addComponent(speciesSummary);
+
+//			this.refs = new Refs();
+//			vl.addComponent(refs);
 
 			if (roleManager.getRole().getIsSuperUser()) {
-				addEditButton(leftPanel);
+//				addEditButton(leftPanel);
 			}
 		}
 
@@ -250,6 +261,8 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 		 * Species display
 		 */
 		speciesSummary.setSpecies(sp);
+		
+//		refs.setReferences(sp.getReferences());
 
 		// Clear other info
 		speciesImpactContainer.removeAllItems();

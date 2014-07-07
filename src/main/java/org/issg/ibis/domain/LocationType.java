@@ -17,5 +17,10 @@ public class LocationType {
     public void setId(String id) {
         this.id = id;
     }
+    
+    @Override
+    public String toString() {
+    	return getId();
+    }
 
 }

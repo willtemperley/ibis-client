@@ -54,8 +54,8 @@ public class LocationPerspective extends TwinPanelView implements View {
 	private ListContainer<SpeciesLocationAdapter> nativeSpeciesLocationContainer = new ListContainer<SpeciesLocationAdapter>(
 			SpeciesLocationAdapter.class);
 
-	private HtmlLabel locationDescription = new HtmlLabel();
 	private LocationSummaryView ls;
+	private LocationDescription locationDescription;
 
 	/**
      */
@@ -63,7 +63,6 @@ public class LocationPerspective extends TwinPanelView implements View {
 	public LocationPerspective(Dao dao) {
 
 		this.dao = dao;
-
 
 		{
 			/*
@@ -73,11 +72,12 @@ public class LocationPerspective extends TwinPanelView implements View {
 			leftPanel.setWidth("600px");
 			locationName = new HtmlHeader();
 			locationName.addStyleName("header-large");
+			locationDescription = new LocationDescription();
+			locationDescription = new LocationDescription();
 			leftPanel.addComponent(locationName);
 			leftPanel.addComponent(locationDescription);
 
             ls = new LocationSummaryView(leftPanel);
-
 		}
 
 		{
@@ -110,6 +110,14 @@ public class LocationPerspective extends TwinPanelView implements View {
 
 	}
 
+	@Override
+	public void enter(ViewChangeEvent event) {
+	
+		String params = event.getParameters();
+	
+		setEntityId(params);
+	}
+
 	private EntityTable<IASAdapter> getSpeciesImpactTable() {
 
 		EntityTable<IASAdapter> table = new EntityTable<IASAdapter>(
@@ -118,24 +126,12 @@ public class LocationPerspective extends TwinPanelView implements View {
 		table.setSizeFull();
 		table.setPageLength(40);
 
-
-		// ImpactVisualizationColumn generatedColumn = new
-		// ImpactVisualizationColumn();
-		// table.addGeneratedColumn("id", generatedColumn);
-		// table.setColumnWidth("id", 400);
 		table.addColumns("nativeSpecies", "nativeCommonName", "invasiveAlienSpecies", "invasiveAlienCommonName", "impactMechanism", "impactOutcome", "reference");
 		
 		table.setItalicColumn("nativeSpecies", "invasiveAlienSpecies");
+
 		return table;
 
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-
-		String params = event.getParameters();
-
-		setEntityId(params);
 	}
 
 	private void setEntityId(String entityId) {
@@ -151,21 +147,9 @@ public class LocationPerspective extends TwinPanelView implements View {
 
 		map.zoomTo(loc.getEnvelope());
 
-		/*
-		 * TODO: so much duplication
-		 * 
-		 * Mess with location types
-		 */
+		locationName.setValue(loc.getName());
 
-		String desc = "";
-		String prefix = loc.getPrefix();
-		if (prefix != null && prefix.equals("WDPA")) {
-			desc = " " + loc.getDesignation();
-			locationDescription.setValue("IUCN category " + loc.getIucnCat());
-		}
-
-		locationName.setValue(loc.getName() + desc);
-
+		locationDescription.setLocation(loc);
 
 
 		/*

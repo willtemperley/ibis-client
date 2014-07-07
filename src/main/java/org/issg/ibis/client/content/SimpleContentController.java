@@ -2,29 +2,34 @@ package org.issg.ibis.client.content;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
+import org.issg.ibis.domain.Reference;
+import org.issg.ibis.perspective.species.SpeciesSummaryController;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 
-public class SimpleContentPanel  {
+public class SimpleContentController  {
 
-    protected List<Component> contentComponents = new ArrayList<Component>();
+    private List<Component> contentComponents = new ArrayList<Component>();
 
-    protected SimplePanel panel;
+    protected CssLayout panel;
     
-    public SimpleContentPanel(SimplePanel panel) {
+    public SimpleContentController(CssLayout panel) {
         this.panel = panel;
     }
 
-    protected void setContent(List<? extends Content> ss) {
+    public void setContent(List<? extends Content> ss) {
     	for (Component content : contentComponents) {
     		panel.removeComponent(content);
 		}
+    	contentComponents.clear();
         for (Content speciesSummary : ss) {
             ContentType ct = speciesSummary.getContentType();
             HtmlHeader header = new HtmlHeader(ct.getName());
@@ -40,4 +45,12 @@ public class SimpleContentPanel  {
         }
     }
     
+    protected void setReferences(Set<Reference> refs) {
+    	for (Reference reference : refs) {
+
+            HtmlLabel content = new HtmlLabel(reference.getContent());
+
+            panel.addComponent(content);
+		}
+    }
 }
