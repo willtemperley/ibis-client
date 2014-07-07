@@ -4,8 +4,6 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import org.jrc.persist.adminunits.Country;
-
 import com.vividsolutions.jts.geom.Polygon;
 
 

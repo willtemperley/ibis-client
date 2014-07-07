@@ -3,8 +3,6 @@ package org.issg.ibis.domain;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import org.jrc.persist.adminunits.Country;
-
 @StaticMetamodel(Island.class)
 public abstract class Island_ {
 

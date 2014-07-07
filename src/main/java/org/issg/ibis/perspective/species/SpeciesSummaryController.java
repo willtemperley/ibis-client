@@ -72,7 +72,7 @@ public class SpeciesSummaryController extends SimpleContentPanel {
 
 		List<SpeciesSummary> ss = sp.getSpeciesSummaries();
 
-		addContent(ss);
+		setContent(ss);
 
 		// commonName.setValue(sp.getCommonName());
 

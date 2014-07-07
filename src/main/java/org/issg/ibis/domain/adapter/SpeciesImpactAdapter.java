@@ -1,12 +1,10 @@
 package org.issg.ibis.domain.adapter;
 
-import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
 
 public class SpeciesImpactAdapter {
 
-	private static final String EMPTY_STRING = "";
 	private SpeciesImpact si;
 	private Species species;
 
@@ -30,31 +28,31 @@ public class SpeciesImpactAdapter {
 	}
 
 	public String getName() {
-		return species.getName();
+		return AdapterUtils.coalesce(species.getName());
 	}
 
 	public String getCommonName() {
-		return species.getCommonName();
+		return AdapterUtils.coalesce(species.getCommonName());
 	}
 
 	public String getCountry() {
-		return si.getLocation().getCountry().getName();
+		return AdapterUtils.coalesce(si.getLocation().getCountry());
 	}
 
 	public String getImpactMechanism() {
-		return si.getImpactMechanism().toString();
+		return AdapterUtils.coalesce( si.getImpactMechanism());
 	}
 
 	public String getImpactOutcome() {
-		return si.getImpactOutcome().toString();
+		return AdapterUtils.coalesce( si.getImpactOutcome());
 	}
 
 	public String getBiologicalStatus() {
-		return si.getBiologicalStatus().toString();
+		return AdapterUtils.coalesce( si.getBiologicalStatus());
 	}
 
 	public String getLocation() {
-		return si.getLocation().toString();
+		return AdapterUtils.coalesce(si.getLocation());
 	}
 
 	public Long getId() {
@@ -62,11 +60,7 @@ public class SpeciesImpactAdapter {
 	}
 	
 	public String getReference() {
-		Reference reference = si.getReference();
-		if (reference != null) {
-			return reference.toString();
-		}
-		return EMPTY_STRING;
+		return AdapterUtils.coalesce(si.getReference());
 	}
 
 }

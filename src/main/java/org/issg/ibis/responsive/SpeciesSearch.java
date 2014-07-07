@@ -12,11 +12,9 @@ import org.vaadin.maddon.fields.MValueChangeListener;
 import org.vaadin.maddon.fields.TypedSelect;
 
 import com.google.inject.Inject;
-import com.vaadin.data.Property;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field.ValueChangeEvent;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 

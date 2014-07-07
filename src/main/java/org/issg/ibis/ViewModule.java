@@ -2,6 +2,7 @@ package org.issg.ibis;
 
 import java.util.Map;
 
+import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
@@ -16,9 +17,9 @@ import org.issg.ibis.qdsl.experimental.LocationSearch;
 import org.issg.ibis.qdsl.experimental.SimpleSearch;
 import org.issg.ibis.qdsl.experimental.SpeciesSearch;
 import org.issg.ibis.responsive.Dashboard;
-import org.jrc.persist.adminunits.Country;
 import org.vaadin.addons.form.inject.AbstractViewModule;
 import org.vaadin.addons.form.inject.GuicedViewProvider;
+import org.vaadin.addons.guice.uiscope.UIScoped;
 
 import com.google.inject.multibindings.MapBinder;
 import com.vaadin.navigator.View;
@@ -53,15 +54,15 @@ public class ViewModule extends AbstractViewModule {
         mapbinder = MapBinder.newMapBinder(binder(), String.class,
                 View.class);
         
-        mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class);
+        mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class).in(UIScoped.class);;
         
-        mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
-        mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
-        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class);
-        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class);
+        mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class).in(UIScoped.class);
+        mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class).in(UIScoped.class);
+        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class).in(UIScoped.class);
+        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class).in(UIScoped.class);
 
-        mapbinder.addBinding(SEARCH).to(SimpleSearch.class);
-        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class);
+        mapbinder.addBinding(SEARCH).to(SimpleSearch.class).in(UIScoped.class);
+        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class).in(UIScoped.class);
 
         
         addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);

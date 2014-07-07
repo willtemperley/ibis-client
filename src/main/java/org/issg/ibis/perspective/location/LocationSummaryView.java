@@ -12,7 +12,7 @@ public class LocationSummaryView extends SimpleContentPanel {
 
     public void setLocation(Location location) {
 
-        addContent(location.getLocationSummaries());
+        setContent(location.getLocationSummaries());
         
     }
 

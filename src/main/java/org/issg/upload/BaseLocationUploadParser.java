@@ -4,12 +4,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.apache.poi.ss.usermodel.Row;
+import org.issg.ibis.domain.Country;
+import org.issg.ibis.domain.Country_;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Location_;
 import org.issg.ibis.domain.SpeciesLocation;
 import org.jrc.persist.Dao;
-import org.jrc.persist.adminunits.Country;
-import org.jrc.persist.adminunits.Country_;
 
 public abstract class BaseLocationUploadParser<T> extends
         UploadParser<T> {

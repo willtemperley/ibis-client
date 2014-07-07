@@ -38,6 +38,18 @@ public class BiologicalStatus {
     public void setLabel(String label) {
         this.label = label;
     }
+    
+    private Boolean isInvasive;
+
+    @NotNull
+    @Column(name = "is_invasive")
+    public Boolean getIsInvasive() {
+		return isInvasive;
+	}
+    
+    public void setIsInvasive(Boolean isInvasive) {
+		this.isInvasive = isInvasive;
+	}
 
     @Override
     public int hashCode() {

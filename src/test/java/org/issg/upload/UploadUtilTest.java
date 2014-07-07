@@ -8,21 +8,18 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.issg.ibis.AppUI;
-import org.issg.ibis.domain.QLocation;
+import org.issg.ibis.domain.Country;
+import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.json.GbifSpecies;
-import org.issg.ibis.webservices.GbifApi09;
 import org.jrc.persist.Dao;
-import org.jrc.persist.adminunits.Country;
-import org.jrc.persist.adminunits.QCountry;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Injector;
 import com.mysema.query.jpa.impl.JPAQuery;
 

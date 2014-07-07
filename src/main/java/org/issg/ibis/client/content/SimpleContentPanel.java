@@ -21,7 +21,10 @@ public class SimpleContentPanel  {
         this.panel = panel;
     }
 
-    protected void addContent(List<? extends Content> ss) {
+    protected void setContent(List<? extends Content> ss) {
+    	for (Component content : contentComponents) {
+    		panel.removeComponent(content);
+		}
         for (Content speciesSummary : ss) {
             ContentType ct = speciesSummary.getContentType();
             HtmlHeader header = new HtmlHeader(ct.getName());
