@@ -73,8 +73,6 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 
 	private TabSheet ts;
 
-//	private Refs refs;
-
 	/**
 	 * Displays a threatened species and its locations.
 	 * 

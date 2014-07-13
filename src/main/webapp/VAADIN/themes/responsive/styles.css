@@ -10181,6 +10181,19 @@ div.v-layout.v-horizontal.v-widget {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
+.responsive .location .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
+	border-bottom-color: #2e70d7;
+	color: #2e70d7;
+}
+
+.responsive .location .display-panel-header {
+	color: #2e70d7;
+}
+
+.responsive .location a {
+	color: #2e70d7;
+}
+
 .responsive .export-bar {
 	padding: 40px 4px 0px 4px;
 }

@@ -1,6 +1,26 @@
 
 @import "../valo/valo";
 
+@mixin facet($facet-colour) {
+
+		.v-panel-caption {
+			@include valo-panel-caption-style($background-color: $facet-colour);
+		}
+		
+		.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
+	    	border-bottom-color: $facet-colour;
+	    	color: $facet-colour;
+		}
+
+		.display-panel-header {
+			color: $facet-colour;
+		}
+
+		a {
+			color: $facet-colour;
+		}
+}
+
 @mixin ibis {
 
 	@include valo;
@@ -15,47 +35,15 @@
 	}
   
 	.invasive-species {
-
-		.v-panel-caption {
-			@include valo-panel-caption-style($background-color: $invasive-orange);
-		}
-		
-		.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
-	    	border-bottom-color: $invasive-orange;
-	    	color: $invasive-orange;
-		}
-
-		.display-panel-header {
-			color: $invasive-orange;
-		}
-
-		a {
-			color: $invasive-orange;
-		}
+		@include facet($invasive-orange);
 	}
 
 	.native-species {
-		.v-panel-caption {
-			@include valo-panel-caption-style($background-color: $native-green);
-		}
-
-		.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
-	    	border-bottom-color: $native-green;
-	    	color: $native-green;
-		}
-
-		.display-panel-header {
-			color: $native-green;
-		}
-
-		a {
-			color: $native-green;
-		}
-
+		@include facet($native-green);
 	}
 
-	.location .v-panel-caption {
-		@include valo-panel-caption-style($background-color: $location-blue);
+	.location {
+		@include facet($location-blue);
 	}
 
 	

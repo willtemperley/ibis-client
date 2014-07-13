@@ -4,9 +4,11 @@ import org.issg.ibis.client.content.SimpleContentController;
 import org.issg.ibis.domain.Location;
 import org.jrc.ui.SimplePanel;
 
+import com.vaadin.ui.CssLayout;
+
 public class LocationSummaryView extends SimpleContentController {
 
-    public LocationSummaryView(SimplePanel panel) {
+    public LocationSummaryView(CssLayout panel) {
         super(panel);
     }
 

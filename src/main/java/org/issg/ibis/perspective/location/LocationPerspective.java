@@ -35,7 +35,9 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vividsolutions.jts.geom.Point;
@@ -68,16 +70,22 @@ public class LocationPerspective extends TwinPanelView implements View {
 			/*
 			 * Location info
 			 */
-			SimplePanel leftPanel = getLeftPanel();
-			leftPanel.setWidth("600px");
+			CssLayout leftPanel = new CssLayout();
+
 			locationName = new HtmlHeader();
 			locationName.addStyleName("header-large");
-			locationDescription = new LocationDescription();
 			locationDescription = new LocationDescription();
 			leftPanel.addComponent(locationName);
 			leftPanel.addComponent(locationDescription);
 
+			Panel p = new Panel();
+			p.setWidth("600px");
+			p.setHeight("100%");
             ls = new LocationSummaryView(leftPanel);
+            p.setContent(leftPanel);
+			p.addStyleName("display-panel");
+			p.addStyleName("location");
+			replaceComponent(getLeftPanel(), p);
 		}
 
 		{
