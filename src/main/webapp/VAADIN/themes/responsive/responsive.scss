@@ -1,16 +1,15 @@
 /* Import the reindeer theme.*/
 /* This only allows us to use the mixins defined in it and does not add any styles by itself. */
-@import "../reindeer/reindeer.scss";
+// Import valo after setting the parameters
 
-/* This contains all of your theme.*/
-/* If somebody wants to extend the theme she will include this mixin. */
+
+
 @mixin responsive {
-  /* Include all the styles from the reindeer theme */
-  @include reindeer;
+  /* Include all the styles from the valo theme */
   
   .menulayout {
     overflow: visible;
-    padding: 20px 0 0 20px; 
+    padding: $default-spacing; 
     
     .menu {
       position: absolute;
@@ -29,7 +28,10 @@
     display: inline-block !important;
     
 		.v-panel {
-		  padding: 20px 20px 20px 0 !important; // Override inline padding
+		  // margin: 20px 20px 20px 0 !important; 
+		  // Override inline padding
+		  margin-right: 20px;
+		  margin-bottom: 20px;
 		}
 		
 	  .v-panel-content {

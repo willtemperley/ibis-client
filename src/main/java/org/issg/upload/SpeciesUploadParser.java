@@ -21,7 +21,7 @@ import org.issg.ibis.domain.Taxon;
 import org.issg.ibis.domain.TaxonomicRank;
 import org.issg.ibis.domain.TaxonomicRank_;
 import org.issg.ibis.webservices.GbifApi09;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

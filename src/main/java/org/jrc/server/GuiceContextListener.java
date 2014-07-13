@@ -1,6 +1,5 @@
 package org.jrc.server;
 
-import org.issg.ibis.AppUI;
 import org.issg.ibis.ViewModule;
 import org.issg.ibis.responsive.IbisUI;
 import org.vaadin.addons.guice.uiscope.UIScopeModule;

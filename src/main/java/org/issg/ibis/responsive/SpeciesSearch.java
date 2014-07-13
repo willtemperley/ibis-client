@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.Species;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;
 import org.vaadin.maddon.fields.TypedSelect;
@@ -23,7 +23,6 @@ public class SpeciesSearch extends VerticalLayout {
 	private Dao dao;
 	
 
-	@Inject
 	public SpeciesSearch(Dao dao) {
 		this.dao = dao;
 //		addComponent(new EditorPanelHeading("Search by Species"));

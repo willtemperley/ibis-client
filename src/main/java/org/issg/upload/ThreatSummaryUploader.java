@@ -3,7 +3,7 @@ package org.issg.upload;
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesSummary;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;

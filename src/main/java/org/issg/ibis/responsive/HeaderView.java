@@ -1,10 +1,9 @@
 package org.issg.ibis.responsive;
 
-import it.jrc.auth.RoleManager;
-
 import org.issg.ibis.NavMenu;
 import org.issg.ibis.ViewModule;
-import org.jrc.auth.domain.Role;
+import org.jrc.edit.RoleManager;
+import org.vaadin.addons.auth.domain.Role;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -39,9 +38,10 @@ public class HeaderView extends HorizontalLayout implements View {
 
 //        this.contextPath = contextPath;
 //
-        addLogo();
+//        addLogo();
         
-        Button b = new Button("Home");
+        Button b = new Button("IBIS");
+        b.addStyleName("ibis");
         b.addStyleName(BaseTheme.BUTTON_LINK);
         addComponent(b);
         b.addClickListener(new ClickListener() {
@@ -53,15 +53,14 @@ public class HeaderView extends HorizontalLayout implements View {
 
 			}
 		});
-//
-//        this.navMenu = navMenu;
-//        addComponent(navMenu);
-//        accountDetails = new AccountDetails(roleManager);
-//        addComponent(accountDetails);
-//
-////        addPartnerLogos();
-//
-//        accountDetails.setRole(roleManager.getRole());
+
+        Label label = new Label();
+        label.setContentMode(ContentMode.HTML);
+        String text = "<div class='ibis-text'>island biodiversity &amp; invasive species</div>";
+        label.setValue(text);
+        addComponent(label);
+
+        setExpandRatio(label, 1);
     }
 
     private class AccountDetails extends HorizontalLayout {
@@ -89,9 +88,9 @@ public class HeaderView extends HorizontalLayout implements View {
             settingsMenu.addItem("Logout", new Command() {
                 @Override
                 public void menuSelected(MenuItem selectedItem) {
-                    roleManager.logout();
-                    setRole(roleManager.getRole());
-                    Notification.show("You have been logged out.");
+//                    roleManager.logout();
+//                    setRole(roleManager.getRole());
+//                    Notification.show("You have been logged out.");
                 }
             });
 
@@ -99,7 +98,7 @@ public class HeaderView extends HorizontalLayout implements View {
             label = new Label();
             addComponent(label);
             
-            setRole(roleManager.getRole());
+//            setRole(roleManager.getRole());
         }
 
         private void setRole(Role role) {
@@ -132,15 +131,6 @@ public class HeaderView extends HorizontalLayout implements View {
 
 
     private void addLogo() {
-        Label label = new Label();
-        label.setContentMode(ContentMode.HTML);
-
-        String text = "<div class='ibis'>ibis</div><div class='ibis-text'>island biodiversity &amp; invasive species</div>";
-//        String text = "<div class='ibis'>ibis</div>";
-
-        label.setValue(text);
-
-        addComponent(label);
     }
 
 

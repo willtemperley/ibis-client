@@ -12,7 +12,7 @@ import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Reference_;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

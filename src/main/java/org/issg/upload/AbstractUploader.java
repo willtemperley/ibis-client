@@ -11,12 +11,13 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.EventObject;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 
 import com.google.common.io.Files;
 import com.vaadin.ui.CustomComponent;

@@ -7,14 +7,14 @@ import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.issg.ibis.AppUI;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.json.GbifSpecies;
-import org.jrc.persist.Dao;
+import org.issg.ibis.responsive.IbisUI;
+import org.jrc.edit.Dao;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import com.mysema.query.jpa.impl.JPAQuery;
 
 public class UploadUtilTest {
 
-	private Injector injector = TestResourceFactory.getInjector(AppUI.class);
+	private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
 	private Workbook workbookGood;
 	private Dao dao;
 

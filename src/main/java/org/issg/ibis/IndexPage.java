@@ -2,7 +2,7 @@ package org.issg.ibis;
 
 import it.jrc.form.editor.EditorPanelHeading;
 
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;
 

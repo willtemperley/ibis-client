@@ -9,7 +9,7 @@ import org.issg.ibis.domain.Country_;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Location_;
 import org.issg.ibis.domain.SpeciesLocation;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 
 public abstract class BaseLocationUploadParser<T> extends
         UploadParser<T> {

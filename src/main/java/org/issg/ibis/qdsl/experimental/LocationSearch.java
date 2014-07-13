@@ -8,10 +8,10 @@ import org.issg.ibis.domain.view.LocationView;
 import org.issg.ibis.domain.view.LocationView_;
 import org.issg.ibis.domain.view.QLocationView;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
-import org.jrc.persist.Dao;
-import org.jrc.server.lec.LazyEntityContainer;
+import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.SimplePanel;
+import org.vaadin.addons.lec.LazyEntityContainer;
 
 import com.google.inject.Inject;
 import com.mysema.query.types.expr.BooleanExpression;

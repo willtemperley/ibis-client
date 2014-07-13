@@ -1,7 +1,7 @@
 package org.issg.ibis.responsive;
 
-import org.jrc.persist.Dao;
-import org.vaadin.addons.form.inject.GuicedViewProvider;
+import org.jrc.edit.Dao;
+import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.ui.ScopedUI;
 
 import com.google.inject.Inject;
@@ -12,6 +12,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 
+//@Theme("ibis")
 @Theme("responsive")
 //@Theme("touchkit")
 public class IbisUI extends ScopedUI {

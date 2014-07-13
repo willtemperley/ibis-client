@@ -7,23 +7,26 @@ import org.issg.ibis.domain.SpeciesImpact_;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
 import org.issg.upload.SpeciesImpactUploader;
-import org.jrc.form.editor.ui.SimpleTwinPanelEditor;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
+import org.jrc.edit.EditorController;
+import org.vaadin.addons.form.view.DefaultEditorView;
 
 import com.google.inject.Inject;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 public class SpeciesImpactEditor extends
-        SimpleTwinPanelEditor<SpeciesImpact> {
+        EditorController<SpeciesImpact> implements View {
 
     @Inject
     public SpeciesImpactEditor(Dao dao) {
         super(SpeciesImpact.class, dao);
 
-        getTable().addColumns(
-                SpeciesImpact_.nativeSpecies,
-                SpeciesImpact_.invasiveSpecies,
-                SpeciesImpact_.impactMechanism, 
-                SpeciesImpact_.impactOutcome);
+//        getTable().addColumns(
+//                SpeciesImpact_.nativeSpecies,
+//                SpeciesImpact_.invasiveSpecies,
+//                SpeciesImpact_.impactMechanism, 
+//                SpeciesImpact_.impactOutcome);
 
 //        filterPanel.addFilterField(SpeciesImpact_.threatenedSpecies);
 //         filterPanel.addFilterField(TableDescription_.schema);
@@ -34,10 +37,14 @@ public class SpeciesImpactEditor extends
         ff.addField(SpeciesImpact_.impactMechanism);
         ff.addField(SpeciesImpact_.impactOutcome);
         
-        init();
+        addFieldGroup("");
+
+        DefaultEditorView<SpeciesImpact> view = new DefaultEditorView<SpeciesImpact>();
+
+		init(view);
         
         SpeciesImpactUploader uploader = new SpeciesImpactUploader(dao);
-        theView.addSelectionComponent(uploader);
+        view.addComponent(uploader);
         uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
             @Override
             public void processingComplete(ProcessingCompleteEvent p) {
@@ -53,17 +60,9 @@ public class SpeciesImpactEditor extends
         
     }
 
-    // private OrderedCollectionTable<ColumnDescription> getFtff() {
-    //
-    // FormTableFieldFactory<ColumnDescription> ftff = new
-    // FormTableFieldFactory<ColumnDescription>(
-    // dao);
-    // ftff.addField(ColumnDescription_.name);
-    // ftff.addField(ColumnDescription_.description);
-    // OrderedCollectionTable<ColumnDescription> tab = new
-    // OrderedCollectionTable<ColumnDescription>(ColumnDescription.class, ftff);
-    //
-    // return tab;
-    // }
+	@Override
+	public void enter(ViewChangeEvent event) {
+		
+	}
 
 }

@@ -1,6 +1,7 @@
 package org.issg.ibis.responsive;
 
-import org.jrc.persist.Dao;
+import org.issg.ibis.domain.Species;
+import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 
 import com.google.inject.Inject;
@@ -25,11 +26,15 @@ public class Dashboard extends CssLayout implements View {
         addStyleName("dashboard");
         Responsive.makeResponsive(this);
 
-        createPanel(new SpeciesSearch(dao), "Search by Species");
-        createPanel(new LocationSearch(dao), "Search by Location");
+        SpeciesSearch2 sIAS = new SpeciesSearch2(dao, Species.INVASIVE);
+        SpeciesSearch2 sNat = new SpeciesSearch2(dao, Species.NATIVE);
 
-        createPanel(getAbout(), "About");
-        createPanel(getPartners(), "Partners");
+		createPanel(sIAS, "Invasive Alien Species", "invasive-species");
+		createPanel(sNat, "Native Species", "native-species");
+        createPanel(new LocationSearch(dao), "Search by Location", "location");
+
+        createPanel(getAbout(), "About", "");
+        createPanel(getPartners(), "Partners", "");
     }
 
 	private VerticalLayout getAbout() {
@@ -47,9 +52,10 @@ public class Dashboard extends CssLayout implements View {
 		vl.addComponent(c);
 		return vl;
 	}
-	Component createPanel(VerticalLayout c, String string) {
-	    Panel panel = new Panel(string);
-	    panel.setSizeUndefined();
+	Component createPanel(VerticalLayout c, String caption, String styleName) {
+	    Panel panel = new Panel(caption);
+        panel.addStyleName(styleName);
+        panel.setSizeUndefined();
 	
 	    c.setMargin(true);
 	    c.setSizeFull();

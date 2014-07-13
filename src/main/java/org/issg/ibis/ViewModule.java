@@ -6,8 +6,7 @@ import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.editor.DesignatedAreaEditor;
-import org.issg.ibis.editor.IslandEditor;
+import org.issg.ibis.editor.LocationEditor;
 import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.editor.SpeciesImpactEditor;
 import org.issg.ibis.mobile.MyFirstMobileUI;
@@ -17,8 +16,8 @@ import org.issg.ibis.qdsl.experimental.LocationSearch;
 import org.issg.ibis.qdsl.experimental.SimpleSearch;
 import org.issg.ibis.qdsl.experimental.SpeciesSearch;
 import org.issg.ibis.responsive.Dashboard;
-import org.vaadin.addons.form.inject.AbstractViewModule;
-import org.vaadin.addons.form.inject.GuicedViewProvider;
+import org.jrc.server.AbstractViewModule;
+import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.uiscope.UIScoped;
 
 import com.google.inject.multibindings.MapBinder;
@@ -38,7 +37,6 @@ import com.vaadin.navigator.View;
 public class ViewModule extends AbstractViewModule {
 
 
-    private static final String MAP = "Map";
     public static final String SPECIES_PERSPECTIVE = "Species";
     public static final String COUNTRY_PERSPECTIVE = "Country";
     public static final String LOCATION_PERSPECTIVE = "Location";
@@ -61,15 +59,14 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class).in(UIScoped.class);
         mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class).in(UIScoped.class);
 
-        mapbinder.addBinding(SEARCH).to(SimpleSearch.class).in(UIScoped.class);
+//        mapbinder.addBinding(SEARCH).to(SimpleSearch.class).in(UIScoped.class);
         mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class).in(UIScoped.class);
 
         
         addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 
         addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
-        addBinding("EditDesignatedArea", DesignatedAreaEditor.class, Location.class);
-        addBinding("EditIsland", IslandEditor.class, Location.class);
+        addBinding("EditIsland", LocationEditor.class, Location.class);
 
     }
     

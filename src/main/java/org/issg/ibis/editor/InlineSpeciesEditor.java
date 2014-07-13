@@ -2,8 +2,8 @@ package org.issg.ibis.editor;
 
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
-import org.jrc.persist.Dao;
-import org.vaadin.addons.form.controller.EditorController;
+import org.jrc.edit.Dao;
+import org.jrc.edit.EditorController;
 import org.vaadin.addons.form.view.DefaultEditorView;
 
 import com.vaadin.ui.Button.ClickEvent;

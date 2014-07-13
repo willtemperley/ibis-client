@@ -4,6 +4,9 @@
 
 /* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
 /* The actual styles should be defined in responsive_tutorial.scss */
+
+$default-spacing: 20px;
+
 .responsive {
   @include addons;
   @include responsive;

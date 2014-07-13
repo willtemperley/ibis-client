@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.jrc.persist.Dao;
-import org.jrc.server.lec.LazyEntityContainer;
+import org.jrc.edit.Dao;
 import org.vaadin.addons.form.util.AdminStringUtil;
+import org.vaadin.addons.lec.LazyEntityContainer;
 
 import com.vaadin.data.Container.ItemSetChangeEvent;
 import com.vaadin.ui.Table;

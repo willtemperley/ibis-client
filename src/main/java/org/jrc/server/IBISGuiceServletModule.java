@@ -1,13 +1,6 @@
 package org.jrc.server;
 
-import it.jrc.auth.AnonymousAuthServlet;
-import it.jrc.auth.AuthFilter;
-import it.jrc.auth.JpaRealm;
-import it.jrc.auth.SecurityFilter;
-
-import org.apache.shiro.realm.Realm;
-import org.jrc.server.webservices.DataServlet;
-import org.vaadin.addons.form.inject.AbstractGuiceServletModule;
+import org.issg.ibis.webservices.DataServlet;
 import org.vaadin.addons.guice.servlet.VGuiceApplicationServlet;
 
 import com.google.inject.name.Names;
@@ -23,14 +16,6 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
     @Override
     protected void configureServlets() {
 
-
-        bind(Realm.class).to(JpaRealm.class);
-        
-        /*
-         * Persistence objects
-         */
-//        bind(Dao.class).in(ServletScopes.SESSION);
-
         /*
          * Bind constants
          */
@@ -41,18 +26,7 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
          */
         filter("/*").through(PersistFilter.class);
         
-        filter("/*").through(SecurityFilter.class, getIni());
-        
-        filter("/*").through(AuthFilter.class);
-        
-        
-        serve("/login").with(AnonymousAuthServlet.class);
-
-
-        serve("/download").with(DataServlet.class);
-//        serve("/login").with(AuthServlet.class);
-//        serve("/login").with(FakeAuthServlet.class);
-//        serve("/login").with(OAuthServlet.class);
+        serve("/download/*").with(DataServlet.class);
         
         /*
          * Main application servlet

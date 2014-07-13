@@ -7,10 +7,8 @@ import java.util.Set;
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
 import org.issg.ibis.domain.Reference;
-import org.issg.ibis.perspective.species.SpeciesSummaryController;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
-import org.jrc.ui.SimplePanel;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;

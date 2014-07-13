@@ -12,7 +12,7 @@ import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Region;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;

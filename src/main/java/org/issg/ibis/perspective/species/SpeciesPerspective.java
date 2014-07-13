@@ -1,6 +1,5 @@
 package org.issg.ibis.perspective.species;
 
-import it.jrc.auth.RoleManager;
 import it.jrc.form.editor.EntityTable;
 
 import java.util.HashSet;
@@ -14,17 +13,17 @@ import org.issg.ibis.domain.SpeciesLocation_;
 import org.issg.ibis.domain.adapter.SpeciesImpactAdapter;
 import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
 import org.issg.ibis.domain.view.SpeciesExtent;
-import org.issg.ibis.download.ExportBar;
 import org.issg.ibis.editor.InlineSpeciesEditor;
 import org.issg.ibis.perspective.shared.LayerViewer;
 import org.issg.ibis.webservices.ArkiveV1Search;
-import org.jrc.persist.Dao;
+import org.issg.ibis.webservices.ExportBar;
+import org.jrc.edit.Dao;
+import org.jrc.edit.RoleManager;
 import org.jrc.ui.SimplePanel;
-import org.jrc.ui.baseview.TwinPanelView;
+import org.jrc.ui.TwinPanelView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.jts.FeatureMapLayer;
 import org.vaadin.addon.leaflet.markercluster.LMarkerClusterGroup;
 import org.vaadin.maddon.ListContainer;
 
@@ -37,6 +36,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -62,7 +62,6 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 
 	private LayerViewer map;
 
-	private FeatureMapLayer fml = new FeatureMapLayer();
 
 	private LMarkerClusterGroup mapClusterGroup = new LMarkerClusterGroup();
 	
@@ -93,20 +92,13 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			/*
 			 * Species info
 			 */
-			VerticalLayout vl = new VerticalLayout();
-			replaceComponent(getLeftPanel(), vl);
-			vl.addStyleName("display-panel");
-			vl.setWidth("600px");
-			vl.setHeight("100%");
 			this.speciesSummary = new SpeciesSummaryController(new ArkiveV1Search(dao));
-			vl.addComponent(speciesSummary);
 
-//			this.refs = new Refs();
-//			vl.addComponent(refs);
+			replaceComponent(getLeftPanel(), speciesSummary);
+			speciesSummary.addStyleName("display-panel");
+			speciesSummary.setWidth("600px");
+			speciesSummary.setHeight("100%");
 
-			if (roleManager.getRole().getIsSuperUser()) {
-//				addEditButton(leftPanel);
-			}
 		}
 
 		{
@@ -117,7 +109,6 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			 * Map
 			 */
 			map = new LayerViewer();
-			map.getMap().addComponent(fml);
 			map.setSizeFull();
 			map.getMap().addComponent(mapClusterGroup);
 
@@ -125,8 +116,6 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			mapLayout.setSpacing(true);
 			mapLayout.setSizeFull();
 			mapLayout.addComponent(map);
-			// legend = new MapLegend();
-			// mapLayout.addComponent(legend);
 
 			vl.addComponent(mapLayout);
 
@@ -134,13 +123,21 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			 * Tables in tabsheet
 			 */
 			ts = new TabSheet();
+
+			HorizontalLayout tableLayout = new HorizontalLayout();
+			vl.addComponent(tableLayout);
+			tableLayout.addComponent(ts);
+			tableLayout.setSizeFull();
+
+			tableLayout.addComponent(exporter);
+			exporter.setWidth("40px");
+			tableLayout.setExpandRatio(ts, 1);
+		
 			ts.setSizeFull();
 			speciesImpactTable = getSpeciesImpactTable();
 			speciesImpactTable.setItalicColumn("name");
 			ts.addTab(getSpeciesLocationAdapterTable(), "Occurrences");
 			ts.addTab(speciesImpactTable);
-			ts.addTab(exporter, "Download");
-			vl.addComponent(ts);
 			vl.setSpacing(true);
 
 			/*
@@ -249,10 +246,13 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 			return;
 		}
 		
+		Tab tab = ts.getTab(speciesImpactTable);
+		setStyles(species.getIsInvasive());
+
 		if (species.getIsInvasive()) {
-			ts.getTab(speciesImpactTable).setCaption("Native species impacts");
+			tab.setCaption("Native species impacts");
 		} else {
-			ts.getTab(speciesImpactTable).setCaption("Invasive species impacts");
+			tab.setCaption("Invasive species impacts");
 		}
 
 		exporter.setEntity(sp);
@@ -266,6 +266,7 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 
 		// Clear other info
 		speciesImpactContainer.removeAllItems();
+		speciesLocationContainer.removeAllItems();
 
 		/*
 		 * Impacts
@@ -306,8 +307,28 @@ public class SpeciesPerspective extends TwinPanelView implements View {
 
 	}
 
+	private void setStyles(boolean isInvasive) {
+		String nativeStyle = "native-species";
+		String invasiveStyle = "invasive-species";
+		if (isInvasive) {
+			ts.removeStyleName(nativeStyle);
+			ts.addStyleName(invasiveStyle);
+			speciesSummary.removeStyleName(nativeStyle);
+			speciesSummary.addStyleName(invasiveStyle);
+		} else {
+			ts.removeStyleName(invasiveStyle);
+			ts.addStyleName(nativeStyle);
+			speciesSummary.addStyleName(nativeStyle);
+			speciesSummary.removeStyleName(invasiveStyle);
+		}
+		
+	}
+
 	private void speciesImpactSelected(SpeciesImpactAdapter si) {
 
+		if (si == null) {
+			return;
+		}
 		SpeciesImpact speciesImpact = dao.find(SpeciesImpact.class, si.getId());
 
 		Location location = speciesImpact.getLocation();

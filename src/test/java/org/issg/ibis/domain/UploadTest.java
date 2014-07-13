@@ -11,16 +11,16 @@ import javax.persistence.EntityManagerFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.issg.ibis.AppUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
+import org.issg.ibis.responsive.IbisUI;
 import org.issg.upload.BaseLocationUploadParser;
 import org.issg.upload.ReferenceUploadParser;
 import org.issg.upload.SpeciesImpactUploadParser;
 import org.issg.upload.SpeciesLocationUploadParser;
 import org.issg.upload.SpeciesUploadParser;
 import org.issg.upload.ThreatSummaryUploadParser;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
 import org.junit.Assert;
 import org.junit.Before;
 
@@ -29,7 +29,7 @@ import com.mysema.query.jpa.JPQLQuery;
 
 public class UploadTest {
 
-    private Injector injector = TestResourceFactory.getInjector(AppUI.class);
+    private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
     // private EntityManagerFactory emf = injector
     // .getInstance(EntityManagerFactory.class);
     private Workbook workbookGood;

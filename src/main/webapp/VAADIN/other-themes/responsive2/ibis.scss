@@ -1,0 +1,129 @@
+
+@mixin ibis {
+
+	$blue: rgb(46,112,215);
+	$rl-red: #D81E05;
+	$v-green: #40b527;
+	$rl-darkred: #D81E05;
+
+	.v-table-cell-content-species {
+		font-style: italic;
+	}
+
+	.v-label-undef-w {
+		white-space: normal;
+		text-align: justify;
+	}
+	
+	.v-tabsheet-tabitem-selected {
+
+		/*background-image: url('img/tabsheet/tab-bg-sel.png');*/
+		color: $v-green;
+		font-weight: bold;
+		text-shadow: 0px 1px 0px #ddd;
+	}
+
+	.display-panel {
+	
+		.display-panel-header {
+			color: $blue;
+			border-bottom: 1px solid #eee;
+			margin-bottom: 10px;
+		}
+		
+		background-color: #fff;
+		padding: 20px 20px 20px;
+		overflow: auto;
+
+		.header-large {
+			font-size: 20px;
+		}
+		
+		.content {
+			text-align: justify;
+		}
+		
+	}
+
+	.header {
+		padding-left: 20px;
+		padding-top: 5px;
+		background-color: #ccc;
+		
+		div {
+		
+			float: left;
+			
+			.ibis-text {
+				font-size: 20px;
+				font-weight: 100;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				text-align: justify;
+				/*text-shadow: 1px 2px 3px rgba(255,255,255,0.9);*/
+				
+				text-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+				text-align: center;
+			}
+			
+			.ibis {
+				font-size: 22px;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				margin-right: 10px;
+				font-weight: 500;
+				color: $v-green;
+				text-transform: uppercase;
+				text-shadow: 1px 2px 3px rgba(0,0,0,0.3);
+			}
+			
+			.search-box {
+				padding-top: 10px;
+				
+				.v-textfield {
+					height: 27px;
+				}
+			}
+			
+			.logo-container {
+			
+				float: right;
+				padding-top: 5px;
+			
+			
+			}
+			
+		}
+		font-family: 'Lato', sans-serif;
+	}
+	
+	/** menu bar **/
+	
+	.field-menu.v-menubar {
+		height: 28px;
+		padding-left: 5px;
+	}
+
+	.nav-menu {
+		margin-left: 20px;
+		margin-top: 35px;
+	
+	 .v-menubar-menuitem {
+        margin-left: 10px;
+        font-size: 20px;
+        font-weight:200;
+        border-bottom:2px solid transparent;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+	 }
+
+	   .v-menubar-menuitem:hover {
+        color: #fff;
+        cursor: pointer;
+	 }
+
+	 .v-menubar-menuitem-checked {
+        border-bottom:2px solid $esp-blue;
+	 }
+
+}
+}

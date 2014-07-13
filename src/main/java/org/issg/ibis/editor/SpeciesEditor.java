@@ -2,27 +2,31 @@ package org.issg.ibis.editor;
 
 import java.util.List;
 
+import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
 import org.issg.upload.SpeciesUploader;
 import org.issg.upload.ThreatSummaryUploader;
-import org.jrc.form.editor.ui.SimpleTwinPanelEditor;
-import org.jrc.persist.Dao;
+import org.jrc.edit.Dao;
+import org.jrc.edit.EditorController;
+import org.vaadin.addons.form.view.DefaultEditorView;
 
 import com.google.inject.Inject;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 public class SpeciesEditor extends
-        SimpleTwinPanelEditor<Species> {
+        EditorController<Species> implements View {
 
     @Inject
     public SpeciesEditor(Dao dao) {
         super(Species.class, dao);
 
-        getTable().addColumns(Species_.name, Species_.redlistCategory);
+//        getTable().addColumns(Species_.name, Species_.redlistCategory);
 
-         filterPanel.addFilterField(Species_.redlistCategory);
+//         filterPanel.addFilterField(Species_.redlistCategory);
 //         filterPanel.addFilterField(TableDescription_.schema);
          
         ff.addField(Species_.name);
@@ -39,10 +43,13 @@ public class SpeciesEditor extends
         ff.addField(Species_.biomes);
         ff.addField(Species_.references);
 
-        init();
+        addFieldGroup("");
+
+        DefaultEditorView<Species> view = new DefaultEditorView<Species>();
+        init(view);
         
         SpeciesUploader uploader = new SpeciesUploader(dao);
-        theView.addSelectionComponent(uploader);
+        view.addComponent(uploader);
         uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
             @Override
             public void processingComplete(ProcessingCompleteEvent p) {
@@ -56,7 +63,7 @@ public class SpeciesEditor extends
         });
         
         ThreatSummaryUploader tsu = new ThreatSummaryUploader(dao);
-        theView.addSelectionComponent(tsu);
+        view.addComponent(tsu);
         
         tsu.addProcessingCompleteListener(new ProcessingCompleteListener() {
             
@@ -85,5 +92,11 @@ public class SpeciesEditor extends
     //
     // return tab;
     // }
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

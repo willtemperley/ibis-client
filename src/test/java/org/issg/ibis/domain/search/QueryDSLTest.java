@@ -1,39 +1,26 @@
 package org.issg.ibis.domain.search;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import org.issg.ibis.AppUI;
-import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.OrganismType;
-import org.issg.ibis.domain.QLocation;
-import org.issg.ibis.domain.QSpecies;
-import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.view.QResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.jrc.persist.Dao;
+import org.issg.ibis.responsive.IbisUI;
+import org.jrc.edit.Dao;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.google.inject.Injector;
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
 
 public class QueryDSLTest {
 
-    private Injector injector = TestResourceFactory.getInjector(AppUI.class);
+    private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
     private Dao dao;
 
     @Before
