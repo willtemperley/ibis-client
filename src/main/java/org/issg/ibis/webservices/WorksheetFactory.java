@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.WrapDynaBean;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.issg.ibis.webservices.writers.ResultSheet;
 
 import com.mysema.query.types.Path;
 
@@ -14,24 +15,24 @@ public class WorksheetFactory {
 
 	private List<Path<?>> cols = new ArrayList<Path<?>>();
 
-	private int currentRow = 0;
-
 	public <X> void addColumn(Path<X> id) {
 		cols.add(id);
 		id.getRoot().getMetadata().getName();
 	}
 	
-	public void writeSheet(XSSFSheet worksheet, List<?> rows) {
-		Row r = worksheet.createRow(currentRow);
+	public void writeSheet(ResultSheet worksheet, List<?> rows) {
+		List<String> cells = new ArrayList<String>();
 		for (Path<?> p : cols) {
-			addCell(r, p.getMetadata().getName());
+			cells.add(p.getMetadata().getName());
 		}
-		this.currentRow = 1;
+		worksheet.createRow(cells);
+
 		for (Object object : rows) {
-			r = worksheet.createRow(currentRow);
-			addCells(r, object);
-			currentRow++;
+			List<String> l = getCells(object);
+			worksheet.createRow(l);
 		}
+		
+		worksheet.close();
 	}
 
 	/**
@@ -40,24 +41,23 @@ public class WorksheetFactory {
 	 * @param row
 	 * @param value
 	 */
-	private void addCells(Row row, Object value) {
-		short num = row.getLastCellNum();
-		if (num < 0) {
-			num = 0;
-		}
+	private List<String> getCells(Object value) {
 	
+		List<String> cells = new ArrayList<String>();
 		WrapDynaBean db = new WrapDynaBean(value);
 	
 		for (Path<?> p : cols) {
-			Cell c = row.createCell(num, Cell.CELL_TYPE_STRING);
+//			Cell c = row.createCell(num, Cell.CELL_TYPE_STRING);
 	
 			Object v = db.get(p.getMetadata().getName());
 	
 			if (v != null) {
-				c.setCellValue(v.toString());
+				cells.add(v.toString());
+			} else {
+				cells.add("");
 			}
-			num++;
 		}
+		return cells;
 	}
 
 	/**

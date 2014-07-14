@@ -13,12 +13,6 @@ public class DownloadDescriptor {
 
 	private String entityType;
 
-	public String getFacetType() {
-		return facetType;
-	}
-
-	private String facetType;
-
 	public Long getEntityId() {
 		return entityId;
 	}
@@ -33,33 +27,33 @@ public class DownloadDescriptor {
 
 	private static final String XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	private static final String CSV = "text/csv";
+	private static final String ZIP = "application/zip";
 
 	public DownloadDescriptor(List<String> parts) {
 
-//		Preconditions.checkArgument(parts.size() == 4);
-
 		entityType = parts.get(0);
 		entityId = Long.valueOf(parts.get(1));
-		facetType = parts.get(2);
-		format = parts.get(3);
+		format = parts.get(2);
 
 	}
 
 	public boolean isValid() {
-		return (entityId != null && format != null && facetType != null && entityType != null);
+		return (entityId != null && format != null && entityType != null);
 	}
 
-	public void setResponseInfo(HttpServletResponse response) {
+	public void setResponseHeaders(HttpServletResponse response) {
 
+		String outputFormat = format;
 		if (format.equals("xlsx")) {
 			response.setContentType(XLSX);
 		} else if (format.equals("csv")) {
-			response.setContentType(CSV);
+			response.setContentType(ZIP);
+			outputFormat = "zip";
 		}
 
 		String fileName = getEntityType() + "_" + getEntityId();
 		response.setHeader("Content-Disposition", "attachment; filename="
-				+ fileName + "." + format);
+				+ fileName + "." + outputFormat);
 
 	}
 

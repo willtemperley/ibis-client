@@ -2,37 +2,26 @@ package org.issg.ibis.perspective.location;
 
 import it.jrc.form.editor.EntityTable;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.QSpeciesLocation;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.domain.SpeciesImpact_;
 import org.issg.ibis.domain.SpeciesLocation;
-import org.issg.ibis.domain.SpeciesLocation_;
 import org.issg.ibis.domain.adapter.IASAdapter;
-import org.issg.ibis.domain.adapter.SpeciesImpactAdapter;
 import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
 import org.issg.ibis.perspective.shared.LayerViewer;
+import org.issg.ibis.perspective.shared.TwinPanelPerspective;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
-import org.jrc.ui.HtmlLabel;
-import org.jrc.ui.SimplePanel;
 import org.jrc.ui.TwinPanelView;
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.markercluster.LMarkerClusterGroup;
 import org.vaadin.maddon.ListContainer;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CssLayout;
@@ -40,17 +29,15 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
-public class LocationPerspective extends TwinPanelView implements View {
+public class LocationPerspective extends TwinPanelPerspective implements View {
 
 	private Dao dao;
-	private LayerViewer map;
+
 	private HtmlHeader locationName;
 
 	private ListContainer<IASAdapter> speciesImpactContainer = new ListContainer<IASAdapter>( IASAdapter.class);
-
 	private ListContainer<SpeciesLocationAdapter> invasiveSpeciesLocationContainer = new ListContainer<SpeciesLocationAdapter>(
 			SpeciesLocationAdapter.class);
 	private ListContainer<SpeciesLocationAdapter> nativeSpeciesLocationContainer = new ListContainer<SpeciesLocationAdapter>(
@@ -62,14 +49,15 @@ public class LocationPerspective extends TwinPanelView implements View {
 	/**
      */
 	@Inject
-	public LocationPerspective(Dao dao) {
+	public LocationPerspective(Dao dao, @Named("context_path") String contextPath) {
+
+		addStyleName("location");
+		
+		exporter.setBaseUrl(contextPath + "/download/location");
 
 		this.dao = dao;
 
 		{
-			/*
-			 * Location info
-			 */
 			CssLayout leftPanel = new CssLayout();
 
 			locationName = new HtmlHeader();
@@ -78,42 +66,17 @@ public class LocationPerspective extends TwinPanelView implements View {
 			leftPanel.addComponent(locationName);
 			leftPanel.addComponent(locationDescription);
 
-			Panel p = new Panel();
-			p.setWidth("600px");
-			p.setHeight("100%");
             ls = new LocationSummaryView(leftPanel);
-            p.setContent(leftPanel);
-			p.addStyleName("display-panel");
-			p.addStyleName("location");
-			replaceComponent(getLeftPanel(), p);
+			setLeftPanelContent(leftPanel);
 		}
 
 		{
-			VerticalLayout vl = new VerticalLayout();
-			vl.setSizeFull();
-			
-			replaceComponent(getRightPanel(), vl);
-
 			/*
-			 * Map
+			 * Tables
 			 */
-			map = new LayerViewer();
-			map.setSizeFull();
-
-			vl.addComponent(map);
-
-			/*
-			 * Table
-			 */
-			TabSheet ts = new TabSheet();
-			ts.setSizeFull();
-			ts.addTab(getSpeciesImpactTable(), "Invasive Alien Species Impacts");
-			ts.addTab(getNativeSpeciesLocationAdapterTable(), "Native Species");
-			ts.addTab(getInvasiveSpeciesLocationAdapterTable(), "Alien and Invasive Species");
-			vl.addComponent(ts);
-			vl.setSpacing(true);
-
-			setExpandRatio(vl, 1);
+			addTable(getSpeciesImpactTable(), "Invasive Alien Species Impacts");
+			addTable(getNativeSpeciesLocationAdapterTable(), "Native Species");
+			addTable(getInvasiveSpeciesLocationAdapterTable(), "Alien and Invasive Species");
 		}
 
 	}
@@ -153,7 +116,7 @@ public class LocationPerspective extends TwinPanelView implements View {
 			return;
 		}
 
-		map.zoomTo(loc.getEnvelope());
+		getMap().zoomTo(loc.getEnvelope());
 
 		locationName.setValue(loc.getName());
 
@@ -197,15 +160,14 @@ public class LocationPerspective extends TwinPanelView implements View {
 		ls.setLocation(loc);
 
 		Polygon polyEnv = loc.getEnvelope();
-		map.zoomTo(polyEnv);
+		getMap().zoomTo(polyEnv);
 	}
 
 	private EntityTable<SpeciesLocationAdapter> getNativeSpeciesLocationAdapterTable() {
 	
 		EntityTable<SpeciesLocationAdapter> table = new EntityTable<SpeciesLocationAdapter>(nativeSpeciesLocationContainer);
 	
-		table.setHeight("100%");
-		table.setWidth("100%");
+		table.setSizeFull();
 		table.setPageLength(20);
 	
 		table.addColumns("species", "commonName", "redlistCategory", "biologicalStatus");
@@ -217,8 +179,7 @@ public class LocationPerspective extends TwinPanelView implements View {
 	
 		EntityTable<SpeciesLocationAdapter> table = new EntityTable<SpeciesLocationAdapter>(invasiveSpeciesLocationContainer);
 	
-		table.setHeight("100%");
-		table.setWidth("100%");
+		table.setSizeFull();
 		table.setPageLength(20);
 	
 		table.addColumns("species", "commonName", "biologicalStatus");

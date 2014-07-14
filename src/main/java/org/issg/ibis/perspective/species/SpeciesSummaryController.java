@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.issg.ibis.client.content.SimpleContentController;
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
 import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesSummary;
+import org.issg.ibis.perspective.shared.SimpleContentController;
 import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
@@ -18,7 +18,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 
-public class SpeciesSummaryController extends Panel {
+public class SpeciesSummaryController extends CssLayout {
 
 	private HtmlHeader speciesName = new HtmlHeader();
 	private HtmlHeader speciesSecondaryName = new HtmlHeader();
@@ -32,14 +32,12 @@ public class SpeciesSummaryController extends Panel {
 
 	public SpeciesSummaryController(ArkiveV1Search arkiveSearch) {
 
-		CssLayout l = new CssLayout();
-		this.setContent(l);
-		l.setSizeFull();
+		setSizeFull();
 		this.arkiveSearch = arkiveSearch;
-		this.simpleContentController = new SimpleContentController(l);
+		this.simpleContentController = new SimpleContentController(this);
 
-		l.addComponent(speciesName);
-		l.addComponent(speciesSecondaryName);
+		addComponent(speciesName);
+		addComponent(speciesSecondaryName);
 		speciesName.addStyleName("header-large");
 
 		HorizontalLayout hl = new HorizontalLayout();
@@ -47,9 +45,9 @@ public class SpeciesSummaryController extends Panel {
 		hl.addComponent(taxonomy);
 		// panel.addComponent(speciesImage);
 		// panel.addComponent(taxonomy);
-		l.addComponent(hl);
+		addComponent(hl);
 		hl.setWidth("100%");
-		l.addComponent(redlistStatus);
+		addComponent(redlistStatus);
 	}
 
 	class ReferenceContent implements Content {

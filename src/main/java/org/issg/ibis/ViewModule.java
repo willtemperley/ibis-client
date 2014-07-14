@@ -3,18 +3,9 @@ package org.issg.ibis;
 import java.util.Map;
 
 import org.issg.ibis.domain.Country;
-import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.editor.LocationEditor;
-import org.issg.ibis.editor.SpeciesEditor;
-import org.issg.ibis.editor.SpeciesImpactEditor;
-import org.issg.ibis.mobile.MyFirstMobileUI;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
-import org.issg.ibis.qdsl.experimental.LocationSearch;
-import org.issg.ibis.qdsl.experimental.SimpleSearch;
-import org.issg.ibis.qdsl.experimental.SpeciesSearch;
 import org.issg.ibis.responsive.Dashboard;
 import org.jrc.server.AbstractViewModule;
 import org.jrc.server.GuicedViewProvider;
@@ -56,17 +47,17 @@ public class ViewModule extends AbstractViewModule {
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class).in(UIScoped.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class).in(UIScoped.class);
-        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class).in(UIScoped.class);
-        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class).in(UIScoped.class);
+//        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class).in(UIScoped.class);
+//        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class).in(UIScoped.class);
 
 //        mapbinder.addBinding(SEARCH).to(SimpleSearch.class).in(UIScoped.class);
-        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class).in(UIScoped.class);
+//        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class).in(UIScoped.class);
 
         
-        addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
+//        addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 
-        addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
-        addBinding("EditIsland", LocationEditor.class, Location.class);
+//        addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
+//        addBinding("EditIsland", LocationEditor.class, Location.class);
 
     }
     

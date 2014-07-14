@@ -1,7 +1,7 @@
 package org.issg.ibis.perspective.location;
 
-import org.issg.ibis.client.content.SimpleContentController;
 import org.issg.ibis.domain.Location;
+import org.issg.ibis.perspective.shared.SimpleContentController;
 import org.jrc.ui.SimplePanel;
 
 import com.vaadin.ui.CssLayout;

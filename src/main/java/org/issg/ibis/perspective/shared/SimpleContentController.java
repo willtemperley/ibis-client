@@ -1,12 +1,10 @@
-package org.issg.ibis.client.content;
+package org.issg.ibis.perspective.shared;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
-import org.issg.ibis.domain.Reference;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
 
@@ -43,12 +41,4 @@ public class SimpleContentController  {
         }
     }
     
-    protected void setReferences(Set<Reference> refs) {
-    	for (Reference reference : refs) {
-
-            HtmlLabel content = new HtmlLabel(reference.getContent());
-
-            panel.addComponent(content);
-		}
-    }
 }

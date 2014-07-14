@@ -3,12 +3,12 @@ package org.issg.ibis.qdsl.experimental;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.issg.ibis.client.content.SimpleContentController;
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesSummary;
+import org.issg.ibis.perspective.shared.SimpleContentController;
 import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;

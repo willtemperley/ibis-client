@@ -4,7 +4,12 @@
 @mixin facet($facet-colour) {
 
 		.v-panel-caption {
-			@include valo-panel-caption-style($background-color: $facet-colour);
+			color: $facet-colour;
+			border-bottom: 1px solid $facet-colour;
+		}
+		
+		.v-filterselect-input {
+			background: lighten($facet-colour, 50%);
 		}
 		
 		.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
@@ -20,6 +25,9 @@
 			color: $facet-colour;
 		}
 }
+
+
+
 
 @mixin ibis {
 
@@ -66,6 +74,10 @@
 		text-align: justify;
 	}
 	
+	.v-horizontal > .v-spacing {
+    	width: $default-width;
+	}
+
 
 	.display-panel .v-csslayout {
 	

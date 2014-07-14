@@ -10102,21 +10102,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .responsive .invasive-species .v-panel-caption {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0 12px;
-	line-height: 36px;
-	border-bottom: 1px solid #d07101;
-	background-color: #e97f02;
-	background-image: -webkit-linear-gradient(top, #e98102 2%, #e57a00 98%);
-	background-image: linear-gradient(to bottom,#e98102 2%, #e57a00 98%);
-	color: #f4e5d3;
-	font-weight: 400;
-	font-size: 14px;
-	-webkit-box-shadow: inset 0 1px 0 #fd9226;
-	box-shadow: inset 0 1px 0 #fd9226;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
+	color: #e97f02;
+	border-bottom: 1px solid #e97f02;
+}
+
+.responsive .invasive-species .v-filterselect-input {
+	background: #fff6eb;
 }
 
 .responsive .invasive-species .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
@@ -10133,21 +10124,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .responsive .native-species .v-panel-caption {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0 12px;
-	line-height: 36px;
-	border-bottom: 1px solid #39a122;
-	background-color: #40b527;
-	background-image: -webkit-linear-gradient(top, #41b627 2%, #3db125 98%);
-	background-image: linear-gradient(to bottom,#41b627 2%, #3db125 98%);
-	color: #dbedd7;
-	font-weight: 400;
-	font-size: 14px;
-	-webkit-box-shadow: inset 0 1px 0 #5ac843;
-	box-shadow: inset 0 1px 0 #5ac843;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
+	color: #40b527;
+	border-bottom: 1px solid #40b527;
+}
+
+.responsive .native-species .v-filterselect-input {
+	background: #e6f9e2;
 }
 
 .responsive .native-species .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
@@ -10164,21 +10146,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .responsive .location .v-panel-caption {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0 12px;
-	line-height: 36px;
-	border-bottom: 1px solid #2964c0;
-	background-color: #2e70d7;
-	background-image: -webkit-linear-gradient(top, #2e72d7 2%, #2c6bd3 98%);
-	background-image: linear-gradient(to bottom,#2e72d7 2%, #2c6bd3 98%);
-	color: #dce4f0;
-	font-weight: 400;
-	font-size: 14px;
-	-webkit-box-shadow: inset 0 1px 0 #5e8bda;
-	box-shadow: inset 0 1px 0 #5e8bda;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
+	color: #2e70d7;
+	border-bottom: 1px solid #2e70d7;
+}
+
+.responsive .location .v-filterselect-input {
+	background: white;
 }
 
 .responsive .location .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
@@ -10209,6 +10182,10 @@ div.v-layout.v-horizontal.v-widget {
 .responsive .v-label-undef-w {
 	white-space: normal;
 	text-align: justify;
+}
+
+.responsive .v-horizontal > .v-spacing {
+	width: $default-width;
 }
 
 .responsive .display-panel .v-csslayout {

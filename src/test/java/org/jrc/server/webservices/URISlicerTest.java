@@ -17,7 +17,6 @@ public class URISlicerTest {
 		Assert.assertEquals(d.getFormat(), "xlsx");
 		Assert.assertEquals(d.getEntityType(),"species");
 		Assert.assertEquals(d.getEntityId(), new Long(42));
-		Assert.assertEquals(d.getFacetType(), "occurrence");
 
 	}
 }
