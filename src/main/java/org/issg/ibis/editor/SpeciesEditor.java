@@ -53,7 +53,7 @@ public class SpeciesEditor extends
         uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
             @Override
             public void processingComplete(ProcessingCompleteEvent p) {
-                SpeciesEditor.this.containerManager.refresh();
+//                SpeciesEditor.this.containerManager.refresh();
 //                List<?> res = p.getResults();
 //                for (Object obj : res) {
 //                    System.out.println(obj);
@@ -74,7 +74,7 @@ public class SpeciesEditor extends
                     System.out.println(obj);
 //                    table.
                 }
-                SpeciesEditor.this.containerManager.refresh();
+//                SpeciesEditor.this.containerManager.refresh();
                 
             }
         });

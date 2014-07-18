@@ -53,7 +53,7 @@ public class SpeciesImpactEditor extends
                     System.out.println(obj);
 //                    table.
                 }
-                SpeciesImpactEditor.this.containerManager.refresh();
+//                SpeciesImpactEditor.this.containerManager.refresh();
                 
             }
         });

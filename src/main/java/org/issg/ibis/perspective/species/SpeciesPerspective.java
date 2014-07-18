@@ -1,10 +1,9 @@
 package org.issg.ibis.perspective.species;
 
-import it.jrc.form.editor.EntityTable;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
@@ -14,11 +13,11 @@ import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
 import org.issg.ibis.perspective.shared.TwinPanelPerspective;
 import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.edit.Dao;
-import org.jrc.edit.RoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.markercluster.LMarkerClusterGroup;
+import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
 
 import com.google.inject.Inject;
@@ -47,6 +46,8 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 	private LMarkerClusterGroup mapClusterGroup = new LMarkerClusterGroup();
 
 	private Tab impactTab;
+
+	private EntityTable<SpeciesImpactAdapter> speciesImpactTable;
 	
 
 	/**
@@ -69,7 +70,7 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		getMap().getMap().addComponent(mapClusterGroup);
 
 
-		EntityTable<SpeciesImpactAdapter> speciesImpactTable = getSpeciesImpactTable();
+		speciesImpactTable = getSpeciesImpactTable();
 		EntityTable<SpeciesLocationAdapter> speciesLocationTable = getSpeciesLocationAdapterTable();
 		speciesImpactTable.setItalicColumn("name");
 
@@ -97,7 +98,7 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 			}
 		});
 
-		table.addColumns("country", "location", "biologicalStatus");
+		table.addColumns("country", "location", "locationType", "biologicalStatus");
 		return table;
 	}
 
@@ -106,7 +107,7 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		EntityTable<SpeciesImpactAdapter> table = new EntityTable<SpeciesImpactAdapter>(
 				speciesImpactContainer);
 
-		table.addColumns("name", "commonName", "country", "location", "impactMechanism", "reference");
+		table.addColumns("name", "commonName", "country", "location", "locationType", "impactMechanism", "reference");
 
 		table.setHeight("100%");
 		table.setWidth("100%");
@@ -145,13 +146,14 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		}
 		
 		
-		
 		setStyles(species.getIsInvasive());
 
 		if (species.getIsInvasive()) {
 			impactTab.setCaption("Native species impacts");
+			speciesImpactTable.setColumnHeader("name", "Native Species");
 		} else {
 			impactTab.setCaption("Invasive species impacts");
+			speciesImpactTable.setColumnHeader("name", "Invasive Species");
 		}
 
 		exporter.setResourceId(species.getId());

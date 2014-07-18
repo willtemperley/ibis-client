@@ -137,7 +137,7 @@ public abstract class BaseLocationUploadParser<T> extends
 
 //         System.out.println(lookupValue);
 
-        EntityManager em = dao.getEntityManager();
+        EntityManager em = dao.get();
         Query query = em.createNamedQuery("Location.copy_location")
                 .setParameter("full_id", lookupValue)
                 .setParameter("name", name)

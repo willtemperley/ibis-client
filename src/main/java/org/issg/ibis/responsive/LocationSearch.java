@@ -62,7 +62,7 @@ public class LocationSearch extends VerticalLayout {
 		
 		
 		TypedSelect<Location> select = new TypedSelect<Location>("Location").withSelectType(ListSelect.class);
-		TypedQuery<Location> q = dao.getEntityManager().createNamedQuery(
+		TypedQuery<Location> q = dao.get().createNamedQuery(
 				Location.HAS_IMPACT, Location.class);
 		List<Location> resultList = q.getResultList();
 		select.setOptions(resultList);
@@ -87,7 +87,7 @@ public class LocationSearch extends VerticalLayout {
 	private TypedSelect<Region> getRegionSelector() {
 		TypedSelect<Region> select = new TypedSelect<Region>("Region").withSelectType(ComboBox.class);
 	
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		JPAQuery q = new JPAQuery(dao.get());
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 		QCountry c = QCountry.country;
 		q = q.from(c, si).where(c.eq(si.location.country));
@@ -157,7 +157,7 @@ public class LocationSearch extends VerticalLayout {
 	}
 	
 	private List<Country> getCountriesForRegion(Region r) {
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		JPAQuery q = new JPAQuery(dao.get());
 
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 		QCountry c = QCountry.country;
@@ -173,7 +173,7 @@ public class LocationSearch extends VerticalLayout {
 	}
 	
 	private List<Location> getLocationsForCountry(Country c) {
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		JPAQuery q = new JPAQuery(dao.get());
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 		QLocation l = QLocation.location;
 		q = q.from(l, si).where(si.location.eq(l));
@@ -185,7 +185,7 @@ public class LocationSearch extends VerticalLayout {
 	}
 
 	private List<Location> getLocationsForRegion(Region r) {
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		JPAQuery q = new JPAQuery(dao.get());
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 		QLocation l = QLocation.location;
 

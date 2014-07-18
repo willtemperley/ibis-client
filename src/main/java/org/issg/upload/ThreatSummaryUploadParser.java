@@ -43,7 +43,7 @@ public class ThreatSummaryUploadParser extends UploadParser<Content> {
         String ns = getCellValueAsString(row, 0);
         String identifier = getCellValueAsString(row, 1);
 
-        EntityManager em = dao.getEntityManager();
+        EntityManager em = dao.get();
 
         if (ns.equals("REDLIST") || ns.equals("RED_LIST")) {
             Long objId = getCellValueAsLong(row, 1);

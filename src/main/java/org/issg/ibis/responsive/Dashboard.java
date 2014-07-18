@@ -15,11 +15,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class Dashboard extends CssLayout implements View {
 
-
 	/**
 	 * 
 	 */
-
 	@Inject
 	public Dashboard(Dao dao) {
 		setSizeFull();

@@ -34,7 +34,7 @@ public class LazyEntityContainer<T> extends ListContainer<T>{
 		this.dao = emp;
 
         this.entityPath = entityPath;
-        this.query = new JPAQuery(emp.getEntityManager()).from(entityPath);
+        this.query = new JPAQuery(emp.get()).from(entityPath);
         
         SearchResults<T> r = query.listResults(entityPath);
 
@@ -43,7 +43,7 @@ public class LazyEntityContainer<T> extends ListContainer<T>{
 	
     public void setFilters(List<BooleanExpression> expressions) {
         
-        JPAQuery q = query.clone(dao.getEntityManager());
+        JPAQuery q = query.clone(dao.get());
         
         BooleanExpression[] arr = expressions.toArray(new BooleanExpression[expressions.size()]);
         

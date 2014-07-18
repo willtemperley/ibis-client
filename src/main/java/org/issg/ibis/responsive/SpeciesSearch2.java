@@ -58,7 +58,7 @@ public class SpeciesSearch2 extends VerticalLayout {
 				
 			}
 		});
-		TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(
+		TypedQuery<Species> q = dao.get().createNamedQuery(
 				speciesType, Species.class);
 		List<Species> resultList = q.getResultList();
 		speciesSelector.setOptions(resultList);

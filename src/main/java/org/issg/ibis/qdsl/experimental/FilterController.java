@@ -50,7 +50,7 @@ public class FilterController<T> {
 			StringComboField stringComboField = new StringComboField(stringPath);
 			stringFilterField = stringComboField;
 
-			JPAQuery q = new JPAQuery(dao.getEntityManager());
+			JPAQuery q = new JPAQuery(dao.get());
 			SearchResults<String> results = q.from(base).distinct()
 					.listResults(stringPath);
 

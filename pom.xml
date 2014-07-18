@@ -9,11 +9,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<vaadin.version>7.3.0.beta1</vaadin.version>
-		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-
-		<querydsl.version>3.3.1</querydsl.version>
-		<lqc.version>2.1.20</lqc.version>
+		<vaadin.plugin.version>7.3.0.beta1</vaadin.plugin.version>
 
 		<!-- Testing stuff -->
 		<version.junit>4.10</version.junit>
@@ -23,53 +19,34 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+    		<artifactId>guava</artifactId>
+    		<version>17.0</version>
+		</dependency>
+
 		<!-- Project dependencies -->
+		<dependency>
+			<groupId>org.issg.ibis</groupId>
+			<artifactId>ibis-domain</artifactId>
+			<version>0.9</version>
+		</dependency>
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
 			<artifactId>v-jpa-form</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.0.9-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
-			<artifactId>v-jpa-auth</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<artifactId>v-oauth</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.vaadin.addon</groupId>
-			<artifactId>vaadin-touchkit-agpl</artifactId>
-			<version>4.0.0.beta1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.vaadin</groupId>
-					<artifactId>vaadin-server</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.vaadin</groupId>
-					<artifactId>vaadin-themes</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- QueryDSL -->
-		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<version>${querydsl.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>${querydsl.version}</version>
-		</dependency>
-
-		<!-- GSON -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.4</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.vaadin.addon</groupId> <artifactId>vaadin-touchkit-agpl</artifactId> 
+			<version>4.0.0.beta1</version> <exclusions> <exclusion> <groupId>com.vaadin</groupId> 
+			<artifactId>vaadin-server</artifactId> </exclusion> <exclusion> <groupId>com.vaadin</groupId> 
+			<artifactId>vaadin-themes</artifactId> </exclusion> </exclusions> </dependency> -->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -111,7 +88,8 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies><build>
+	</dependencies>
+	<build>
 		<plugins>
 
 			<plugin>
@@ -177,39 +155,6 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.0.9</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>com.mysema.querydsl</groupId>
-						<artifactId>querydsl-apt</artifactId>
-						<version>${querydsl.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.mysema.querydsl</groupId>
-						<artifactId>querydsl-jpa</artifactId>
-						<classifier>apt</classifier>
-						<version>${querydsl.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-<!-- 
-
- -->
-
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -229,7 +174,7 @@
 											vaadin-maven-plugin
 										</artifactId>
 										<versionRange>
-											[7.2.2,)
+											[7.1.0,)
 										</versionRange>
 										<goals>
 											<goal>resources</goal>

@@ -1,7 +1,7 @@
 package org.issg.ibis.perspective.shared;
 
 
-import it.jrc.form.editor.EntityTable;
+import org.vaadin.addons.lec.EntityTable;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;

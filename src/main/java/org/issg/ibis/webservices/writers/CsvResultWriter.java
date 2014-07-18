@@ -11,7 +11,8 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletOutputStream;
 
-import com.google.gwt.thirdparty.guava.common.io.Files;
+import com.google.common.io.Files;
+
 
 public class CsvResultWriter implements ResultWriter {
 	

@@ -7,13 +7,13 @@ import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.issg.ibis.IbisUI;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.json.GbifSpecies;
-import org.issg.ibis.responsive.IbisUI;
 import org.jrc.edit.Dao;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,7 +55,7 @@ public class UploadUtilTest {
 	
 	@Test
 	public void go() {
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		JPAQuery q = new JPAQuery(dao.get());
 		
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 		QCountry c = QCountry.country;
@@ -68,7 +68,7 @@ public class UploadUtilTest {
 	}
 	@Test
 	public void go2() {
-		JPAQuery q = new JPAQuery(dao.getEntityManager());
+		JPAQuery q = new JPAQuery(dao.get());
 		
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 

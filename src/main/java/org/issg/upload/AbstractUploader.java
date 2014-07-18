@@ -160,7 +160,7 @@ public abstract class AbstractUploader extends CustomComponent implements
              * Get entities and persist
              */
             List<?> entities = uploadParser.getEntityList();
-            EntityManager em = dao.getEntityManager();
+            EntityManager em = dao.get();
             try {
 
                 em.getTransaction().begin();

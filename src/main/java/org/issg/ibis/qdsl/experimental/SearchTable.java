@@ -1,7 +1,5 @@
 package org.issg.ibis.qdsl.experimental;
 
-import it.jrc.form.editor.EntityTable;
-
 import java.util.List;
 
 import javax.persistence.TypedQuery;
@@ -11,6 +9,7 @@ import org.issg.ibis.domain.view.ResourceDescription;
 import org.issg.ibis.qdsl.experimental.SearchSelectEventListener;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
+import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
 import org.vaadin.maddon.ListContainer.DynaBeanItem;
 

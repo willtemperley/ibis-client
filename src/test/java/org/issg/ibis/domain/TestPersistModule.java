@@ -12,7 +12,8 @@ import javax.persistence.Persistence;
 
 
 
-import org.jrc.edit.RoleManager;
+
+import org.issg.ibis.auth.RoleManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;

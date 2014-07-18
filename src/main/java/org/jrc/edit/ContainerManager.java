@@ -1,16 +1,11 @@
 package org.jrc.edit;
 
 
+import org.issg.ibis.auth.RoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.ListContainer;
 
-import com.vaadin.addon.jpacontainer.CachingEntityProvider;
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-import com.vaadin.addon.jpacontainer.provider.CachingLocalEntityProvider;
-import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
-import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
 
 /**
  * Manages container construction and entity persistence
@@ -21,7 +16,7 @@ import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
 public class ContainerManager<T> {
 
     private Dao dao;
-    private JPAContainer<T> container;
+    private ListContainer<T> container;
 
     private Class<T> clazz;
     
@@ -36,17 +31,8 @@ public class ContainerManager<T> {
         this.dao = dao;
         this.clazz = clazz;
 
-        container = new JPAContainer<T>(clazz);
+        container = new ListContainer<T>(clazz);
         
-        
-        MutableLocalEntityProvider<T> entityProvider = new MutableLocalEntityProvider<T>(clazz);
-//        LocalEntityProvider<T> entityProvider = new LocalEntityProvider<T>(clazz, dao);
-        entityProvider.setEntityManagerProvider(dao);
-        
-        entityProvider.setEntitiesDetached(false);
-        container.setEntityProvider(entityProvider);
-        //important! read the docs
-        container.isAutoCommit();
 
         RoleManager roleManager = dao.getRoleManager();
         
@@ -60,15 +46,14 @@ public class ContainerManager<T> {
 
     }
 
-    public JPAContainer<T> getContainer() {
+    public ListContainer<T> getContainer() {
         return container;
     }
 
     public T newEntity() {
         try {
             T entity =  clazz.newInstance();
-            EntityItem<T> x = container.createEntityItem(entity);
-            return x.getEntity();
+            return entity;
             
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -85,7 +70,7 @@ public class ContainerManager<T> {
      * @return
      */
     public Object addEntity(T entity) {
-        Object id = container.addEntity(entity);
+        Object id = container.addItem(entity);
         return id;
     }
 
@@ -101,16 +86,9 @@ public class ContainerManager<T> {
         Object id = dao.getId(entity);
 //        System.out.println("Deleting: " + entity);
         container.removeItem(id);
-        container.commit();
+//        container.commit();
     }
 
-    public T findEntity(Object val) {
-        EntityItem<T> item = container.getItem(val);
-        if (item != null) {
-            return item.getEntity();
-        }
-        return null;
-    }
     public Object getId(Object entity) {
         return dao.getId(entity);
     }
@@ -127,7 +105,8 @@ public class ContainerManager<T> {
         return canCreate;
     }
 
-    public void refresh() {
-        container.refresh();
-    }
+	public T findEntity(Object id) {
+		return dao.find(clazz, id);
+	}
+
 }

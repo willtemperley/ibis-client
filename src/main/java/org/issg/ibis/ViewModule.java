@@ -29,8 +29,9 @@ public class ViewModule extends AbstractViewModule {
 
 
     public static final String SPECIES_PERSPECTIVE = "Species";
-    public static final String COUNTRY_PERSPECTIVE = "Country";
     public static final String LOCATION_PERSPECTIVE = "Location";
+
+    public static final String COUNTRY_PERSPECTIVE = "Country";
 
     public static final String SPECIES_EDITOR = "EditSpecies";
     public static final String ISSUE_EDITOR = "Issues";
@@ -47,6 +48,9 @@ public class ViewModule extends AbstractViewModule {
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class).in(UIScoped.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class).in(UIScoped.class);
+
+//        mapbinder.addBinding(OAUTH_VIEW).to(AuthView.class).in(UIScoped.class);
+
 //        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class).in(UIScoped.class);
 //        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class).in(UIScoped.class);
 

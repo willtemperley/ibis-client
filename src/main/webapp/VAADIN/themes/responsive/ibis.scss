@@ -26,9 +26,6 @@
 		}
 }
 
-
-
-
 @mixin ibis {
 
 	@include valo;
@@ -37,6 +34,7 @@
 	$redlist-red: #D81E05;
 	$native-green: #40b527;
 	$invasive-orange: rgb(233, 127, 2);
+	$header-grey: #656565;
 	
 	.v-formlayout td {
 		padding-top: 0px !important;
@@ -53,7 +51,6 @@
 	.location {
 		@include facet($location-blue);
 	}
-
 	
 	.export-bar {
 		padding: 40px 4px 0px 4px;
@@ -62,6 +59,14 @@
 		.v-link {
 			margin-bottom: $default-spacing;
 		}
+	}
+	
+	.account-settings {
+		@include valo-button-style($background-color: $header-grey); 
+	}
+	
+	.g-plus-button {
+		@include valo-button-style($background-color: $redlist-red); 
 	}
 
 	//Species table columns
@@ -77,7 +82,6 @@
 	.v-horizontal > .v-spacing {
     	width: $default-width;
 	}
-
 
 	.display-panel .v-csslayout {
 	
@@ -102,28 +106,23 @@
 
 	.header {
 		padding-left: $default-spacing;
-		padding-top: 5px;
-		background-color: #656565;
+		background-color: $header-grey;
 		
 		div {
 		
-			float: left;
-			
 			.ibis-text {
 				font-size: 20px;
 				font-weight: 100;
 				padding-bottom: 5px;
-				text-align: justify;
+				padding-top: 5px;
 				color: #BBB;
 				text-shadow: 1px 2px 3px rgba(0,0,0,0.5);
-				text-align: center;
 			}
 			
 			.ibis {
 				font-size: 22px;
 				padding-bottom: 5px;
-				padding-left: 0px;
-				margin-right: 10px;
+				padding-top: 5px;
 				font-weight: 500;
 				color: $native-green;
 				text-transform: uppercase;
@@ -131,33 +130,11 @@
 				border: 0px !important;
 			}
 			
-			.search-box {
-				padding-top: 10px;
-				
-				.v-textfield {
-					height: 27px;
-				}
-			}
-			
-			.logo-container {
-			
-				float: right;
-				padding-top: 5px;
-			
-			
-			}
-			
 		}
-		font-family: 'Lato', sans-serif;
 	}
 	
 	/** menu bar **/
 	
-	.field-menu.v-menubar {
-		height: 28px;
-		padding-left: 5px;
-	}
-
 	.nav-menu {
 		margin-left: 20px;
 		margin-top: 35px;

@@ -100,7 +100,7 @@ public class SpeciesImpactUploadParser extends BaseLocationUploadParser<SpeciesI
      */
     private Location getLocation(String prefix, String identifier) {
 
-        EntityManager em = dao.getEntityManager();
+        EntityManager em = dao.get();
         Query query = em.createNamedQuery("Location.copy_location")
                 .setParameter("full_id", prefix + ":" + identifier)
         ;

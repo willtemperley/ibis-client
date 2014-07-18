@@ -5,11 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.issg.ibis.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.view.QResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.issg.ibis.responsive.IbisUI;
 import org.jrc.edit.Dao;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,14 +38,14 @@ public class QueryDSLTest {
 
     public List<Species> getInvasiveSpp() {
 
-        TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(
+        TypedQuery<Species> q = dao.get().createNamedQuery(
                 Species.INVASIVE, Species.class);
         return q.getResultList();
     }
 
     public List<Species> getThreatenedSpp() {
 
-        TypedQuery<Species> q = dao.getEntityManager().createNamedQuery(
+        TypedQuery<Species> q = dao.get().createNamedQuery(
                 Species.NATIVE, Species.class);
         return q.getResultList();
     }

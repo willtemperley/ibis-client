@@ -11,9 +11,9 @@ import javax.persistence.EntityManagerFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.issg.ibis.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.responsive.IbisUI;
 import org.issg.upload.BaseLocationUploadParser;
 import org.issg.upload.ReferenceUploadParser;
 import org.issg.upload.SpeciesImpactUploadParser;
@@ -113,7 +113,7 @@ public class UploadTest {
     }
 
     public void speciesSummaries() {
-        EntityManager em = dao.getEntityManager();
+        EntityManager em = dao.get();
 
         ThreatSummaryUploadParser parser = new ThreatSummaryUploadParser(dao);
         parser.allowSkippedRows(true);
@@ -136,7 +136,7 @@ public class UploadTest {
 
     public void references() {
 
-        EntityManager em = dao.getEntityManager();
+        EntityManager em = dao.get();
         ReferenceUploadParser parser = new ReferenceUploadParser(dao);
         parser.processWorkbook(workbookGood);
 

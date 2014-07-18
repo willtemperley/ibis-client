@@ -241,9 +241,6 @@ public abstract class EditorController<T> extends Panel {
         fireEditComplete(entity);
     }
 
-    public void refresh() {
-        containerManager.refresh();
-    }
 
     public T getEntity() {
         return fgm.getEntity();

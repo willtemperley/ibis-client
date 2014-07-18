@@ -50,7 +50,6 @@ public class LocationEditor extends EditorController<Location> implements View {
 
         ff.addTextArea(Location_.comments);
         
-        containerManager.getContainer().addContainerFilter(new Compare.Equal(Location_.locationType.getName(), locationType));
 
         DefaultEditorView<Location> view = new DefaultEditorView<Location>();
 
@@ -83,7 +82,7 @@ public class LocationEditor extends EditorController<Location> implements View {
                     System.out.println(obj);
 //                    table.
                 }
-                LocationEditor.this.containerManager.refresh();
+//                LocationEditor.this.containerManager.refresh();
                 
             }
         });

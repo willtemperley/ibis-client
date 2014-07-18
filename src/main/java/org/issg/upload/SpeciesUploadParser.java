@@ -257,7 +257,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
 
     private TypedQuery<Taxon> findTaxonByNameAndRank(TaxonomicRank rank, String lookUp) {
         TypedQuery<Taxon> q = dao
-                .getEntityManager()
+                .get()
                 .createQuery(
                         "from Taxon where upper(label) = upper(:label) and taxonomicRank = :rank",
                         Taxon.class);

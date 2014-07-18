@@ -1,7 +1,5 @@
 package org.issg.ibis.perspective.location;
 
-import it.jrc.form.editor.EntityTable;
-
 import java.util.List;
 
 import org.issg.ibis.domain.Location;
@@ -16,6 +14,7 @@ import org.issg.ibis.perspective.shared.TwinPanelPerspective;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.TwinPanelView;
+import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
 
 import com.google.inject.Inject;
@@ -127,7 +126,7 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 		 * Impacts
 		 */
 		QSpeciesImpact spImpact = QSpeciesImpact.speciesImpact;
-		JPAQuery query = new JPAQuery(dao.getEntityManager());
+		JPAQuery query = new JPAQuery(dao.get());
 		SearchResults<SpeciesImpact> impacts = query.from(spImpact)
 				.where(spImpact.location.eq(loc))
 				.listResults(spImpact);
@@ -141,7 +140,7 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 		 * SpeciesLocations
 		 */
 		QSpeciesLocation spLoc = QSpeciesLocation.speciesLocation;
-		query = new JPAQuery(dao.getEntityManager());
+		query = new JPAQuery(dao.get());
 		SearchResults<SpeciesLocation> locations = query.from(spLoc)
 				.where(spLoc.location.eq(loc))
 				.listResults(spLoc);

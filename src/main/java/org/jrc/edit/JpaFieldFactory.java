@@ -258,16 +258,16 @@ public class JpaFieldFactory<T> {
 
         String propName = prop.getName();
 
-        String fieldDescription = dao.getFieldDescription(prop);
+//        String fieldDescription = dao.getFieldDescription(prop);
 
         /**
          * setDescription removed from Field interface in 7, therefore we have
          * to do this separately for every field type, or more simply up-cast
          * like here.
          */
-        if (f instanceof AbstractField<?> && fieldDescription != null) {
-            ((AbstractField<?>) f).setDescription(fieldDescription);
-        }
+//        if (f instanceof AbstractField<?> && fieldDescription != null) {
+//            ((AbstractField<?>) f).setDescription(fieldDescription);
+//        }
 
         f.setCaption(AdminStringUtil.splitCamelCase(propName));
 
