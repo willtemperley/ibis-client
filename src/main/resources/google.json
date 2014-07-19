@@ -1,0 +1,15 @@
+{
+	"auth_uri":"https://accounts.google.com/o/oauth2/auth",
+	"client_secret":"Z6-B1exsyelhRFxaIoX_YoCK",
+	"token_uri":"https://accounts.google.com/o/oauth2/token",
+	"client_email":"288161904770-egq81t04q7mrfq96l42f9aa4m1bkjop4@developer.gserviceaccount.com",
+	"redirect_uris":[
+		"http://localhost:8080/ibis-client"
+	],
+	"client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/288161904770-egq81t04q7mrfq96l42f9aa4m1bkjop4@developer.gserviceaccount.com",
+	"client_id":"288161904770-egq81t04q7mrfq96l42f9aa4m1bkjop4.apps.googleusercontent.com",
+	"auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+	"javascript_origins":[
+		"http://localhost:8080/"
+	]
+}
