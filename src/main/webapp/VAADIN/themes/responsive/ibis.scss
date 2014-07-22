@@ -36,6 +36,17 @@
 	$invasive-orange: rgb(233, 127, 2);
 	$header-grey: #656565;
 	
+	.home-text {
+		text-align: center;
+		font-weight: 400;
+		font-size: 18px;
+	}
+	
+	.v-spacing {
+		height: $default-spacing;
+		width: $default-spacing;
+	}
+	
 	.v-formlayout td {
 		padding-top: 0px !important;
 	}
@@ -61,9 +72,6 @@
 		}
 	}
 	
-	.account-settings {
-		@include valo-button-style($background-color: $header-grey); 
-	}
 	
 	.g-plus-button {
 		@include valo-button-style($background-color: $redlist-red); 
@@ -77,10 +85,6 @@
 	.v-label-undef-w {
 		white-space: normal;
 		text-align: justify;
-	}
-	
-	.v-horizontal > .v-spacing {
-    	width: $default-width;
 	}
 
 	.display-panel .v-csslayout {
@@ -105,8 +109,13 @@
 	}
 
 	.header {
-		padding-left: $default-spacing;
 		background-color: $header-grey;
+			
+		.account-settings {
+			@include valo-button-style($background-color: $header-grey); 
+			font-size: 1.5em;
+			text-align: center;
+		}
 		
 		div {
 		

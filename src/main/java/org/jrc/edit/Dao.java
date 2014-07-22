@@ -38,7 +38,7 @@ import com.google.inject.Provider;
 public class Dao implements Provider<EntityManager> {
 
     private Map<Class<?>, String> classUrlMapping;
-    private RoleManager roleManager;
+//    private RoleManager roleManager;
     private Provider<EntityManager> entityManagerProvider;
     private PersistenceUnitUtil puu;
 
@@ -52,10 +52,6 @@ public class Dao implements Provider<EntityManager> {
         this.entityManagerProvider = entityManagerProvider;
     }
     
-    @Inject(optional=true)
-    public void setRoleManager(RoleManager roleManager) {
-		this.roleManager = roleManager;
-	}
     
 
 
@@ -64,9 +60,6 @@ public class Dao implements Provider<EntityManager> {
 		return entityManagerProvider.get();
 	}
 
-	public RoleManager getRoleManager() {
-        return roleManager;
-    }
 
     public Object persist(Object obj) {
 

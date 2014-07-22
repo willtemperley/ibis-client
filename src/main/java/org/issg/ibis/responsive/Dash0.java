@@ -13,7 +13,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class CopyOfDashboard extends CssLayout implements View {
+public class Dash0 extends CssLayout implements View {
 
 
 	/**
@@ -21,7 +21,7 @@ public class CopyOfDashboard extends CssLayout implements View {
 	 */
 
 	@Inject
-	public CopyOfDashboard(Dao dao) {
+	public Dash0(Dao dao) {
 		setSizeFull();
         addStyleName("dashboard");
         Responsive.makeResponsive(this);

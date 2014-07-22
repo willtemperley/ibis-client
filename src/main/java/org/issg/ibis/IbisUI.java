@@ -3,7 +3,7 @@ package org.issg.ibis;
 import org.jrc.edit.Dao;
 import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.ui.ScopedUI;
-import org.vaadin.addons.oauth.OAuthResponseHandler;
+import org.vaadin.addons.oauth.OAuthRequestHandler;
 
 import com.google.inject.Inject;
 import com.vaadin.annotations.Theme;
@@ -25,12 +25,10 @@ public class IbisUI extends ScopedUI {
 	private HeaderView headerView;
 
 	@Inject
-	public IbisUI(GuicedViewProvider viewProvider, HeaderView headerView, OAuthResponseHandler rh) {
+	public IbisUI(GuicedViewProvider viewProvider, HeaderView headerView) {
 		this.headerView = headerView;
 		Navigator nav = new Navigator(this, root);
 		nav.addProvider(viewProvider);
-
-		VaadinSession.getCurrent().addRequestHandler(rh);
 	}
 
 	@Override
@@ -42,6 +40,7 @@ public class IbisUI extends ScopedUI {
 		rootLayout.addComponent(root);
 		root.setSizeFull();
 		rootLayout.setExpandRatio(root, 1);
+
 	}
 
 	class MenuLayout extends CssLayout {

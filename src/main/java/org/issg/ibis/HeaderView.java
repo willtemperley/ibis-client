@@ -44,7 +44,6 @@ public class HeaderView extends HorizontalLayout implements View {
         addComponent(label);
 
         
-        accountDetails.setWidth("40px");
 		addComponent(accountDetails);
         setExpandRatio(label, 1);
     }

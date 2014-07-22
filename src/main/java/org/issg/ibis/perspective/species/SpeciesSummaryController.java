@@ -110,7 +110,9 @@ public class SpeciesSummaryController extends CssLayout {
 		if (refs != null && refs.size() > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (Reference reference : refs) {
+				sb.append("<div>");
 				sb.append(reference.getContent());
+				sb.append("</div>");
 			}
 			Content rc = new ReferenceContent();
 			rc.setContent(sb.toString());

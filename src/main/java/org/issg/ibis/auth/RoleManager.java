@@ -3,19 +3,20 @@ package org.issg.ibis.auth;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-
+import org.jrc.edit.Dao;
 import org.jrc.edit.HasRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.addons.auth.domain.Role;
+import org.vaadin.addons.auth.domain.Role_;
+import org.vaadin.addons.oauth.OAuthSubject;
+import org.vaadin.addons.oauth.UserInfo;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 
 @SessionScoped
-public class RoleManager {
+public class RoleManager implements OAuthSubject {
 
     public enum Action {
         READ, CREATE, UPDATE, DELETE
@@ -27,25 +28,20 @@ public class RoleManager {
     
     private Role role;
 
-    private Provider<EntityManager> entityManagerProvider;
+    private Dao dao;
 
     private Role anonymousRole;
 
+	private UserInfo userInfo;
+    
     @Inject
-    public RoleManager(Provider<EntityManager> em) {
+    public RoleManager(Dao dao) {
 
-        this.entityManagerProvider = em;
+        this.dao = dao;
 
         this.anonymousRole = new Role();
         
-//        Object id = SecurityUtils.getSubject().getPrincipal();
-        //FIXME temp
-        Object id = 0l;
-        if (id.equals(0l)) {
-            role = anonymousRole;
-        } else {
-            role = getEm().find(Role.class, id);
-        }
+        role = anonymousRole;
 
         loadPermissions();
     }
@@ -124,17 +120,55 @@ public class RoleManager {
         return entity.getRole().equals(role);
     }
 
-    public Role getRole() {
-       return role; 
-    }
 
-    private EntityManager getEm() {
-        return entityManagerProvider.get();
-    }
-
+    /**
+     * Sets the user to be anonymous and returns to beginning
+     */
     public void logout() {
-//        SecurityUtils.getSubject().logout();
         role = anonymousRole;
     }
+
+	@Override
+	public String getEmail() {
+		return role.getEmail();
+	}
+
+	@Override
+	public Long getUserPrincipal() {
+		return role.getId();
+	}
+
+	@Override
+	public void setUserInfo(UserInfo userInfo) {
+
+		this.userInfo = userInfo;
+
+		if (!userInfo.getVerifiedEmail()) {
+			//FIXME keep them anonymous
+			logger.info("Unverified user email attempt");
+			return;
+		}
+
+		Role r = dao.findByProxyId(Role_.email, userInfo.getEmail());
+		if (r != null) {
+			role = r;
+		} else {
+//			createAccount!
+			//Can we just manage with the email and nothing else?
+			Role newRole = new Role();
+			newRole.setEmail(userInfo.getEmail());
+			newRole.setFirstName(userInfo.getGivenName());
+			newRole.setLastName(userInfo.getFamilyName());
+		}
+		
+	}
+	
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public boolean isLoggedIn() {
+		return role.getId() != null && role.getId() > 0;
+	}
 
 }

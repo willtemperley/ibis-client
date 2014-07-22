@@ -78,9 +78,7 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		addTable(speciesImpactTable, "");
 
 		impactTab = getTab(speciesImpactTable);
-		/*
-		 * Replace right panel
-		 */
+		
 	}
 
 	private EntityTable<SpeciesLocationAdapter> getSpeciesLocationAdapterTable() {
@@ -145,7 +143,6 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 			return;
 		}
 		
-		
 		setStyles(species.getIsInvasive());
 
 		if (species.getIsInvasive()) {
@@ -163,7 +160,6 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		 */
 		speciesSummary.setSpecies(species);
 		
-
 		// Clear other info
 		speciesImpactContainer.removeAllItems();
 		speciesLocationContainer.removeAllItems();

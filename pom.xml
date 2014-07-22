@@ -19,7 +19,7 @@
 	</properties>
 
 	<dependencies>
-
+		<!-- To override pollution -->
 		<dependency>
 		    <groupId>com.google.guava</groupId>
     		<artifactId>guava</artifactId>

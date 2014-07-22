@@ -6,6 +6,7 @@ import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
+import org.issg.ibis.responsive.Dash2;
 import org.issg.ibis.responsive.Dashboard;
 import org.jrc.server.AbstractViewModule;
 import org.jrc.server.GuicedViewProvider;
@@ -44,7 +45,8 @@ public class ViewModule extends AbstractViewModule {
         mapbinder = MapBinder.newMapBinder(binder(), String.class,
                 View.class);
         
-        mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class).in(UIScoped.class);;
+        mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class);//.in(UIScoped.class);;
+        mapbinder.addBinding("OLD"+GuicedViewProvider.HOME).to(Dash2.class).in(UIScoped.class);;
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class).in(UIScoped.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class).in(UIScoped.class);

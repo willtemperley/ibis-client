@@ -26,7 +26,7 @@ public class ContainerManager<T> {
     
     private Logger logger = LoggerFactory.getLogger(ContainerManager.class);
 
-    public ContainerManager(Dao dao, Class<T> clazz) {
+    public ContainerManager(Dao dao, Class<T> clazz, RoleManager roleManager) {
 
         this.dao = dao;
         this.clazz = clazz;
@@ -34,7 +34,6 @@ public class ContainerManager<T> {
         container = new ListContainer<T>(clazz);
         
 
-        RoleManager roleManager = dao.getRoleManager();
         
         String target = roleManager.getUrlForClass(clazz);
         

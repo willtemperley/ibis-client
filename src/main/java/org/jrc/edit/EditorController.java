@@ -58,7 +58,8 @@ public abstract class EditorController<T> extends Panel {
 
         this.ff = new JpaFieldFactory<T>(dao, clazz);
 
-        containerManager = new ContainerManager<T>(dao, clazz);
+        //FIXME!!!!
+//        containerManager = new ContainerManager<T>(dao, clazz);
 
     }
 
