@@ -40,10 +40,8 @@ public class SpeciesSearch2 extends VerticalLayout {
 
 	private Component getSpeciesSelector(String speciesType, String caption) {
 		TypedSelect<Species> speciesSelector = new TypedSelect<Species>(
-				caption).withSelectType(ComboBox.class);
-		speciesSelector.addStyleName("species-selector");
-		speciesSelector.setWidth("300px");
-		speciesSelector.addTypedValueChangeListener(new MValueChangeListener<Species>() {
+				caption).withSelectType(ComboBox.class).withWidth("300px").withStyleName("species-select");
+		speciesSelector.addMValueChangeListener(new MValueChangeListener<Species>() {
 
 
 			@Override

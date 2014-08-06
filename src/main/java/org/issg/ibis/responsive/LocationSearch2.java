@@ -17,6 +17,7 @@ import org.jrc.ui.HtmlLabel;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
 import org.vaadin.maddon.fields.MValueChangeEvent;
+import org.vaadin.maddon.fields.MValueChangeEventImpl;
 import org.vaadin.maddon.fields.MValueChangeListener;
 import org.vaadin.maddon.fields.TypedSelect;
 
@@ -28,10 +29,12 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field.ValueChangeEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class LocationSearch2 extends HorizontalLayout {
+public class LocationSearch2 extends Panel implements TakesSelectionListener<Location> {
 
 	private Dao dao;
 	private TypedSelect<Country> countrySelector;
@@ -39,19 +42,36 @@ public class LocationSearch2 extends HorizontalLayout {
 	private LocationCaption locationCaption;
 	private LocationCaption countryCaption;
 
-	private ListContainer<Location> locationContainer = new ListContainer<Location>(Location.class);
+	private ListContainer<Location> locationContainer;
+	private EntityTable<Location> select;
 
 	@Inject
 	public LocationSearch2(Dao dao) {
-		this.dao = dao;
-		setSpacing(true);
-		setSizeFull();
 
+		this(dao, new ListContainer<Location>(Location.class));
+	}
+
+	public LocationSearch2(Dao dao, ListContainer<Location> container) {
+		this.dao = dao;
+		this.locationContainer = container;
+		this.select = new EntityTable<Location>(locationContainer);
 		
+		//Panel
+		setCaption("Search by location");
+        addStyleName("location");
+		setSizeFull();
+		
+		//Content
+	    HorizontalLayout content = new HorizontalLayout();
+	    content.setMargin(true);
+	    setContent(content);
+		content.setSpacing(true);
+		content.setSizeFull();
+
 		VerticalLayout leftPanel = new VerticalLayout();
 		leftPanel.setSpacing(true);
 		leftPanel.addComponent(new HtmlLabel("Select a location to view. Locations can be filtered by country and region."));
-		addComponent(leftPanel);
+		content.addComponent(leftPanel);
 		
 		TypedSelect<Region> regionSelector = getRegionSelector();
 		leftPanel.addComponent(regionSelector);
@@ -63,8 +83,8 @@ public class LocationSearch2 extends HorizontalLayout {
 
 		locationSelector = getLocationTable();
 		locationSelector.setSizeFull();
-//		locationSelector.setHeight("300px");
-		addComponent(locationSelector);
+
+		content.addComponent(locationSelector);
 		
 		locationCaption = LocationCaption.getInstance(getLocale(), LocationCaption.LOCATION_BUNDLE);
 		countryCaption = LocationCaption.getInstance(getLocale(), LocationCaption.COUNTRY_BUNDLE);
@@ -73,31 +93,28 @@ public class LocationSearch2 extends HorizontalLayout {
 
 	private EntityTable<Location> getLocationTable() {
 		
-		
-		EntityTable<Location> select = new EntityTable<Location>(locationContainer);
 		select.setSizeFull();
-
 
 		TypedQuery<Location> q = dao.get().createNamedQuery(
 				Location.HAS_IMPACT, Location.class);
 		List<Location> resultList = q.getResultList();
+		System.out.println("Size: " + resultList.size());
 		locationContainer.addAll(resultList);
-		select.addValueChangeListener(new Property.ValueChangeListener() {
 
-			@Override
-			public void valueChange(Property.ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				Location val = (Location) event.getProperty().getValue();
-				if (val != null) {
-					Navigator nav = UI.getCurrent().getNavigator();
-					nav.navigateTo(ViewModule.LOCATION_PERSPECTIVE + "/"
-							+ val.getId());
-				}
-			}
-		});
 		
 		select.addColumns("name", "locationType");
 		return select;
+	}
+	
+	@Override
+	public void addMValueChangeListener(final MValueChangeListener<Location> listener) {
+		select.addValueChangeListener(new Property.ValueChangeListener() {
+			
+			@Override
+			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+				listener.valueChange(new MValueChangeEventImpl<Location>(select));
+			}
+		});
 	}
 
 	private TypedSelect<Region> getRegionSelector() {
@@ -111,7 +128,7 @@ public class LocationSearch2 extends HorizontalLayout {
 		List<Region> results = q.list(c.region);
 		select.setOptions(results);
 	
-		select.addTypedValueChangeListener(new MValueChangeListener<Region>() {
+		select.addMValueChangeListener(new MValueChangeListener<Region>() {
 	
 			@Override
 			public void valueChange(MValueChangeEvent<Region> event) {
@@ -152,7 +169,7 @@ public class LocationSearch2 extends HorizontalLayout {
 		List<Country> results = getCountriesForRegion(null);
 		select.setOptions(results);
 
-		select.addTypedValueChangeListener(new MValueChangeListener<Country>() {
+		select.addMValueChangeListener(new MValueChangeListener<Country>() {
 
 			@Override
 			public void valueChange(MValueChangeEvent<Country> event) {
@@ -212,4 +229,5 @@ public class LocationSearch2 extends HorizontalLayout {
 		q.distinct();
 		return q.list(QLocation.location);
 	}
+
 }

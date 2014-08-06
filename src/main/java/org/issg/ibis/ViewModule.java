@@ -4,10 +4,11 @@ import java.util.Map;
 
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.editor.LocationEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
-import org.issg.ibis.responsive.Dash2;
 import org.issg.ibis.responsive.Dashboard;
+import org.issg.ibis.responsive.archive.Dash2;
 import org.jrc.server.AbstractViewModule;
 import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.uiscope.UIScoped;
@@ -39,6 +40,7 @@ public class ViewModule extends AbstractViewModule {
 	public static final String SPECIES_SEARCH = "SearchBySpecies";
 	public static final String LOCATION_SEARCH = "SearchByLocation";
 	public static final String SEARCH = "Search";
+	public static final String LOCATION_EDITOR = "EditLocation";
 
     @Override
     protected void configure() {
@@ -63,7 +65,7 @@ public class ViewModule extends AbstractViewModule {
 //        addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 
 //        addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
-//        addBinding("EditIsland", LocationEditor.class, Location.class);
+        mapbinder.addBinding(LOCATION_EDITOR).to(LocationEditor.class).in(UIScoped.class);
 
     }
     

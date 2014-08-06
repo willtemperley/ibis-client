@@ -75,7 +75,6 @@ public class Dao implements Provider<EntityManager> {
             if (tx.isActive()) {
                 tx.rollback();
             }
-            throw new RuntimeException(e.getMessage());
         }
 
         return obj;
@@ -292,9 +291,6 @@ public class Dao implements Provider<EntityManager> {
         } else if (res.size() == 1) {
             return q.getSingleResult();
         } else {
-            for (T t : res) {
-                System.out.println("RESULT: " + t);
-            }
             logger.error("Multiple objects found for query, using lookup: " + attrValue);
             return null;
         }

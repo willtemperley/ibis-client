@@ -2,6 +2,7 @@ package org.issg.ibis.editor;
 
 import java.util.List;
 
+import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesImpact_;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
@@ -19,8 +20,8 @@ public class SpeciesImpactEditor extends
         EditorController<SpeciesImpact> implements View {
 
     @Inject
-    public SpeciesImpactEditor(Dao dao) {
-        super(SpeciesImpact.class, dao);
+    public SpeciesImpactEditor(Dao dao, RoleManager roleManager) {
+        super(SpeciesImpact.class, dao, roleManager);
 
 //        getTable().addColumns(
 //                SpeciesImpact_.nativeSpecies,

@@ -1,7 +1,7 @@
 package org.issg.ibis.qdsl.experimental;
 
-import org.issg.ibis.responsive.LocationSearch;
-import org.issg.ibis.responsive.SpeciesSearch;
+import org.issg.ibis.responsive.archive.LocationSearch;
+import org.issg.ibis.responsive.archive.SpeciesSearch;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;

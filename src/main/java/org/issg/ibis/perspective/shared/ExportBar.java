@@ -27,7 +27,9 @@ public class ExportBar extends VerticalLayout {
 
 	public void setResourceId(Long id) {
 		csvLink.setResource(new ExternalResource(baseUrl + id + "/csv"));
+		csvLink.setDescription("Download all tables in CSV format.  This will be provided in a zip archive.");
 		excelLink.setResource(new ExternalResource(baseUrl + id + "/xlsx"));
+		excelLink.setDescription("Download all tables in Excel (XLSX) format.");
 		
 	}
 

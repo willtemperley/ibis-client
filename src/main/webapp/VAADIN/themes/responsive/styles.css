@@ -10116,6 +10116,10 @@ div.v-layout.v-horizontal.v-widget {
 	padding-top: 0px !important;
 }
 
+.responsive .v-filterselect-suggestpopup-species-select {
+	font-style: italic;
+}
+
 .responsive .invasive-species .v-panel-caption {
 	color: #e97f02;
 	border-bottom: 1px solid #e97f02;
@@ -10188,6 +10192,19 @@ div.v-layout.v-horizontal.v-widget {
 
 .responsive .export-bar .v-link {
 	margin-bottom: 20px;
+}
+
+.responsive .submit-panel {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.responsive .submit-panel .button-left {
+	float: left;
+}
+
+.responsive .submit-panel .button-right {
+	float: right;
 }
 
 .responsive .g-plus-button {

@@ -1,4 +1,4 @@
-package org.issg.ibis.responsive;
+package org.issg.ibis.responsive.archive;
 
 import java.util.List;
 import java.util.Set;
@@ -12,6 +12,7 @@ import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Region;
+import org.issg.ibis.responsive.LocationCaption;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.maddon.fields.MValueChangeEvent;
@@ -66,7 +67,7 @@ public class LocationSearch extends VerticalLayout {
 				Location.HAS_IMPACT, Location.class);
 		List<Location> resultList = q.getResultList();
 		select.setOptions(resultList);
-		select.addTypedValueChangeListener(new MValueChangeListener<Location>() {
+		select.addMValueChangeListener(new MValueChangeListener<Location>() {
 
 
 			@Override
@@ -95,7 +96,7 @@ public class LocationSearch extends VerticalLayout {
 		List<Region> results = q.list(c.region);
 		select.setOptions(results);
 	
-		select.addTypedValueChangeListener(new MValueChangeListener<Region>() {
+		select.addMValueChangeListener(new MValueChangeListener<Region>() {
 	
 			@Override
 			public void valueChange(MValueChangeEvent<Region> event) {
@@ -137,7 +138,7 @@ public class LocationSearch extends VerticalLayout {
 		List<Country> results = getCountriesForRegion(null);
 		select.setOptions(results);
 
-		select.addTypedValueChangeListener(new MValueChangeListener<Country>() {
+		select.addMValueChangeListener(new MValueChangeListener<Country>() {
 
 			@Override
 			public void valueChange(MValueChangeEvent<Country> event) {

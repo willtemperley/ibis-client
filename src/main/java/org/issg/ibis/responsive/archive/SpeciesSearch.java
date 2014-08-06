@@ -1,4 +1,4 @@
-package org.issg.ibis.responsive;
+package org.issg.ibis.responsive.archive;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class SpeciesSearch extends VerticalLayout {
 				caption).withSelectType(ComboBox.class);
 		speciesSelector.addStyleName("species-selector");
 		speciesSelector.setWidth("200px");
-		speciesSelector.addTypedValueChangeListener(new MValueChangeListener<Species>() {
+		speciesSelector.addMValueChangeListener(new MValueChangeListener<Species>() {
 
 
 			@Override

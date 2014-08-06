@@ -2,6 +2,7 @@ package org.issg.ibis.editor;
 
 import java.util.List;
 
+import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
@@ -21,8 +22,8 @@ public class SpeciesEditor extends
         EditorController<Species> implements View {
 
     @Inject
-    public SpeciesEditor(Dao dao) {
-        super(Species.class, dao);
+    public SpeciesEditor(Dao dao, RoleManager roleManager) {
+        super(Species.class, dao, roleManager);
 
 //        getTable().addColumns(Species_.name, Species_.redlistCategory);
 

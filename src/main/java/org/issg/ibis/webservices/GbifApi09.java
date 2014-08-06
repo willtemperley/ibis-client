@@ -89,7 +89,6 @@ public class GbifApi09 extends BaseJsonClient {
         // getSpecies(url);
 
         int redlistId = 133558;
-        System.err.println("RL");
 
         Species sp = new Species();
         sp.setRedlistId(redlistId);

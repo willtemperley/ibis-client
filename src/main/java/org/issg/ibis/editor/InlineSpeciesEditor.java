@@ -1,5 +1,6 @@
 package org.issg.ibis.editor;
 
+import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
 import org.jrc.edit.Dao;
@@ -11,8 +12,8 @@ import com.vaadin.ui.Button.ClickListener;
 
 public class InlineSpeciesEditor extends EditorController<Species>{
 
-    public InlineSpeciesEditor(Class<Species> clazz, Dao dao) {
-        super(clazz, dao);
+    public InlineSpeciesEditor(Class<Species> clazz, Dao dao, RoleManager roleManager) {
+        super(clazz, dao, roleManager);
         
         ff.addField(Species_.name);
 

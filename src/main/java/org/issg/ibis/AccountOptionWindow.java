@@ -1,6 +1,8 @@
 package org.issg.ibis;
 
 import org.issg.ibis.auth.RoleManager;
+import org.issg.ibis.auth.RoleManager.Action;
+import org.issg.ibis.domain.Location;
 import org.vaadin.addons.guice.uiscope.UIScoped;
 import org.vaadin.addons.oauth.OAuthManager;
 import org.vaadin.addons.oauth.OAuthRequestHandler;
@@ -57,12 +59,13 @@ public class AccountOptionWindow extends Window {
 			VaadinSession.getCurrent().removeRequestHandler(this.rh);
 
 		} else {
-			buildLoggedInInterface(roleManager.getUserInfo());
+			buildLoggedInInterface();
 		}
 
 	}
 	
-	private void buildLoggedInInterface(UserInfo userInfo) {
+	private void buildLoggedInInterface() {
+		UserInfo userInfo = roleManager.getUserInfo();
 		Panel p = new Panel();
         setContent(p);
 		VerticalLayout l = new VerticalLayout();
@@ -86,6 +89,17 @@ public class AccountOptionWindow extends Window {
 				UI.getCurrent().getPage().setLocation("");
 			}
 		});
+		
+		if (roleManager.getActionsForTarget(Location.class).contains(Action.UPDATE)) {
+			l.addComponent(new MButton().withCaption("Location").withListener(new ClickListener() {
+				
+				@Override
+				public void buttonClick(ClickEvent event) {
+					UI.getCurrent().getNavigator().navigateTo(ViewModule.LOCATION_EDITOR);
+				}
+			}));
+		}
+
 	}
 
 	private void buildLoggedOutInterface(final OAuthManager oauthManager) {

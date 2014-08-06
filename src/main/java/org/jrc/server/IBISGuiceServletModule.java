@@ -65,7 +65,6 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
 		for (int i = 0; i < cred.length; i++) {
 			InputStream stream = this.getClass().getClassLoader()
 					.getResourceAsStream(cred[i] + ".json");
-			System.out.println(stream);
 			String content = CharStreams.toString(new InputStreamReader(stream,
 					Charsets.UTF_8));
 			 OAuthCredentials oac = g.fromJson(content, OAuthCredentials.class);

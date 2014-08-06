@@ -1,6 +1,7 @@
-package org.issg.ibis.responsive;
+package org.issg.ibis.responsive.archive;
 
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.responsive.SpeciesSearch2;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 

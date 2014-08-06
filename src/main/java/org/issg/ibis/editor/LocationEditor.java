@@ -2,40 +2,45 @@ package org.issg.ibis.editor;
 
 import java.util.List;
 
+import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.LocationType;
 import org.issg.ibis.domain.Location_;
+import org.issg.ibis.responsive.LocationSearch2;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
 import org.issg.upload.ThreatSummaryUploader;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
-import org.vaadin.addons.form.view.DefaultEditorView;
+import org.jrc.edit.JpaFieldFactory;
+import org.vaadin.addons.form.view.TwinPanelEditorView;
 
 import com.google.inject.Inject;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
-public class LocationEditor extends EditorController<Location> implements View {
+public class LocationEditor extends TwinPanelEditorView<Location> implements View {
 
-    private LocationType locationType;
+	private EditorController<Location> ec;
+	private Dao dao;
 
     @Inject
-    public LocationEditor(Dao dao) {
-        super(Location.class, dao);
+    public LocationEditor(Dao dao, RoleManager roleManager) {
 
-        this.locationType = dao.find(LocationType.class, "Island");
+        ec = new EditorController<Location>(Location.class, dao, roleManager);
+        this.dao = dao;
 
-//        getTable().addColumns(Location_.name, Location_.islandType, Location_.latitude, Location_.longitude);
+//      getTable().addColumns(Location_.name, Location_.islandType, Location_.latitude, Location_.longitude);
 //
 //       filterPanel.addFilterField(Location_.name);
 //       filterPanel.addFilterField(Location_.country);
-//         filterPanel.addFilterField(TableDescription_.schema);
+//       filterPanel.addFilterField(TableDescription_.schema);
          
-        ff.addField(Location_.name);
-        ff.addField(Location_.islandGroup);
+        JpaFieldFactory<Location> ff = ec.getFf();
+		ff.addField(Location_.name);
         ff.addField(Location_.country);
+        ff.addField(Location_.locationType);
+
+        ff.addField(Location_.islandGroup);
         ff.addField(Location_.islandType);
 
         ff.addField(Location_.latitude);
@@ -45,18 +50,21 @@ public class LocationEditor extends EditorController<Location> implements View {
         ff.addField(Location_.identifier);
 
         ff.addField(Location_.url);
-
         ff.addField(Location_.area);
 
         ff.addTextArea(Location_.comments);
+        ec.addFieldGroup("");
+        ec.init(this);
         
+        LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());
+        ec.setSelectionComponent(locationSearch);
 
-        DefaultEditorView<Location> view = new DefaultEditorView<Location>();
+	    locationSearch.setCaption("Select location to edit");
+	    
+        this.setSelectionComponent(locationSearch);
 
         ThreatSummaryUploader tsu = new ThreatSummaryUploader(dao);
-        view.addComponent(tsu);
-
-		init(view);
+//        view.addComponent(tsu);
         
 //        LocationUploader uploader = new LocationUploader(dao);
 //        theView.addSelectionComponent(uploader);
@@ -89,14 +97,18 @@ public class LocationEditor extends EditorController<Location> implements View {
 
     }
 
-    @Override
-    protected void doPreCommit(Location obj) {
-        obj.setLocationType(locationType);
-        super.doPreCommit(obj);
-    }
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
+		String s = event.getParameters();
+
+		if (!ec.hasReadPermission()) {
+			throw new RuntimeException("Unauthorized access.");
+		}
+
+		if (!s.isEmpty()) {
+			Long l = Long.valueOf(s);
+			ec.doUpdate(dao.find(Location.class, l));
+		}
 	}
 }

@@ -1,9 +1,13 @@
 package org.vaadin.addons.form.view;
 
 import java.util.List;
+import java.util.Set;
 
+import org.issg.ibis.auth.RoleManager.Action;
 import org.vaadin.addons.form.field.FieldGroup;
+import org.vaadin.addons.lec.EntityTable;
 
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 
 /**
@@ -14,13 +18,6 @@ import com.vaadin.ui.Component;
  */
 public interface IEditorView<T> extends Component {
 
-    /**
-     * Acting like a factory here, the view provides the panel. Event management
-     * is up to the controller.
-     * 
-     * @return
-     */
-    public SubmitPanel getSubmitPanel();
 
     /**
      * Add fields to form. Implementations are expected to only manage the
@@ -30,4 +27,21 @@ public interface IEditorView<T> extends Component {
      */
     public void buildForm(List<FieldGroup<T>> fields);
 
+    /**
+     * 
+     * 
+     * @param allowedActions
+     */
+	public void setAllowedActions(Set<Action> allowedActions);
+	
+	public void setIsEditing(boolean isEditing);
+
+	public void setCreateListener(ClickListener clickListener);
+
+	public void setUpdateListener(ClickListener clickListener);
+
+	public void setCancelListener(ClickListener clickListener);
+
+	public void setDeleteListener(ClickListener clickListener);
+		
 }

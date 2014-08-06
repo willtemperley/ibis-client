@@ -1,5 +1,6 @@
 package org.issg.ibis.auth;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,8 @@ public class RoleManager implements OAuthSubject {
     private Role anonymousRole;
 
 	private UserInfo userInfo;
+
+	private Set<Action> allActions;
     
     @Inject
     public RoleManager(Dao dao) {
@@ -43,37 +46,46 @@ public class RoleManager implements OAuthSubject {
         
         role = anonymousRole;
 
-        loadPermissions();
+        stringPermissions = role.getStringPermissions();
+
+        allActions = new HashSet<Action>(Arrays.asList(Action.values()));
+    }
+    
+    public Set<Action> getActionsForTarget(Class<?> clazz) {
+    	
+        if (role.getIsSuperUser()) {
+            return allActions;
+        }
+        
+        HashSet<Action> actions = new HashSet<RoleManager.Action>();
+        Action[] values = Action.values();
+		for (int i = 0; i < values.length; i++) {
+			Action action = values[i];
+			boolean hasPermission = stringPermissions.contains(action + "_" + clazz.getSimpleName());
+			if (hasPermission) {
+				actions.add(action);
+			}
+		}
+		return actions;
+        
     }
 
+    @Deprecated
+    /**
+     * use #
+     */
     public boolean checkPermission(Action action, String target) {
         
         if (role.getIsSuperUser()) {
             return true;
         }
+        
+		boolean hasPermission = stringPermissions.contains(action + "_" + target);
 
         logger.debug(action + "_" + target);
-        boolean hasPermission = stringPermissions.contains(action + "_"
-                + target);
         logger.debug("has permission: " + hasPermission);
         return hasPermission;
 
-    }
-
-    public void loadPermissions() {
-
-        stringPermissions = role.getStringPermissions();
-
-    }
-
-    /**
-     * Simple implementation - just get the
-     * 
-     * @param clazz
-     * @return
-     */
-    public String getUrlForClass(Class<?> clazz) {
-        return clazz.getSimpleName();
     }
 
     public boolean canCreate(String target) {
@@ -144,7 +156,6 @@ public class RoleManager implements OAuthSubject {
 		this.userInfo = userInfo;
 
 		if (!userInfo.getVerifiedEmail()) {
-			//FIXME keep them anonymous
 			logger.info("Unverified user email attempt");
 			return;
 		}
@@ -159,6 +170,8 @@ public class RoleManager implements OAuthSubject {
 			newRole.setEmail(userInfo.getEmail());
 			newRole.setFirstName(userInfo.getGivenName());
 			newRole.setLastName(userInfo.getFamilyName());
+			dao.persist(newRole);	
+			role = newRole;
 		}
 		
 	}
