@@ -169,7 +169,7 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 		table.setSizeFull();
 		table.setPageLength(20);
 	
-		table.addColumns("species", "commonName", "redlistCategory", "biologicalStatus");
+		table.addColumns("species", "commonName", "organismType", "redlistCategory", "biologicalStatus");
 		table.setItalicColumn("species");
 		return table;
 	}
@@ -181,7 +181,7 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 		table.setSizeFull();
 		table.setPageLength(20);
 	
-		table.addColumns("species", "commonName", "biologicalStatus");
+		table.addColumns("species", "commonName", "organismType", "biologicalStatus");
 		table.setItalicColumn("species");
 		return table;
 	}
