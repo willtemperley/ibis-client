@@ -9,11 +9,9 @@ import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesLocation;
 import org.issg.ibis.domain.adapter.IASAdapter;
 import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
-import org.issg.ibis.perspective.shared.LayerViewer;
 import org.issg.ibis.perspective.shared.TwinPanelPerspective;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
-import org.jrc.ui.TwinPanelView;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
 
@@ -25,9 +23,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
 import com.vividsolutions.jts.geom.Polygon;
 
 public class LocationPerspective extends TwinPanelPerspective implements View {
@@ -45,8 +40,6 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 	private LocationSummaryView ls;
 	private LocationDescription locationDescription;
 
-	/**
-     */
 	@Inject
 	public LocationPerspective(Dao dao, @Named("context_path") String contextPath) {
 

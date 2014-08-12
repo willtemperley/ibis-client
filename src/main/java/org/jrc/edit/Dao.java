@@ -330,9 +330,6 @@ public class Dao implements Provider<EntityManager> {
         return null;
     }
 
-	public void refresh(Object obj) {
-		get().refresh(obj);
-	}
         
 
 }

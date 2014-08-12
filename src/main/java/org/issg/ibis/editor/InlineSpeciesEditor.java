@@ -3,9 +3,9 @@ package org.issg.ibis.editor;
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.Species_;
+import org.issg.ibis.editor.view.DefaultEditorView;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
-import org.vaadin.addons.form.view.DefaultEditorView;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;

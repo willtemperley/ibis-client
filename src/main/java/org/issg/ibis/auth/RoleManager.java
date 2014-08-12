@@ -51,7 +51,15 @@ public class RoleManager implements OAuthSubject {
         allActions = new HashSet<Action>(Arrays.asList(Action.values()));
     }
     
+    /**
+     * For an entity class, get the set of permissions the user has
+     * 
+     * @param clazz
+     * @return
+     */
     public Set<Action> getActionsForTarget(Class<?> clazz) {
+//    	if (1==1)
+//            return allActions;
     	
         if (role.getIsSuperUser()) {
             return allActions;
@@ -70,51 +78,6 @@ public class RoleManager implements OAuthSubject {
         
     }
 
-    @Deprecated
-    /**
-     * use #
-     */
-    public boolean checkPermission(Action action, String target) {
-        
-        if (role.getIsSuperUser()) {
-            return true;
-        }
-        
-		boolean hasPermission = stringPermissions.contains(action + "_" + target);
-
-        logger.debug(action + "_" + target);
-        logger.debug("has permission: " + hasPermission);
-        return hasPermission;
-
-    }
-
-    public boolean canCreate(String target) {
-        if (role.getIsSuperUser()) {
-            return true;
-        }
-        return checkPermission(Action.CREATE, target);
-    }
-
-    public boolean canUpdate(String target) {
-        if (role.getIsSuperUser()) {
-            return true;
-        }
-        return checkPermission(Action.UPDATE, target);
-    }
-
-    public boolean canDelete(String target) {
-        if (role.getIsSuperUser()) {
-            return true;
-        }
-        return checkPermission(Action.DELETE, target);
-    }
-
-    public boolean canView(String target) {
-        if (role.getIsSuperUser()) {
-            return true;
-        }
-        return checkPermission(Action.READ, target);
-    }
     
 
     /**
@@ -168,6 +131,9 @@ public class RoleManager implements OAuthSubject {
 			//Can we just manage with the email and nothing else?
 			Role newRole = new Role();
 			newRole.setEmail(userInfo.getEmail());
+			if (newRole.getEmail().equals("s.pagad@auckland.ac.nz")) {
+				newRole.setIsSuperUser(true);
+			}
 			newRole.setFirstName(userInfo.getGivenName());
 			newRole.setLastName(userInfo.getFamilyName());
 			dao.persist(newRole);	

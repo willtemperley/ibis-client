@@ -108,11 +108,12 @@ public class JpaFieldFactory<T> {
         return f;
     }
 
-    public void addRichTextArea(Attribute<? extends T, ?> prop) {
+    public RichTextArea addRichTextArea(Attribute<? extends T, ?> prop) {
         RichTextArea f = new RichTextArea();
         f.setNullRepresentation(NULL_REPRESENTATION);
         f.setWidth(DEFAULT_FIELD_WIDTH);
         addField(prop, f);
+		return f;
     }
 
 

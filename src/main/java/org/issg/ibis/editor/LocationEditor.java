@@ -5,6 +5,7 @@ import java.util.List;
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Location_;
+import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.issg.ibis.responsive.LocationSearch2;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
@@ -12,7 +13,6 @@ import org.issg.upload.ThreatSummaryUploader;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
-import org.vaadin.addons.form.view.TwinPanelEditorView;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
@@ -53,7 +53,6 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
         ff.addField(Location_.area);
 
         ff.addTextArea(Location_.comments);
-        ec.addFieldGroup("");
         ec.init(this);
         
         LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());

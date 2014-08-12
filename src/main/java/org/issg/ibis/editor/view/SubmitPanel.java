@@ -1,4 +1,4 @@
-package org.vaadin.addons.form.view;
+package org.issg.ibis.editor.view;
 
 import java.util.Set;
 
@@ -17,6 +17,7 @@ public class SubmitPanel extends CssLayout {
     
     private Button commit;
 	private Button delete;
+	private Button cancel;
 
 	public SubmitPanel() {
     	setStyleName("submit-panel");
@@ -24,7 +25,10 @@ public class SubmitPanel extends CssLayout {
         commit.setStyleName(ValoTheme.BUTTON_PRIMARY);
         commit.addStyleName("button-left");
         addComponent(commit);
-        delete = new Button("Delete", FontAwesome.TIMES);
+        cancel = new Button("Cancel", FontAwesome.TIMES);
+        cancel.addStyleName("button-cancel");
+        addComponent(cancel);
+        delete = new Button("Delete", FontAwesome.TRASH_O);
         delete.setStyleName(ValoTheme.BUTTON_DANGER);
         delete.addStyleName("button-right");
         addComponent(delete);
@@ -47,6 +51,10 @@ public class SubmitPanel extends CssLayout {
 
 	public Button getDeleteButton() {
 		return delete;
+	}
+
+	public Button getCancelButton() {
+		return cancel;
 	}
     
 

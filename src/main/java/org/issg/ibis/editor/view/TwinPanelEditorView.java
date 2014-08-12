@@ -1,4 +1,4 @@
-package org.vaadin.addons.form.view;
+package org.issg.ibis.editor.view;
 
 import java.util.List;
 import java.util.Set;
@@ -9,6 +9,8 @@ import org.vaadin.addons.form.field.FieldGroup;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
@@ -18,7 +20,7 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
 
     private SubmitPanel submitPanel = new SubmitPanel();
 	private Panel leftPlaceholder = new Panel();
-	private VerticalLayout formLayout = new VerticalLayout();
+	protected VerticalLayout formLayout = new VerticalLayout();
 	private Panel rightPanel;
 	private VerticalLayout formVL;
 	private VerticalLayout createVL;
@@ -29,6 +31,7 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
     	setSpacing(true);
 		addComponent(leftPlaceholder);
 		submitPanel.setWidth("100%");
+		submitPanel.setHeight("57px");
 		
 		formLayout.setSpacing(true);
 		
@@ -44,10 +47,17 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
 		rightPanel.setContent(createVL);
 
 		formVL = new VerticalLayout();
+		formVL.setSizeFull();
 		formLayout.setSizeUndefined();
-//		formVL.setSizeFull();
-		formVL.addComponent(formLayout);
 		formVL.addComponent(submitPanel);
+		
+		CssLayout x = new CssLayout();
+		x.addStyleName("form-container");
+		x.addComponent(formLayout);
+		formVL.addComponent(x);
+		x.setSizeFull();
+
+		formVL.setExpandRatio(x, 1);
 		
         setSizeFull();
     }
@@ -61,11 +71,10 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
             }
         }
         
-//        formLayout.addComponent(submitPanel);
     }
 
 
-	public void setSelectionComponent(Panel panel) {
+	public void setSelectionComponent(Component panel) {
 		replaceComponent(leftPlaceholder, panel);
 	}
 
@@ -73,7 +82,7 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
 	@Override
 	public void setAllowedActions(Set<Action> allowedActions) {
 		submitPanel.setAllowedActions(allowedActions);
-//		createButton.setEnabled(allowedActions.contains(Action.CREATE));
+		createButton.setEnabled(allowedActions.contains(Action.CREATE));
 	}
 
 
@@ -96,6 +105,7 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
 
 	@Override
 	public void setCancelListener(ClickListener clickListener) {
+		submitPanel.getCancelButton().addClickListener(clickListener);
 	}
 
 	@Override

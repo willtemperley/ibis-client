@@ -10197,14 +10197,31 @@ div.v-layout.v-horizontal.v-widget {
 .responsive .submit-panel {
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .responsive .submit-panel .button-left {
 	float: left;
 }
 
+.responsive .submit-panel .button-cancel {
+	float: left;
+	margin-left: 20px;
+}
+
 .responsive .submit-panel .button-right {
 	float: right;
+}
+
+.responsive .form-container {
+	overflow: auto;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.responsive .form-container .v-spacing {
+	height: 12px;
 }
 
 .responsive .g-plus-button {
@@ -10341,6 +10358,75 @@ div.v-layout.v-horizontal.v-widget {
 	text-transform: uppercase;
 	text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
 	border: 0px !important;
+}
+
+.responsive .admin-menu {
+	border: none;
+	border-radius: 0;
+	padding: 1px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	background: transparent;
+	color: inherit;
+}
+
+.responsive .admin-menu:not(.v-disabled):focus {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.responsive .admin-menu .v-menubar-menuitem {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: none;
+	margin-right: 1px;
+	border-radius: 4px;
+	color: #197de1;
+	text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05);
+	padding: 0 12px;
+	-webkit-transition: color 140ms;
+	-moz-transition: color 140ms;
+	transition: color 140ms;
+}
+
+.responsive .admin-menu .v-menubar-menuitem:first-child, .responsive .admin-menu .v-menubar-menuitem:last-child {
+	border-radius: 4px;
+}
+
+.responsive .admin-menu .v-menubar-menuitem:before {
+	content: none;
+}
+
+.responsive .admin-menu .v-menubar-menuitem:hover {
+	color: #4396ea;
+}
+
+.responsive .admin-menu .v-menubar-menuitem:active {
+	color: inherit;
+}
+
+.responsive .admin-menu .v-menubar-menuitem-checked, .responsive .admin-menu .v-menubar-menuitem-checked:first-child {
+	border: 1px solid #c5c5c5;
+	color: #197de1;
+}
+
+.responsive .admin-menu .v-menubar-menuitem-checked .v-menubar-menuitem-caption, .responsive .admin-menu .v-menubar-menuitem-checked:first-child .v-menubar-menuitem-caption {
+	position: relative;
+	top: -1px;
+}
+
+.responsive .admin-menu .v-menubar-menuitem-selected {
+	color: #ecf2f8;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.responsive .admin-menu .v-menubar-menuitem-selected:hover {
+	color: #ecf2f8;
+}
+
+.responsive .admin-menu .v-menubar-menuitem-disabled, .responsive .admin-menu .v-menubar-menuitem-disabled:hover {
+	color: inherit;
 }
 
 .responsive .nav-menu {

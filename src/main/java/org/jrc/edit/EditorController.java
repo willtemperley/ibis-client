@@ -5,12 +5,12 @@ import java.util.Set;
 
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.auth.RoleManager.Action;
+import org.issg.ibis.editor.view.IEditorView;
 import org.issg.ibis.responsive.TakesSelectionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.addons.form.field.FieldGroup;
 import org.vaadin.addons.form.field.FieldGroupManager;
-import org.vaadin.addons.form.view.IEditorView;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.ListContainer;
 import org.vaadin.maddon.fields.MValueChangeEvent;
@@ -95,6 +95,10 @@ public class EditorController<T> {
 	public void init(IEditorView<T> editorView) {
 
 		this.view = editorView;
+		
+		if (fgm.getFieldGroups().isEmpty()) {
+			addFieldGroup("");
+		}
 
 		editorView.buildForm(fgm.getFieldGroups());
 
@@ -251,6 +255,7 @@ public class EditorController<T> {
 	}
 
 	public void doUpdate(T entity) {
+		entity = dao.get().find(clazz, dao.getId(entity));
 		fgm.setEntity(entity);
 		view.setIsEditing(true);
 	}

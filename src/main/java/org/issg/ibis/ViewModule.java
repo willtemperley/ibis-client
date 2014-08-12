@@ -4,7 +4,9 @@ import java.util.Map;
 
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.editor.SpeciesSummaryEditor;
 import org.issg.ibis.editor.LocationEditor;
+import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.responsive.Dashboard;
@@ -35,12 +37,15 @@ public class ViewModule extends AbstractViewModule {
 
     public static final String COUNTRY_PERSPECTIVE = "Country";
 
-    public static final String SPECIES_EDITOR = "EditSpecies";
     public static final String ISSUE_EDITOR = "Issues";
-	public static final String SPECIES_SEARCH = "SearchBySpecies";
-	public static final String LOCATION_SEARCH = "SearchByLocation";
-	public static final String SEARCH = "Search";
+
+//	public static final String SPECIES_SEARCH = "SearchBySpecies";
+//	public static final String LOCATION_SEARCH = "SearchByLocation";
+//	public static final String SEARCH = "Search";
+
+    public static final String SPECIES_EDITOR = "EditSpecies";
 	public static final String LOCATION_EDITOR = "EditLocation";
+	public static final String SPECIES_SUMMARY_EDITOR = "EditSpeciesSummary";
 
     @Override
     protected void configure() {
@@ -62,10 +67,11 @@ public class ViewModule extends AbstractViewModule {
 //        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class).in(UIScoped.class);
 
         
-//        addBinding(SPECIES_EDITOR, SpeciesEditor.class, Species.class);
 
 //        addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
         mapbinder.addBinding(LOCATION_EDITOR).to(LocationEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(SPECIES_SUMMARY_EDITOR).to(SpeciesSummaryEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(SPECIES_EDITOR).to(SpeciesEditor.class).in(UIScoped.class);
 
     }
     

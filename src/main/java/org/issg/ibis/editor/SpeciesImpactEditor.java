@@ -3,62 +3,58 @@ package org.issg.ibis.editor;
 import java.util.List;
 
 import org.issg.ibis.auth.RoleManager;
+import org.issg.ibis.domain.QSpeciesImpact;
+import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesImpact_;
-import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
-import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
-import org.issg.upload.SpeciesImpactUploader;
+import org.issg.ibis.editor.selector.AbstractSelector;
+import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
-import org.vaadin.addons.form.view.DefaultEditorView;
+import org.jrc.edit.JpaFieldFactory;
 
 import com.google.inject.Inject;
+import com.mysema.query.jpa.impl.JPAQuery;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
-public class SpeciesImpactEditor extends
-        EditorController<SpeciesImpact> implements View {
+public class SpeciesImpactEditor extends TwinPanelEditorView<SpeciesImpact> implements View, ISpeciesEditor {
 
-    @Inject
+    private Dao dao;
+	private AbstractSelector<SpeciesImpact> selector;
+	private Species species;
+
+	@Override
+	public String getCaption() {
+		return "Edit impacts";
+	}
+
+	@Inject
     public SpeciesImpactEditor(Dao dao, RoleManager roleManager) {
-        super(SpeciesImpact.class, dao, roleManager);
 
-//        getTable().addColumns(
-//                SpeciesImpact_.nativeSpecies,
-//                SpeciesImpact_.invasiveSpecies,
-//                SpeciesImpact_.impactMechanism, 
-//                SpeciesImpact_.impactOutcome);
+        EditorController<SpeciesImpact> ec = new EditorController<SpeciesImpact>(SpeciesImpact.class, dao, roleManager) {
+        	@Override
+        	protected void doPreCommit(SpeciesImpact entity) {
+        		entity.setNativeSpecies(species);
+        	}
+        };
 
-//        filterPanel.addFilterField(SpeciesImpact_.threatenedSpecies);
-//         filterPanel.addFilterField(TableDescription_.schema);
+        this.dao = dao;
          
-        ff.addField(SpeciesImpact_.nativeSpecies);
+        JpaFieldFactory<SpeciesImpact> ff = ec.getFf();
         ff.addField(SpeciesImpact_.invasiveSpecies);
-
         ff.addField(SpeciesImpact_.impactMechanism);
         ff.addField(SpeciesImpact_.impactOutcome);
+        ff.addField(SpeciesImpact_.location);
+        ff.addField(SpeciesImpact_.reference);
         
-        addFieldGroup("");
-
-        DefaultEditorView<SpeciesImpact> view = new DefaultEditorView<SpeciesImpact>();
-
-		init(view);
+		ec.init(this);
         
-        SpeciesImpactUploader uploader = new SpeciesImpactUploader(dao);
-        view.addComponent(uploader);
-        uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
-            @Override
-            public void processingComplete(ProcessingCompleteEvent p) {
-                List<?> res = p.getResults();
-                for (Object obj : res) {
-                    System.out.println(obj);
-//                    table.
-                }
-//                SpeciesImpactEditor.this.containerManager.refresh();
-                
-            }
-        });
-        
+        selector = new AbstractSelector<SpeciesImpact>(dao, QSpeciesImpact.speciesImpact, ec.getContainer());
+        selector.setSizeFull();
+        selector.addColumns("invasiveSpecies");
+        ec.setSelectionComponent(selector);
+        this.setSelectionComponent(selector);
     }
 
 	@Override
@@ -66,4 +62,14 @@ public class SpeciesImpactEditor extends
 		
 	}
 
+	public void setSpecies(Species sp) {
+		
+		JPAQuery q = new JPAQuery(dao.get());
+		q = q.from(QSpeciesImpact.speciesImpact).where(QSpeciesImpact.speciesImpact.nativeSpecies.eq(sp));
+		
+		this.species = sp;
+
+		List<SpeciesImpact> results = q.list(QSpeciesImpact.speciesImpact);
+		selector.setBeans(results);
+	}
 }

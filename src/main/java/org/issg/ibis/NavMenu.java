@@ -24,7 +24,7 @@ public class NavMenu extends MenuBar implements ViewChangeListener {
 
 	public NavMenu() {
 		add("Home", ViewModule.HOME);
-		add("Search", ViewModule.SEARCH);
+//		add("Search", ViewModule.SEARCH);
 		addStyleName("nav-menu");
 	}
 

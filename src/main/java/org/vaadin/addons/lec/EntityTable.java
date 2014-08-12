@@ -7,6 +7,7 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.vaadin.addons.form.util.AdminStringUtil;
 import org.vaadin.maddon.ListContainer;
+import org.vaadin.maddon.fields.MTable;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
@@ -14,7 +15,7 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 
-public class EntityTable<T> extends Table {
+public class EntityTable<T> extends MTable<T> {
 
 	private static final int URL_COL_WIDTH = 100;
 
@@ -31,22 +32,23 @@ public class EntityTable<T> extends Table {
 	public EntityTable() {
 	}
 
+	public EntityTable(Class<T> clazz) {
+		super(clazz);
+	}
 
 	public EntityTable(ListContainer<T> bic) {
 
+		super(bic);
 		setImmediate(true);
 		setEditable(false);
-		setMultiSelect(false);
 		setSelectable(true);
 
-		setContainerDataSource(bic);
 	}
 
 	public EntityTable(BeanItemContainer<T> beanContainer) {
 
 		setImmediate(true);
 		setEditable(false);
-		setMultiSelect(false);
 		setSelectable(true);
 
 		setContainerDataSource(beanContainer);

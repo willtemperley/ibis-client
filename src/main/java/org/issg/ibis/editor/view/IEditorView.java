@@ -1,4 +1,4 @@
-package org.vaadin.addons.form.view;
+package org.issg.ibis.editor.view;
 
 import java.util.List;
 import java.util.Set;

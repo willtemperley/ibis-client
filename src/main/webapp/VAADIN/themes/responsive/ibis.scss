@@ -80,15 +80,32 @@
 	
 		padding-left: $default-spacing;
 		padding-right: $default-spacing;
+		padding-top: $default-spacing / 2;
+		padding-bottom: $default-spacing / 2;
 	
 		.button-left {
 			float: left;
 		}
+
+		.button-cancel {
+			float: left;
+			margin-left: $default-spacing;
+		}
+
 		.button-right {
 			float: right;
 		}
 	}
 	
+	.form-container {
+		overflow: auto;
+		padding-left: $default-spacing;
+		padding-right: $default-spacing;
+
+		.v-spacing {
+			height: 12px;
+		}
+	}
 	
 	.g-plus-button {
 		@include valo-button-style($background-color: $redlist-red); 
@@ -159,6 +176,9 @@
 		}
 	}
 	
+	.admin-menu {
+		@include valo-menubar-borderless-style;
+	}
 	
 	/** menu bar **/
 	

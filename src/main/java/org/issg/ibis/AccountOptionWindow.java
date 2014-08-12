@@ -90,15 +90,6 @@ public class AccountOptionWindow extends Window {
 			}
 		});
 		
-		if (roleManager.getActionsForTarget(Location.class).contains(Action.UPDATE)) {
-			l.addComponent(new MButton().withCaption("Location").withListener(new ClickListener() {
-				
-				@Override
-				public void buttonClick(ClickEvent event) {
-					UI.getCurrent().getNavigator().navigateTo(ViewModule.LOCATION_EDITOR);
-				}
-			}));
-		}
 
 	}
 
