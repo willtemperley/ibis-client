@@ -3,14 +3,11 @@ package org.issg.ibis;
 import org.jrc.edit.Dao;
 import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.ui.ScopedUI;
-import org.vaadin.addons.oauth.OAuthRequestHandler;
-
 import com.google.inject.Inject;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 

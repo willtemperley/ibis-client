@@ -7,8 +7,6 @@ import javax.persistence.EntityManager;
 import org.issg.ibis.responsive.TakesSelectionListener;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
-import org.vaadin.maddon.fields.MTable;
-
 import com.google.inject.Provider;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.path.EntityPathBase;

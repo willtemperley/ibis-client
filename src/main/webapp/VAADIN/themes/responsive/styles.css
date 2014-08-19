@@ -6664,7 +6664,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .responsive .v-richtextarea .gwt-RichTextToolbar-top div[title="Insert Horizontal Rule"]:before {
-	content: "???";
+	content: "���";
 }
 
 .responsive .v-richtextarea .gwt-RichTextToolbar-top div[title="Insert Ordered List"]:before {
@@ -10427,6 +10427,11 @@ div.v-layout.v-horizontal.v-widget {
 
 .responsive .admin-menu .v-menubar-menuitem-disabled, .responsive .admin-menu .v-menubar-menuitem-disabled:hover {
 	color: inherit;
+}
+
+.responsive .window-editor .v-window-outerheader {
+	border-bottom: 2px solid #2e70d7;
+	font-weight: bold;
 }
 
 .responsive .nav-menu {

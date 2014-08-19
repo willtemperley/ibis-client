@@ -4,12 +4,8 @@ import java.text.ChoiceFormat;
 import java.text.Format;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
-
-import org.hibernate.validator.internal.util.privilegedactions.GetMethod;
 
 public class LocationCaption {
 

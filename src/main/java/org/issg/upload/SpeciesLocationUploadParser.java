@@ -4,11 +4,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.issg.ibis.domain.BiologicalStatus;
-import org.issg.ibis.domain.BiologicalStatus_;
 import org.issg.ibis.domain.Location;
+import org.issg.ibis.domain.QBiologicalStatus;
+import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesLocation;
-import org.issg.ibis.domain.Species_;
 import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class SpeciesLocationUploadParser extends BaseLocationUploadParser<Specie
             .getLogger(SpeciesLocationUploadParser.class);
 
     public SpeciesLocationUploadParser(Dao dao) {
-        super(dao, SpeciesLocation.class);
+        super(dao);
 
     }
 
@@ -45,7 +45,7 @@ public class SpeciesLocationUploadParser extends BaseLocationUploadParser<Specie
         
         SpeciesLocation speciesLocation = new SpeciesLocation();
         {
-            Species sp = getEntity(Species_.name, row, 0);
+            Species sp = getEntity(QSpecies.species, QSpecies.species.name, row, 0);
             speciesLocation.setSpecies(sp);
         }
 
@@ -54,7 +54,7 @@ public class SpeciesLocationUploadParser extends BaseLocationUploadParser<Specie
         speciesLocation.setLocation(loc);
 
         // Biological status
-        BiologicalStatus bioStatus = getEntity(BiologicalStatus_.label, row, 10);
+        BiologicalStatus bioStatus = getEntity(QBiologicalStatus.biologicalStatus, QBiologicalStatus.biologicalStatus.label, row, 10);
         speciesLocation.setBiologicalStatus(bioStatus);
 
         return speciesLocation;

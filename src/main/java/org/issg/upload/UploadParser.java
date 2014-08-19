@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -21,6 +20,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.StringPath;
 
 /**
  * @author will
@@ -54,7 +56,8 @@ public abstract class UploadParser<E> {
 
     protected Dao dao;
 
-    public UploadParser(Dao dao, Class<E> clazz) {
+
+    public UploadParser(Dao dao) {
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         this.validator = factory.getValidator();
@@ -312,7 +315,7 @@ public abstract class UploadParser<E> {
      * Look up an entity from the {@link StaticMetamodel} attribute given and
      * row / column reference
      * 
-     * @param attr
+     * @param name
      *            the {@link StaticMetamodel} {@link Attribute}
      * @param row
      *            the {@link Row} from the {@link Workbook}
@@ -321,7 +324,7 @@ public abstract class UploadParser<E> {
      * @return the entity if found, otherwise null
      * 
      */
-    protected <T> T getEntity(SingularAttribute<T, String> attr, Row row,
+    protected <T> T getEntity(EntityPathBase<T> entityPathBase, StringPath name, Row row,
             int colIdx) {
 
         String lookUp = this.getCellValueAsString(row, colIdx);
@@ -336,14 +339,14 @@ public abstract class UploadParser<E> {
 //        if (lookUp.startsWith("Aca"))
 //        System.out.println("===" + lookUp + "====");
 
-        return getEntity(attr, row, colIdx, trimmedLookUp);
+        return getEntity(entityPathBase, name, row, colIdx, trimmedLookUp);
     }
 
     /**
      * Look up an entity from the {@link StaticMetamodel} attribute given and a
      * proxy lookup
      * 
-     * @param attr
+     * @param name
      *            the {@link StaticMetamodel} {@link Attribute}
      * @param row
      *            the {@link Row} from the {@link Workbook}
@@ -352,15 +355,14 @@ public abstract class UploadParser<E> {
      * @return the entity if found, otherwise null
      * 
      */
-    protected <T> T getEntity(SingularAttribute<T, String> attr, Row row,
+    protected <T> T getEntity(EntityPathBase<T> entityPathBase, StringPath name, Row row,
             int colIdx, String lookUp) {
 
         // Get entity simple name
-        String entityClassName = attr.getDeclaringType().getJavaType()
-                .getSimpleName();
+        String entityClassName = name.getType().getSimpleName();
 
         try {
-            T e = dao.findByProxyId(attr, lookUp);
+            T e = dao.findByQProxyId(entityPathBase, name, lookUp);
             if (e == null) {
                 recordError(row.getRowNum(), colIdx, String.format(
                         "Could not find %s with name \"%s\"", entityClassName,

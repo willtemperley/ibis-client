@@ -2,27 +2,16 @@ package org.issg.ibis.qdsl.experimental;
 
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
-import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.view.ResourceDescription;
 import org.issg.ibis.qdsl.experimental.SearchSelectEventListener;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
-import org.vaadin.maddon.ListContainer.DynaBeanItem;
-
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 
 public class SearchTable extends CssLayout {
 

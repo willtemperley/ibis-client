@@ -16,7 +16,6 @@ import com.google.inject.Inject;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -40,7 +39,9 @@ public class SpeciesSearch2 extends VerticalLayout {
 
 	private Component getSpeciesSelector(String speciesType, String caption) {
 		TypedSelect<Species> speciesSelector = new TypedSelect<Species>(
-				caption).withSelectType(ComboBox.class).withWidth("300px").withStyleName("species-select");
+				caption).withSelectType(ComboBox.class);
+		speciesSelector.setWidth(300, Unit.PIXELS);
+		speciesSelector.addStyleName("species-select");
 		speciesSelector.addMValueChangeListener(new MValueChangeListener<Species>() {
 
 

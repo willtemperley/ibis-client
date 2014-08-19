@@ -1,11 +1,8 @@
 package org.issg.ibis.responsive;
 
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.TypedQuery;
 
-import org.issg.ibis.ViewModule;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QCountry;
@@ -24,14 +21,9 @@ import org.vaadin.maddon.fields.TypedSelect;
 import com.google.inject.Inject;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.vaadin.data.Property;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field.ValueChangeEvent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class LocationSearch2 extends Panel implements TakesSelectionListener<Location> {

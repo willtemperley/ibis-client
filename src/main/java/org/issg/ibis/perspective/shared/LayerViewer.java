@@ -2,10 +2,7 @@ package org.issg.ibis.perspective.shared;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.view.ResourceDescription;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;

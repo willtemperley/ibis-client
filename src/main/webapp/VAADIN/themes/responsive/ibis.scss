@@ -180,6 +180,13 @@
 		@include valo-menubar-borderless-style;
 	}
 	
+	.window-editor {
+		.v-window-outerheader {
+			border-bottom: 2px solid $location-blue;
+			font-weight: bold;
+		}
+	}
+	
 	/** menu bar **/
 	
 	.nav-menu {

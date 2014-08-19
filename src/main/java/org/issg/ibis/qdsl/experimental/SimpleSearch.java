@@ -7,10 +7,8 @@ import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Responsive;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
 
 public class SimpleSearch extends CssLayout implements View {
 

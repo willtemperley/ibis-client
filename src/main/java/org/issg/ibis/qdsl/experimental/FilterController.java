@@ -14,8 +14,6 @@ import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.StringPath;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 
 /**
  * A K-V store for filter fields.

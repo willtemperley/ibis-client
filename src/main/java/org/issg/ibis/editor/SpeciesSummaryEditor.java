@@ -7,13 +7,11 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QSpeciesSummary;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesSummary;
-import org.issg.ibis.domain.SpeciesSummary_;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.DefaultEditorView;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
-import org.issg.upload.ThreatSummaryUploader;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
@@ -47,8 +45,8 @@ public class SpeciesSummaryEditor extends TwinPanelEditorView<SpeciesSummary> im
         this.dao = dao;
          
         JpaFieldFactory<SpeciesSummary> ff = ec.getFf();
-        ff.addField(SpeciesSummary_.contentType);
-        ff.addRichTextArea(SpeciesSummary_.content).setWidth("600px");
+        ff.addQField(QSpeciesSummary.speciesSummary.contentType);
+        ff.addQRichTextArea(QSpeciesSummary.speciesSummary.content).setWidth("600px");
 
         ec.init(this);
         
@@ -65,7 +63,6 @@ public class SpeciesSummaryEditor extends TwinPanelEditorView<SpeciesSummary> im
 	public void enter(ViewChangeEvent event) {
 
 	}
-
 
 	public void setSpecies(Species sp) {
 		

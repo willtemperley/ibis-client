@@ -1,6 +1,5 @@
 package org.vaadin.addons.lec;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jrc.edit.Dao;

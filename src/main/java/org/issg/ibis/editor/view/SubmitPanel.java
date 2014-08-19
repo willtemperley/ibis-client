@@ -6,9 +6,7 @@ import org.issg.ibis.auth.RoleManager.Action;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
 

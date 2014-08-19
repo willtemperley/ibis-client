@@ -4,7 +4,6 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
 import org.jrc.ui.SimplePanel;

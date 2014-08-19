@@ -3,8 +3,6 @@ package org.issg.ibis.domain;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -14,18 +12,15 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.issg.ibis.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.upload.BaseLocationUploadParser;
 import org.issg.upload.ReferenceUploadParser;
 import org.issg.upload.SpeciesImpactUploadParser;
 import org.issg.upload.SpeciesLocationUploadParser;
 import org.issg.upload.SpeciesUploadParser;
-import org.issg.upload.ThreatSummaryUploadParser;
 import org.jrc.edit.Dao;
 import org.junit.Assert;
 import org.junit.Before;
 
 import com.google.inject.Injector;
-import com.mysema.query.jpa.JPQLQuery;
 
 public class UploadTest {
 
@@ -109,28 +104,6 @@ public class UploadTest {
         for (SpeciesImpact speciesImpact : sis) {
             dao.persist(speciesImpact);
         }
-
-    }
-
-    public void speciesSummaries() {
-        EntityManager em = dao.get();
-
-        ThreatSummaryUploadParser parser = new ThreatSummaryUploadParser(dao);
-        parser.allowSkippedRows(true);
-        parser.processWorkbook(workbookGood);
-
-        for (String err : parser.getErrors()) {
-            System.out.println(err);
-        }
-
-        Assert.assertFalse(parser.hasErrors());
-
-        List<Content> sls = parser.getEntityList();
-        em.getTransaction().begin();
-        for (Content ss : sls) {
-            em.persist(ss);
-        }
-        em.getTransaction().commit();
 
     }
 

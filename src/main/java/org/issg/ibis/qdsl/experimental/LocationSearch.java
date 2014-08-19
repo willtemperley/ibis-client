@@ -3,14 +3,12 @@ package org.issg.ibis.qdsl.experimental;
 import java.util.List;
 
 import org.issg.ibis.ViewModule;
-import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.view.LocationView;
-import org.issg.ibis.domain.view.LocationView_;
 import org.issg.ibis.domain.view.QLocationView;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
-import org.jrc.ui.SimplePanel;
+import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.addons.lec.LazyEntityContainer;
 
 import com.google.inject.Inject;
@@ -21,8 +19,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -86,15 +82,15 @@ public class LocationSearch extends VerticalLayout implements View, QdslQueryLis
          * Adding to root 
          */
 		addComponent(vl);
-		SimpleTable<LocationView> table = getLocationViewTable(lec);
+		EntityTable<LocationView> table = getLocationViewTable(lec);
 		addComponent(table);
 		setExpandRatio(table, 1);
 		
 	}
 	
-	private SimpleTable<LocationView> getLocationViewTable(LazyEntityContainer<LocationView> lec) {
+	private EntityTable<LocationView> getLocationViewTable(LazyEntityContainer<LocationView> lec) {
 
-		SimpleTable<LocationView> table = new SimpleTable<LocationView>();
+		EntityTable<LocationView> table = new EntityTable<LocationView>();
 		table.setContainerDataSource(lec);
 
 		table.setHeight("100%");
@@ -116,9 +112,7 @@ public class LocationSearch extends VerticalLayout implements View, QdslQueryLis
 			}
 		});
 		
-		table.addColumn(LocationView_.name);
-		table.addColumn(LocationView_.country);
-		table.build();
+		table.addColumns("name", "country");
 
 		return table;
 	}

@@ -1,8 +1,6 @@
 package org.issg.ibis.responsive.archive;
 
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.TypedQuery;
 
 import org.issg.ibis.ViewModule;

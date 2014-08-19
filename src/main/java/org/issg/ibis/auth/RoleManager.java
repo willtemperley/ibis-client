@@ -8,8 +8,8 @@ import org.jrc.edit.Dao;
 import org.jrc.edit.HasRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.auth.domain.QRole;
 import org.vaadin.addons.auth.domain.Role;
-import org.vaadin.addons.auth.domain.Role_;
 import org.vaadin.addons.oauth.OAuthSubject;
 import org.vaadin.addons.oauth.UserInfo;
 
@@ -58,8 +58,8 @@ public class RoleManager implements OAuthSubject {
      * @return
      */
     public Set<Action> getActionsForTarget(Class<?> clazz) {
-//    	if (1==1)
-//            return allActions;
+    	if (1==1)
+            return allActions;
     	
         if (role.getIsSuperUser()) {
             return allActions;
@@ -123,7 +123,7 @@ public class RoleManager implements OAuthSubject {
 			return;
 		}
 
-		Role r = dao.findByProxyId(Role_.email, userInfo.getEmail());
+		Role r = dao.findByQProxyId(QRole.role, QRole.role.email, userInfo.getEmail());
 		if (r != null) {
 			role = r;
 		} else {
@@ -131,9 +131,6 @@ public class RoleManager implements OAuthSubject {
 			//Can we just manage with the email and nothing else?
 			Role newRole = new Role();
 			newRole.setEmail(userInfo.getEmail());
-			if (newRole.getEmail().equals("s.pagad@auckland.ac.nz")) {
-				newRole.setIsSuperUser(true);
-			}
 			newRole.setFirstName(userInfo.getGivenName());
 			newRole.setLastName(userInfo.getFamilyName());
 			dao.persist(newRole);	

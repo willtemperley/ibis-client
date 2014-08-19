@@ -17,12 +17,14 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.issg.ibis.auth.RoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.path.StringPath;
 
 /**
  * 
@@ -252,50 +254,6 @@ public class Dao implements Provider<EntityManager> {
         return tq.getResultList();
     }
 
-    /**
-     * Looks up and entity based on a {@link Attribute} and it's value.
-     * 
-     * @param attr
-     * @param attrValue
-     * @return
-     */
-    public <T> T findByProxyId(SingularAttribute<T, String> attr,
-            String attrValue) {
-
-        if (attrValue == null || attr == null) {
-            return null;
-        }
-
-        // upper case, no whitespace
-        attrValue = attrValue.trim();
-        attrValue = attrValue.toUpperCase();
-
-        CriteriaBuilder builder = get().getCriteriaBuilder();
-
-        Class<T> javaType = attr.getDeclaringType().getJavaType();
-
-        CriteriaQuery<T> criteria = builder.createQuery(javaType);
-        Root<T> entityRoot = criteria.from(javaType);
-        criteria.select(entityRoot);
-
-        Expression<String> trimmedString = builder.trim(builder
-                .upper(entityRoot.get(attr)));
-
-        criteria.where(builder.equal(trimmedString, attrValue));
-
-        TypedQuery<T> q = get().createQuery(criteria);
-
-        List<T> res = q.getResultList();
-        if (res.size() == 0) {
-            return null;
-        } else if (res.size() == 1) {
-            return q.getSingleResult();
-        } else {
-            logger.error("Multiple objects found for query, using lookup: " + attrValue);
-            return null;
-        }
-    }
-
     public Integer scalarNativeQuery(String query, Object... params) {
         
         Query q = get().createNativeQuery(query);
@@ -324,12 +282,18 @@ public class Dao implements Provider<EntityManager> {
         Object res = q.getSingleResult();
         if (res instanceof BigInteger) {
             Long id = ((BigInteger) res).longValue();
-            // surface.setId(id);
             return id;
         }
         return null;
     }
 
-        
+
+	public <T> T findByQProxyId(EntityPath<T> entityPath, StringPath name, String attrValue) {
+		
+		JPAQuery q = new JPAQuery(entityManagerProvider.get());
+		q.from(entityPath);
+		q.where(name.eq(attrValue));
+		return q.singleResult(entityPath);
+	}
 
 }

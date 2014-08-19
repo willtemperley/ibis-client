@@ -7,16 +7,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.issg.ibis.domain.BiologicalStatus;
-import org.issg.ibis.domain.BiologicalStatus_;
 import org.issg.ibis.domain.ImpactMechanism;
-import org.issg.ibis.domain.ImpactMechanism_;
 import org.issg.ibis.domain.ImpactOutcome;
-import org.issg.ibis.domain.ImpactOutcome_;
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.Location_;
+import org.issg.ibis.domain.QBiologicalStatus;
+import org.issg.ibis.domain.QImpactMechanism;
+import org.issg.ibis.domain.QImpactOutcome;
+import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.domain.Species_;
 import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +26,7 @@ public class SpeciesImpactUploadParser extends BaseLocationUploadParser<SpeciesI
             .getLogger(SpeciesImpactUploadParser.class);
 
     public SpeciesImpactUploadParser(Dao dao) {
-        super(dao, SpeciesImpact.class);
-
+        super(dao);
     }
 
     /**
@@ -55,7 +53,7 @@ public class SpeciesImpactUploadParser extends BaseLocationUploadParser<SpeciesI
 
         {
             // Threatened species
-            Species sp = getEntity(Species_.name, row, 0);
+            Species sp = getEntity(QSpecies.species, QSpecies.species.name, row, 0);
             speciesImpact.setNativeSpecies(sp);
         }
 
@@ -66,26 +64,26 @@ public class SpeciesImpactUploadParser extends BaseLocationUploadParser<SpeciesI
 
         {
             // Invasive species
-            Species sp = getEntity(Species_.name, row, 11);
+            Species sp = getEntity(QSpecies.species, QSpecies.species.name, row, 11);
             speciesImpact.setInvasiveSpecies(sp);
         }
 
         {
             // Impact mechanism
-            ImpactMechanism im = getEntity(ImpactMechanism_.label, row, 13);
+            ImpactMechanism im = getEntity(QImpactMechanism.impactMechanism, QImpactMechanism.impactMechanism.label, row, 13);
             speciesImpact.setImpactMechanism(im);
         }
 
         {
             // Impact outcome
-            ImpactOutcome io = getEntity(ImpactOutcome_.label, row, 14);
+            ImpactOutcome io = getEntity(QImpactOutcome.impactOutcome, QImpactOutcome.impactOutcome.label, row, 14);
             speciesImpact.setImpactOutcome(io);
         }
 
         {
             // Biological status
 //            String biostatus = getCellValueAsString(row, 10);
-            BiologicalStatus bioStatus = getEntity(BiologicalStatus_.label, row, 10);
+            BiologicalStatus bioStatus = getEntity(QBiologicalStatus.biologicalStatus, QBiologicalStatus.biologicalStatus.label, row, 10);
             speciesImpact.setBiologicalStatus(bioStatus);
         }
 

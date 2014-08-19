@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.QSpeciesLocation;
 import org.issg.ibis.domain.SpeciesImpact;
@@ -27,7 +26,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 
 @Singleton

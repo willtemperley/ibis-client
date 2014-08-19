@@ -44,7 +44,7 @@ public class BaseJsonClient {
         return null;
     }
 
-    private static String readAll(Reader rd) throws IOException {
+    protected static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
         while ((cp = rd.read()) != -1) {

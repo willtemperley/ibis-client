@@ -1,8 +1,6 @@
 package org.issg.ibis;
 
 import org.issg.ibis.auth.RoleManager;
-import org.issg.ibis.auth.RoleManager.Action;
-import org.issg.ibis.domain.Location;
 import org.vaadin.addons.guice.uiscope.UIScoped;
 import org.vaadin.addons.oauth.OAuthManager;
 import org.vaadin.addons.oauth.OAuthRequestHandler;
@@ -21,7 +19,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;

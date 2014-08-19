@@ -10,16 +10,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.issg.ibis.domain.Biome;
-import org.issg.ibis.domain.Biome_;
 import org.issg.ibis.domain.OrganismType;
-import org.issg.ibis.domain.OrganismType_;
+import org.issg.ibis.domain.QBiome;
+import org.issg.ibis.domain.QOrganismType;
+import org.issg.ibis.domain.QRedlistCategory;
+import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.RedlistCategory;
-import org.issg.ibis.domain.RedlistCategory_;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.domain.Species_;
 import org.issg.ibis.domain.Taxon;
 import org.issg.ibis.domain.TaxonomicRank;
-import org.issg.ibis.domain.TaxonomicRank_;
 import org.issg.ibis.webservices.GbifApi09;
 import org.jrc.edit.Dao;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
             .getLogger(SpeciesUploadParser.class);
 
     public SpeciesUploadParser(Dao dao) {
-        super(dao, Species.class);
+        super(dao);
     }
 
     /**
@@ -94,19 +93,19 @@ public class SpeciesUploadParser extends UploadParser<Species> {
             System.out.println("Processing: " + name + ", row" + row.getRowNum());
             
             // Check species 
-            Species checkSpecies = dao.findByProxyId(Species_.name, name);
+            Species checkSpecies = dao.findByQProxyId(QSpecies.species, QSpecies.species.name, name);
             if (checkSpecies != null) {
                 
                 //Re-try organism type 
                 if (checkSpecies.getOrganismType() == null) {
-                    OrganismType ot = getEntity(OrganismType_.label, row, 13);
+                    OrganismType ot = getEntity(QOrganismType.organismType, QOrganismType.organismType.label, row, 13);
                     checkSpecies.setOrganismType(ot);
                     return checkSpecies;
                 }
 
                 //Re-try redlist
                 if (checkSpecies.getRedlistCategory() == null) {
-                    RedlistCategory rlc = getEntity(RedlistCategory_.label, row, 12);
+                    RedlistCategory rlc = getEntity(QRedlistCategory.redlistCategory, QRedlistCategory.redlistCategory.label, row, 12);
                     checkSpecies.setRedlistCategory(rlc);
                     System.out.println("Saving red list " + name + ", row" + row.getRowNum());
                     return checkSpecies;
@@ -159,7 +158,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
         
         {
             // Organism type
-            OrganismType ot = getEntity(OrganismType_.label, row, 13);
+            OrganismType ot = getEntity(QOrganismType.organismType, QOrganismType.organismType.label, row, 13);
             species.setOrganismType(ot);
         }
 
@@ -173,7 +172,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
                 species.setBiomes(biomeSet);
 
                 for (String biomeName : biomes) {
-                    Biome biome = getEntity(Biome_.label, row, 12, biomeName);
+                    Biome biome = getEntity(QBiome.biome, QBiome.biome.label, row, 12, biomeName);
                     biomeSet.add(biome);
                 }
             }

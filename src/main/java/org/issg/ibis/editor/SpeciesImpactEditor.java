@@ -6,7 +6,6 @@ import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.ibis.domain.SpeciesImpact_;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.jrc.edit.Dao;
@@ -42,11 +41,12 @@ public class SpeciesImpactEditor extends TwinPanelEditorView<SpeciesImpact> impl
         this.dao = dao;
          
         JpaFieldFactory<SpeciesImpact> ff = ec.getFf();
-        ff.addField(SpeciesImpact_.invasiveSpecies);
-        ff.addField(SpeciesImpact_.impactMechanism);
-        ff.addField(SpeciesImpact_.impactOutcome);
-        ff.addField(SpeciesImpact_.location);
-        ff.addField(SpeciesImpact_.reference);
+        QSpeciesImpact si = QSpeciesImpact.speciesImpact;
+        ff.addQField(si.invasiveSpecies);
+        ff.addQField(si.impactMechanism);
+        ff.addQField(si.impactOutcome);
+        ff.addQField(si.location);
+        ff.addQField(si.reference);
         
 		ec.init(this);
         

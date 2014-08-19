@@ -5,9 +5,9 @@ import javax.persistence.Query;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.issg.ibis.domain.Country;
-import org.issg.ibis.domain.Country_;
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.Location_;
+import org.issg.ibis.domain.QCountry;
+import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.SpeciesLocation;
 import org.jrc.edit.Dao;
 
@@ -15,13 +15,13 @@ public abstract class BaseLocationUploadParser<T> extends
         UploadParser<T> {
 
 
-    public BaseLocationUploadParser(Dao dao, Class<T> clazz) {
-        super(dao, clazz);
+    public BaseLocationUploadParser(Dao dao) {
+        super(dao);
     }
     
 
     protected Location populateLocation(Row row) {
-        Country c = dao.findByProxyId(Country_.isoa3Id,
+        Country c = dao.findByQProxyId(QCountry.country, QCountry.country.isoa3Id,
                 getCellValueAsString(row, 1));
         
         if (c == null) {
@@ -74,7 +74,7 @@ public abstract class BaseLocationUploadParser<T> extends
             String islandName = getCellValueAsString(row, 4);
     
             if (islandName != null && (!islandName.isEmpty())) {
-                loc = dao.findByProxyId(Location_.name, islandName);
+                loc = dao.findByQProxyId(QLocation.location, QLocation.location.name, islandName);
                 if (loc == null) {
                     recordError(row.getRowNum(), 4,
                             "Could not look up island with name: " + islandName);
@@ -88,7 +88,7 @@ public abstract class BaseLocationUploadParser<T> extends
         if (loc == null) {
             String atollName = getCellValueAsString(row, 3);
             if (atollName != null && (!atollName.isEmpty())) {
-                loc = dao.findByProxyId(Location_.name, atollName);
+                loc = dao.findByQProxyId(QLocation.location, QLocation.location.name, atollName);
                 
                 if (loc == null) {
                     recordError(row.getRowNum(), 3, "Could not look up atoll with name: " + atollName);
@@ -101,7 +101,7 @@ public abstract class BaseLocationUploadParser<T> extends
         // 5. So no location information -- need to look up a country
         if (loc == null) {
             String countryID = getCellValueAsString(row, 1);
-            loc = dao.findByProxyId(Location_.identifier, countryID);
+            loc = dao.findByQProxyId(QLocation.location, QLocation.location.identifier, countryID);
         }
         
         if (loc == null) {

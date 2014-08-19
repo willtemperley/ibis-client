@@ -10,11 +10,15 @@
 
 	<properties>
 		<vaadin.plugin.version>7.3.0.beta1</vaadin.plugin.version>
+		
+		<slf4j.version>1.7.7</slf4j.version>
+		<guava.version>17.0</guava.version>
 
 		<!-- Testing stuff -->
 		<version.junit>4.10</version.junit>
 		<version.mockito>1.9.5</version.mockito>
 		<version.logback>1.0.9</version.logback>
+
 
 	</properties>
 
@@ -23,7 +27,7 @@
 		<dependency>
 		    <groupId>com.google.guava</groupId>
     		<artifactId>guava</artifactId>
-    		<version>17.0</version>
+    		<version>${guava.version}</version>
 		</dependency>
 
 		<!-- Project dependencies -->
@@ -51,7 +55,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 		<!-- POI -->
@@ -198,6 +202,11 @@
 		<repository>
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+		<repository>
+			<id>gbif</id>
+			<url>http://repository.gbif.org/content/repositories/releases</url>
+			<snapshots>true</snapshots>
 		</repository>
 	</repositories>
 

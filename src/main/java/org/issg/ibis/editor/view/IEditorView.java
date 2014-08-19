@@ -5,8 +5,6 @@ import java.util.Set;
 
 import org.issg.ibis.auth.RoleManager.Action;
 import org.vaadin.addons.form.field.FieldGroup;
-import org.vaadin.addons.lec.EntityTable;
-
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 

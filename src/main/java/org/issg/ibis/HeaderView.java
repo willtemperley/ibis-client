@@ -1,7 +1,6 @@
 package org.issg.ibis;
 
 import org.issg.ibis.auth.RoleManager;
-import org.issg.ibis.auth.RoleManager.Action;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 
@@ -14,9 +13,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.Command;
-import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.BaseTheme;
 

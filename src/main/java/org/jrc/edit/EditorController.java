@@ -18,6 +18,7 @@ import org.vaadin.maddon.fields.MValueChangeListener;
 
 import com.google.common.base.Joiner;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification;
@@ -73,7 +74,6 @@ public class EditorController<T> {
 		this.ff = new JpaFieldFactory<T>(dao, clazz);
 
 		this.container = new ListContainer<T>(clazz);
-		// containerManager = new ContainerManager<T>(dao, clazz, roleManager);
 
 	}
 
@@ -254,8 +254,30 @@ public class EditorController<T> {
 		});
 	}
 
+	public void doUpdateById(Object id) {
+		T entity = dao.get().find(clazz, id);
+		if (entity == null) {
+			return;
+		}
+		fgm.setEntity(entity);
+		view.setIsEditing(true);
+	}
+
 	public void doUpdate(T entity) {
-		entity = dao.get().find(clazz, dao.getId(entity));
+		Object id = dao.getId(entity);
+		entity = dao.get().find(clazz, id);
+		Page currentPage = Page.getCurrent();
+		String frag = currentPage.getUriFragment();
+
+		/*
+		 * Add or replace the identifier
+		 */
+		if (frag.contains("/")) {
+			frag = frag.split("/")[0] + "/" + id;
+		} else {
+			frag = frag + "/" + id;
+		}
+		currentPage.setUriFragment(frag);
 		fgm.setEntity(entity);
 		view.setIsEditing(true);
 	}
@@ -302,11 +324,15 @@ public class EditorController<T> {
 		if (entity == null) {
 			logger.error("Entity is null");
 		}
-		view.setIsEditing(false);
+//		view.setIsEditing(false);
 	}
 
 	public T getEntity() {
 		return fgm.getEntity();
+	}
+	
+	public void setEntity(T entity) {
+		fgm.setEntity(entity);
 	}
 
 	protected List<FieldGroup<T>> getFieldGroups() {

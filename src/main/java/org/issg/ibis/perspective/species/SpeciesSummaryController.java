@@ -8,7 +8,6 @@ import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
 import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.domain.SpeciesSummary;
 import org.issg.ibis.perspective.shared.SimpleContentController;
 import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.ui.HtmlHeader;
@@ -16,7 +15,6 @@ import org.jrc.ui.HtmlLabel;
 
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
 
 public class SpeciesSummaryController extends CssLayout {
 

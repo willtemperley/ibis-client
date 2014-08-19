@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.Location_;
+import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.issg.ibis.responsive.LocationSearch2;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
-import org.issg.upload.ThreatSummaryUploader;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
@@ -21,13 +20,11 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 public class LocationEditor extends TwinPanelEditorView<Location> implements View {
 
 	private EditorController<Location> ec;
-	private Dao dao;
 
     @Inject
     public LocationEditor(Dao dao, RoleManager roleManager) {
 
         ec = new EditorController<Location>(Location.class, dao, roleManager);
-        this.dao = dao;
 
 //      getTable().addColumns(Location_.name, Location_.islandType, Location_.latitude, Location_.longitude);
 //
@@ -36,23 +33,24 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 //       filterPanel.addFilterField(TableDescription_.schema);
          
         JpaFieldFactory<Location> ff = ec.getFf();
-		ff.addField(Location_.name);
-        ff.addField(Location_.country);
-        ff.addField(Location_.locationType);
+        QLocation loc = QLocation.location;
+		ff.addQField(loc.name);
+        ff.addQField(loc.country);
+        ff.addQField(loc.locationType);
 
-        ff.addField(Location_.islandGroup);
-        ff.addField(Location_.islandType);
+        ff.addQField(loc.islandGroup);
+        ff.addQField(loc.islandType);
 
-        ff.addField(Location_.latitude);
-        ff.addField(Location_.longitude);
+        ff.addQField(loc.latitude);
+        ff.addQField(loc.longitude);
 
-        ff.addField(Location_.prefix);
-        ff.addField(Location_.identifier);
+        ff.addQField(loc.prefix);
+        ff.addQField(loc.identifier);
 
-        ff.addField(Location_.url);
-        ff.addField(Location_.area);
+        ff.addQField(loc.url);
+        ff.addQField(loc.area);
 
-        ff.addTextArea(Location_.comments);
+        ff.addQTextArea(loc.comments);
         ec.init(this);
         
         LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());
@@ -61,38 +59,6 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 	    locationSearch.setCaption("Select location to edit");
 	    
         this.setSelectionComponent(locationSearch);
-
-        ThreatSummaryUploader tsu = new ThreatSummaryUploader(dao);
-//        view.addComponent(tsu);
-        
-//        LocationUploader uploader = new LocationUploader(dao);
-//        theView.addSelectionComponent(uploader);
-//        uploader.addProcessingCompleteListener(new ProcessingCompleteListener() {
-//            @Override
-//            public void processingComplete(ProcessingCompleteEvent p) {
-//                IslandEditor.this.containerManager.refresh();
-////                List<?> res = p.getResults();
-////                for (Object obj : res) {
-////                    System.out.println(obj);
-////                }
-//                
-//            }
-//        });
-        
-        
-        tsu.addProcessingCompleteListener(new ProcessingCompleteListener() {
-            
-            @Override
-            public void processingComplete(ProcessingCompleteEvent p) {
-                List<?> res = p.getResults();
-                for (Object obj : res) {
-                    System.out.println(obj);
-//                    table.
-                }
-//                LocationEditor.this.containerManager.refresh();
-                
-            }
-        });
 
     }
 
@@ -107,7 +73,7 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 
 		if (!s.isEmpty()) {
 			Long l = Long.valueOf(s);
-			ec.doUpdate(dao.find(Location.class, l));
+			ec.doUpdateById(l);
 		}
 	}
 }

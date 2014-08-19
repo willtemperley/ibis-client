@@ -17,8 +17,11 @@ import org.vaadin.addons.form.field.ColorField;
 import org.vaadin.addons.form.field.FieldGroup;
 import org.vaadin.addons.form.util.AdminStringUtil;
 
+import com.mysema.query.types.Path;
+import com.mysema.query.types.path.SetPath;
+import com.mysema.query.types.path.StringPath;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -64,64 +67,49 @@ public class JpaFieldFactory<T> {
         this.clazz = clazz;
     }
 
-//    public void setDisabledFields(Attribute<T, ?>... prop) {
-//        for (int i = 0; i < prop.length; i++) {
-//            disabledFields.add(prop[i].getName());
-//        }
-//    }
-
-    /**
-     * Creates a field using type information obtained from static metamodel
-     * properties.
+/**
+     * Adds a field to the temporary cache. Ensures order is also set.
      * 
      * @param prop
-     *            the property from the {@link StaticMetamodel}
+     *            the metamodel property
+     * @param f
+     *            the field
      */
-    public <X> Component addField(Attribute<? extends T, X> prop) {
+    public void addField(Attribute<? extends T, ?> prop, Field<?> f) {
 
-        Class<X> clazz = prop.getJavaType();
+        String propName = prop.getName();
 
-        if (Enum.class.isAssignableFrom(clazz)) {
-            return addEnumField(prop);
-        } else if (clazz.equals(String.class)) {
-            return addTextField(prop);
-        } else if (Number.class.isAssignableFrom(clazz)) {
-            return addTextField(prop);
-        } else if (clazz.equals(Boolean.class)) {
-            return addBooleanField(prop);
-        } else if (clazz.equals(Date.class)) {
-            return addDateField(prop);
-        } else if (clazz.getAnnotation(Entity.class) != null) {
-            return addFkField(prop);
-        } else if (clazz.equals(Set.class)) {
-            return addM2MField(prop);
-        }
-        return null;
+//        String fieldDescription = dao.getFieldDescription(prop);
+
+        /**
+         * setDescription removed from Field interface in 7, therefore we have
+         * to do this separately for every field type, or more simply up-cast
+         * like here.
+         */
+//        if (f instanceof AbstractField<?> && fieldDescription != null) {
+//            ((AbstractField<?>) f).setDescription(fieldDescription);
+//        }
+
+        f.setCaption(AdminStringUtil.splitCamelCase(propName));
+
+        fieldBuffer.put(propName, f);
+        order.add(propName);
+    }
+    
+    public void addQField(Path<?> path, Field<?> f) {
+    	String propName = path.getMetadata().getName();
+        f.setCaption(AdminStringUtil.splitCamelCase(propName));
+
+        fieldBuffer.put(propName, f);
+        order.add(propName);
     }
 
 
-    public TextArea addTextArea(Attribute<? extends T, ?> prop) {
-        TextArea f = new TextArea();
-        f.setNullRepresentation(NULL_REPRESENTATION);
-        f.setWidth(DEFAULT_FIELD_WIDTH);
-        addField(prop, f);
-        return f;
-    }
-
-    public RichTextArea addRichTextArea(Attribute<? extends T, ?> prop) {
-        RichTextArea f = new RichTextArea();
-        f.setNullRepresentation(NULL_REPRESENTATION);
-        f.setWidth(DEFAULT_FIELD_WIDTH);
-        addField(prop, f);
-		return f;
-    }
-
-
-    public TextField addTextField(Attribute<? extends T, ?> prop) {
+    public TextField addQTextField(Path<?> path) {
         TextField f = new TextField();
         f.setNullRepresentation(NULL_REPRESENTATION);
         f.setWidth(DEFAULT_FIELD_WIDTH);
-        addField(prop, f);
+        addQField(path, f);
         return f;
     }
 
@@ -134,36 +122,8 @@ public class JpaFieldFactory<T> {
         order.add(propName);
     }
 
-    private ComboBox addFkField(Attribute<? extends T, ?> prop) {
-        ComboBox cb = new ComboBox();
-        cb.setWidth(DEFAULT_FIELD_WIDTH);
+    
 
-        List<?> list = dao.all(prop.getJavaType());
-
-        for (Object x : list) {
-            cb.addItem(x);
-        }
-        addField(prop, cb);
-        return cb;
-    }
-
-    private ComboBox addEnumField(Attribute<? extends T, ?> prop) {
-        ComboBox cb = new ComboBox();
-
-        Object[] consts = prop.getJavaType().getEnumConstants();
-
-        for (int i = 0; i < consts.length; i++) {
-            cb.addItem(consts[i]);
-        }
-        addField(prop, cb);
-        return cb;
-    }
-
-    private CheckBox addBooleanField(Attribute<? extends T, ?> prop) {
-        CheckBox checkBox = new CheckBox();
-        addField(prop, checkBox);
-        return checkBox;
-    }
 
 
 //    public <X> SelectOrCreateField<X> addSelectAndCreateField(
@@ -182,17 +142,16 @@ public class JpaFieldFactory<T> {
 //
 //    }
 
-    private TwinColSelect addM2MField(Attribute<? extends T, ?> prop) {
+    private TwinColSelect addQM2MField(SetPath<?, ?> path) {
 
-        TwinColSelect l = new TwinColSelect(AdminStringUtil.splitCamelCase(prop
-                .getName()));
+        TwinColSelect l = new TwinColSelect(AdminStringUtil.splitCamelCase(path
+                .getMetadata().getName()));
         l.setWidth("25em");
 
         /*
          * Get the type the attribute contains
          */
-        Class<?> clazz = PluralAttribute.class.cast(prop).getElementType()
-                .getJavaType();
+        Class<?> clazz = path.getElementType();
 
         List<?> objects = dao.all(clazz);
         for (Object object : objects) {
@@ -201,7 +160,7 @@ public class JpaFieldFactory<T> {
 
         l.setMultiSelect(true);
 
-        addField(prop, l);
+        addQField(path, l);
         return l;
     }
 
@@ -232,13 +191,6 @@ public class JpaFieldFactory<T> {
         return l;
     }
 
-    private DateField addDateField(Attribute<? extends T, ?> prop) {
-        DateField dateField = new DateField();
-        dateField.setDateFormat(DEFAULT_DATE_FORMAT);
-        addField(prop, dateField);
-        return dateField;
-    }
-
     /**
      * @return the order in which the fields should be displayed on the form.
      *         This is the same as the order they were added.
@@ -247,36 +199,7 @@ public class JpaFieldFactory<T> {
         return order;
     }
 
-    /**
-     * Adds a field to the temporary cache. Ensures order is also set.
-     * 
-     * @param prop
-     *            the metamodel property
-     * @param f
-     *            the field
-     */
-    public void addField(Attribute<? extends T, ?> prop, Field<?> f) {
-
-        String propName = prop.getName();
-
-//        String fieldDescription = dao.getFieldDescription(prop);
-
-        /**
-         * setDescription removed from Field interface in 7, therefore we have
-         * to do this separately for every field type, or more simply up-cast
-         * like here.
-         */
-//        if (f instanceof AbstractField<?> && fieldDescription != null) {
-//            ((AbstractField<?>) f).setDescription(fieldDescription);
-//        }
-
-        f.setCaption(AdminStringUtil.splitCamelCase(propName));
-
-        fieldBuffer.put(propName, f);
-        order.add(propName);
-    }
-    
-//    public <X> void setFieldValue(Attribute<? extends T, X> prop, X value) {
+    //    public <X> void setFieldValue(Attribute<? extends T, X> prop, X value) {
 //        fields.g
 //    }
 
@@ -316,5 +239,61 @@ public class JpaFieldFactory<T> {
         fieldBuffer.clear();
         return fg;
     }
+    
+    public <X> Component addQField(Path<X> path) {
+    	
+    	Class<? extends X> clazz = path.getType();
+    	
+        if (Enum.class.isAssignableFrom(clazz)) {
+        	ComboBox cb = new ComboBox();
+        	Object[] consts = path.getType().getEnumConstants();
+        	for (int i = 0; i < consts.length; i++) {
+        		cb.addItem(consts[i]);
+        	}
+        	addQField(path, cb);
+        	return cb;
+        } else if (clazz.equals(String.class)) {
+            return addQTextField(path);
+        } else if (Number.class.isAssignableFrom(clazz)) {
+            return addQTextField(path);
+        } else if (clazz.equals(Boolean.class)) {
+            CheckBox checkBox = new CheckBox();
+            addQField(path, checkBox);
+            return checkBox;
+        } else if (clazz.equals(Date.class)) {
+            DateField dateField = new DateField();
+            dateField.setDateFormat(DEFAULT_DATE_FORMAT);
+            addQField(path, dateField);
+        return dateField;
+        } else if (clazz.getAnnotation(Entity.class) != null) {
+        	ComboBox cb = new ComboBox();
+        	cb.setWidth(DEFAULT_FIELD_WIDTH);
+        	List<?> list = dao.all(path.getType());
+        	for (Object x : list) {
+        		cb.addItem(x);
+        	}
+        	addQField(path, cb);
+        	return cb;
+        } else if (path instanceof SetPath) {
+            return addQM2MField((SetPath) path);
+        }
+		return null;
+    }
+
+	public TextArea addQTextArea(StringPath path) {
+        TextArea f = new TextArea();
+        f.setNullRepresentation(NULL_REPRESENTATION);
+        f.setWidth(DEFAULT_FIELD_WIDTH);
+        addQField(path, f);
+        return f;
+	}
+
+	public AbstractComponent addQRichTextArea(StringPath content) {
+        RichTextArea f = new RichTextArea();
+        f.setNullRepresentation(NULL_REPRESENTATION);
+        f.setWidth(DEFAULT_FIELD_WIDTH);
+        addQField(content, f);
+		return f;
+	}
 
 }

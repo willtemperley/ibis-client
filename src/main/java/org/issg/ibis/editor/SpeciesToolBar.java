@@ -3,11 +3,6 @@ package org.issg.ibis.editor;
 import org.issg.ibis.domain.Species;
 import org.jrc.edit.EditorController;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
@@ -29,6 +24,7 @@ public class SpeciesToolBar extends MenuBar {
 			public void menuSelected(MenuItem selectedItem) {
 
 				Window window = new Window();
+				window.addStyleName("window-editor");
 				window.setContent(editor);
 				Species sp = parentController.getEntity();
 				if (sp.getId() == null) {
@@ -36,12 +32,17 @@ public class SpeciesToolBar extends MenuBar {
 					return;
 				}
 				editor.setSpecies(parentController.getEntity());
-				window.setSizeFull();
+//				window.setSizeFull();
+				window.center();
+				window.setModal(true);
+				window.setWidth(1000, Unit.PIXELS);
+				window.setHeight(600, Unit.PIXELS);
 				window.setCaption(editor.getCaption());
 				UI.getCurrent().addWindow(window);
 				
 			}
 		});
-
 	}
+	
+
 }

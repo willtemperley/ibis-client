@@ -6,7 +6,6 @@ import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.QSpeciesLocation;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesLocation;
-import org.issg.ibis.domain.SpeciesLocation_;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.jrc.edit.Dao;
@@ -42,8 +41,9 @@ public class SpeciesLocationEditor extends TwinPanelEditorView<SpeciesLocation> 
         this.dao = dao;
          
         JpaFieldFactory<SpeciesLocation> ff = ec.getFf();
-        ff.addField(SpeciesLocation_.biologicalStatus);
-        ff.addField(SpeciesLocation_.location);
+        QSpeciesLocation spLoc = QSpeciesLocation.speciesLocation;
+        ff.addQField(spLoc.biologicalStatus);
+        ff.addQField(spLoc.location);
         
 		ec.init(this);
         

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.beanutils.WrapDynaBean;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.issg.ibis.webservices.writers.ResultSheet;
 
 import com.mysema.query.types.Path;

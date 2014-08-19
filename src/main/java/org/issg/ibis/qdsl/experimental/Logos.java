@@ -1,11 +1,7 @@
 package org.issg.ibis.qdsl.experimental;
 
 import org.jrc.ui.HtmlLabel;
-import org.jrc.ui.SimplePanel;
-
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 
 public class Logos extends HorizontalLayout {
 	

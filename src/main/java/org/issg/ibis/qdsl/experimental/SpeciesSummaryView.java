@@ -5,10 +5,8 @@ import java.util.List;
 
 import org.issg.ibis.domain.Content;
 import org.issg.ibis.domain.ContentType;
-import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesSummary;
-import org.issg.ibis.perspective.shared.SimpleContentController;
 import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
@@ -16,8 +14,6 @@ import org.jrc.ui.SimplePanel;
 
 import com.google.inject.Inject;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Table;
 
 public class SpeciesSummaryView extends SimplePanel {
 
