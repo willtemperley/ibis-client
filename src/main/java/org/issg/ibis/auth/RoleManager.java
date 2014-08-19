@@ -58,8 +58,8 @@ public class RoleManager implements OAuthSubject {
      * @return
      */
     public Set<Action> getActionsForTarget(Class<?> clazz) {
-    	if (1==1)
-            return allActions;
+//    	if (1==1)
+//            return allActions;
     	
         if (role.getIsSuperUser()) {
             return allActions;
