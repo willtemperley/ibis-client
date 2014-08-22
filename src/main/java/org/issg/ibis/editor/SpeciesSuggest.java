@@ -1,10 +1,11 @@
-package org.issg.ibis.webservices.gbif;
+package org.issg.ibis.editor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.issg.ibis.domain.json.GbifSpecies;
+import org.issg.ibis.webservices.gbif.GbifSpeciesClient;
 
 import com.vaadin.ui.ComboBox;
 

@@ -2,18 +2,19 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
 <module>
 	
-    <inherits name="com.vaadin.DefaultWidgetSet" />
     
-    <set-property name="gwt.logging.enabled" value="FALSE"/>
-    <set-configuration-property name="devModeRedirectEnabled" value="true" />
-    
-	<set-property name="user.agent" value="ie8,ie9,gecko1_8,safari,opera"/>
     
     
     <inherits name="org.vaadin.addon.leaflet.Widgetset" />
 	<inherits name="org.vaadin.addon.leaflet.markercluster.Widgetset" />
+
+	<set-property name="user.agent" value="ie8,ie9,gecko1_8,safari,opera"/>
+    <collapse-all-properties value="false"></collapse-all-properties>
     <!-- Add on widgetsets
+    <set-property name="gwt.logging.enabled" value="FALSE"/>
+    <inherits name="com.vaadin.DefaultWidgetSet" />
 	<inherits name="org.vaadin.addon.leaflet.draw.DrawWidgetset" />
+    <set-configuration-property name="devModeRedirectEnabled" value="false" />
 	<inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
      --> 
     

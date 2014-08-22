@@ -14,7 +14,9 @@ import org.vaadin.addons.oauth.OAuthSubject;
 import org.vaadin.addons.oauth.UserInfo;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.google.inject.servlet.SessionScoped;
+import com.vaadin.server.Page;
 
 @SessionScoped
 public class RoleManager implements OAuthSubject {
@@ -36,9 +38,11 @@ public class RoleManager implements OAuthSubject {
 	private UserInfo userInfo;
 
 	private Set<Action> allActions;
+
+	private String prodMode;
     
     @Inject
-    public RoleManager(Dao dao) {
+    public RoleManager(Dao dao, @Named("productionMode") String prodMode) {
 
         this.dao = dao;
 
@@ -49,6 +53,8 @@ public class RoleManager implements OAuthSubject {
         stringPermissions = role.getStringPermissions();
 
         allActions = new HashSet<Action>(Arrays.asList(Action.values()));
+        
+        this.prodMode = prodMode;
     }
     
     /**
@@ -58,8 +64,8 @@ public class RoleManager implements OAuthSubject {
      * @return
      */
     public Set<Action> getActionsForTarget(Class<?> clazz) {
-//    	if (1==1)
-//            return allActions;
+    	if (prodMode.equals("false"))
+            return allActions;
     	
         if (role.getIsSuperUser()) {
             return allActions;

@@ -1,7 +1,13 @@
 package org.issg.ibis;
 
 import org.issg.ibis.auth.RoleManager;
+import org.issg.ibis.domain.BiologicalStatus;
+import org.issg.ibis.domain.ConservationClassification;
+import org.issg.ibis.domain.ImpactMechanism;
+import org.issg.ibis.domain.ImpactOutcome;
 import org.issg.ibis.domain.Location;
+import org.issg.ibis.domain.OrganismType;
+import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
 
 import com.google.inject.Inject;
@@ -13,6 +19,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.BaseTheme;
 
@@ -50,6 +57,15 @@ public class HeaderView extends HorizontalLayout implements View {
         AdminMenu adminMenu = new AdminMenu(roleManager);
         adminMenu.addAdminItem(Species.class, "Species", ViewModule.SPECIES_EDITOR);
         adminMenu.addAdminItem(Location.class, "Location", ViewModule.LOCATION_EDITOR);
+        
+        MenuItem x = adminMenu.getRootItem().addItem("Lookup tables", null);
+        adminMenu.addAdminItem(x, BiologicalStatus.class, "Biological Status", ViewModule.BIOLOGICAL_STATUS);
+        adminMenu.addAdminItem(x, ConservationClassification.class, "Cons. Classification", ViewModule.CONSERVATION_CLASSIFICATION);
+        adminMenu.addAdminItem(x, ImpactMechanism.class, "Impact Mechanism", ViewModule.IMPACT_MECHANISM);
+        adminMenu.addAdminItem(x, ImpactOutcome.class, "Impact Outcome", ViewModule.IMPACT_OUTCOME);
+        adminMenu.addAdminItem(x, OrganismType.class, "Organism Type", ViewModule.ORGANISM_TYPE);
+        adminMenu.addAdminItem(x, Reference.class, "Reference", ViewModule.REFERENCE);
+
         if (adminMenu.hasItems()) {
         	addComponent(adminMenu);
 		}

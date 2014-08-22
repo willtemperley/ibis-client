@@ -19,18 +19,16 @@
 		<class>org.issg.ibis.domain.Content</class>
 		<class>org.issg.ibis.domain.ContentType</class>
 		<class>org.issg.ibis.domain.Country</class>
-		<class>org.issg.ibis.domain.DesignatedArea</class>
 		<class>org.issg.ibis.domain.DesignatedAreaType</class>
 		<class>org.issg.ibis.domain.ImpactMechanism</class>
 		<class>org.issg.ibis.domain.ImpactOutcome</class>
 		<class>org.issg.ibis.domain.Island</class>
-		<class>org.issg.ibis.domain.IslandType</class>
 		<class>org.issg.ibis.domain.IucnCategory</class>
 		<class>org.issg.ibis.domain.Location</class>
 		<class>org.issg.ibis.domain.LocationSummary</class>
 		<class>org.issg.ibis.domain.LocationType</class>
 		<class>org.issg.ibis.domain.OrganismType</class>
-		<class>org.issg.ibis.domain.RedlistCategory</class>
+		<class>org.issg.ibis.domain.ConservationClassification</class>
 		<class>org.issg.ibis.domain.Reference</class>
 		<class>org.issg.ibis.domain.Region</class>
 		<class>org.issg.ibis.domain.ResourceType</class>
@@ -38,8 +36,6 @@
 		<class>org.issg.ibis.domain.SpeciesImpact</class>
 		<class>org.issg.ibis.domain.SpeciesLocation</class>
 		<class>org.issg.ibis.domain.SpeciesSummary</class>
-		<class>org.issg.ibis.domain.Taxon</class>
-		<class>org.issg.ibis.domain.TaxonomicRank</class>
 		<class>org.issg.ibis.domain.UploadLog</class>
 		<class>org.issg.ibis.domain.view.LocationView</class>
 		<class>org.issg.ibis.domain.view.ResourceDescription</class>

@@ -2,11 +2,22 @@ package org.issg.ibis;
 
 import java.util.Map;
 
+import org.issg.ibis.domain.BiologicalStatus;
+import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.Country;
+import org.issg.ibis.domain.ImpactMechanism;
+import org.issg.ibis.domain.ImpactOutcome;
+import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.editor.SpeciesSummaryEditor;
 import org.issg.ibis.editor.LocationEditor;
 import org.issg.ibis.editor.SpeciesEditor;
+import org.issg.ibis.editor.basic.BiologicalStatusEditor;
+import org.issg.ibis.editor.basic.ConservationClassificationEditor;
+import org.issg.ibis.editor.basic.ImpactMechanismEditor;
+import org.issg.ibis.editor.basic.ImpactOutcomeEditor;
+import org.issg.ibis.editor.basic.OrganismTypeEditor;
+import org.issg.ibis.editor.basic.ReferenceEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.responsive.Dashboard;
@@ -45,7 +56,12 @@ public class ViewModule extends AbstractViewModule {
 
     public static final String SPECIES_EDITOR = "EditSpecies";
 	public static final String LOCATION_EDITOR = "EditLocation";
-	public static final String SPECIES_SUMMARY_EDITOR = "EditSpeciesSummary";
+	public static final String CONSERVATION_CLASSIFICATION = "EditConservationClassification";
+	public static final String BIOLOGICAL_STATUS = "EditBiologicalStatus";
+	public static final String IMPACT_MECHANISM = "EditImpactMechanism";
+	public static final String IMPACT_OUTCOME = "EditImpactOutcome";
+	public static final String ORGANISM_TYPE = "EditOrganismType";
+	public static final String REFERENCE = "EditReference";
 
     @Override
     protected void configure() {
@@ -58,20 +74,15 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class).in(UIScoped.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class).in(UIScoped.class);
 
-//        mapbinder.addBinding(OAUTH_VIEW).to(AuthView.class).in(UIScoped.class);
 
-//        mapbinder.addBinding(SPECIES_SEARCH).to(SpeciesSearch.class).in(UIScoped.class);
-//        mapbinder.addBinding(LOCATION_SEARCH).to(LocationSearch.class).in(UIScoped.class);
-
-//        mapbinder.addBinding(SEARCH).to(SimpleSearch.class).in(UIScoped.class);
-//        mapbinder.addBinding("Mobile").to(MyFirstMobileUI.class).in(UIScoped.class);
-
-        
-
-//        addBinding("EditSpeciesImpact", SpeciesImpactEditor.class, SpeciesImpact.class);
         mapbinder.addBinding(LOCATION_EDITOR).to(LocationEditor.class).in(UIScoped.class);
-        mapbinder.addBinding(SPECIES_SUMMARY_EDITOR).to(SpeciesSummaryEditor.class).in(UIScoped.class);
         mapbinder.addBinding(SPECIES_EDITOR).to(SpeciesEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(CONSERVATION_CLASSIFICATION).to(ConservationClassificationEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(BIOLOGICAL_STATUS).to(BiologicalStatusEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(IMPACT_MECHANISM).to(ImpactMechanismEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(IMPACT_OUTCOME).to(ImpactOutcomeEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(ORGANISM_TYPE).to(OrganismTypeEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(REFERENCE).to(ReferenceEditor.class).in(UIScoped.class);
 
     }
     

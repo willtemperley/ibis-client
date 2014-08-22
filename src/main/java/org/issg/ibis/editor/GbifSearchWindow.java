@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.json.GbifSpecies;
 import org.issg.ibis.webservices.gbif.GbifSpeciesClient;
-import org.issg.ibis.webservices.gbif.SpeciesSuggest;
 import org.jrc.edit.EditorController;
 import org.vaadin.maddon.fields.MTextField;
 import org.vaadin.maddon.fields.MValueChangeEvent;

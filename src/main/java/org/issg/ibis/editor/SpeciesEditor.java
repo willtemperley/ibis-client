@@ -1,12 +1,15 @@
 package org.issg.ibis.editor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.json.CommonName;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
+import org.issg.ibis.webservices.gbif.GbifSpeciesClient;
 import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
 import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
 import org.issg.upload.SpeciesUploader;
@@ -17,12 +20,14 @@ import org.vaadin.addons.form.field.FieldGroup;
 import org.vaadin.maddon.fields.MTextField;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;
+import org.vaadin.maddon.fields.TypedSelect;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.UI;
 
 public class SpeciesEditor extends TwinPanelEditorView<Species> implements View {
@@ -30,11 +35,31 @@ public class SpeciesEditor extends TwinPanelEditorView<Species> implements View 
 	private EditorController<Species> ec;
 	private SpeciesToolBar toolBar;
 	private GbifSearchWindow gbifSearchWindow;
+	private GbifSpeciesClient gbifSpeciesClient = new GbifSpeciesClient();
+	private CommonNameCombo commonNameCombo;
 
 	@Inject
     public SpeciesEditor(Dao dao, RoleManager roleManager, SpeciesSummaryEditor sse, SpeciesImpactEditor sie, SpeciesLocationEditor sle) {
 
-        ec = new EditorController<Species>(Species.class, dao, roleManager);
+        commonNameCombo = new CommonNameCombo().withPixelWidth(300);
+
+        ec = new EditorController<Species>(Species.class, dao, roleManager) {
+        	@Override
+        	protected void preUpdate(Species entity) {
+        		commonNameCombo.removeAllItems();
+
+        		List<CommonName> x = gbifSpeciesClient.getVernacularNames(entity.getUri());
+        		if (x == null) {
+        			return;
+				}
+        		for (CommonName c : x) {
+        			commonNameCombo.addItem(c.getVernacularName());
+        			if (c.getPreferred()) {
+        				commonNameCombo.setValue(c.getVernacularName());
+					}
+        		}
+        	}
+        };
 
     	toolBar = new SpeciesToolBar(ec);
     	toolBar.addButton("Impacts", sie);
@@ -60,18 +85,17 @@ public class SpeciesEditor extends TwinPanelEditorView<Species> implements View 
         
         ff.addQField(sp.kingdom);
         ff.addQField(sp.phylum);
-        ff.addQField(sp.clazz);
+        ff.addQField(sp.clazz).setCaption("Class");;
         ff.addQField(sp.order);
         ff.addQField(sp.genus);
-        ff.addQField(sp.synonyms);
 
         ff.addQField(sp.organismType);
-        ff.addQField(sp.gisdLink);
-        ff.addQField(sp.commonName);
+        ff.addQField(sp.gisdLink).setCaption("GISD link");
+        ff.addQField(sp.commonName, commonNameCombo);
         ff.addQField(sp.authority);
-        ff.addQField(sp.redlistCategory);
         ff.addQField(sp.redlistId);
-        ff.addQField(sp.biomes);
+        ff.addQField(sp.conservationClassification);
+        ff.addQField(sp.biomes).setCaption("Environment / System");
         ff.addQField(sp.references);
 
         TwinPanelEditorView<Species> view = new TwinPanelEditorView<Species>();

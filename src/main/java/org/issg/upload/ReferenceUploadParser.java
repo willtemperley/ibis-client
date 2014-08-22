@@ -8,7 +8,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
-import org.issg.ibis.domain.QRedlistCategory;
 import org.issg.ibis.domain.QReference;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Reference;

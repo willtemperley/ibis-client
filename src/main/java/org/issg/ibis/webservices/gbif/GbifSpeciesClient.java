@@ -13,9 +13,13 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.issg.ibis.domain.json.CommonName;
 import org.issg.ibis.domain.json.GbifSpecies;
+import org.issg.ibis.domain.json.VernacularNameQuery;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 public class GbifSpeciesClient  {
@@ -74,7 +78,11 @@ public class GbifSpeciesClient  {
 	
 	public static void main(String[] args) throws MalformedURLException, IOException {
 		GbifSpeciesClient c = new GbifSpeciesClient();
-		c.getSuggestions("kerear");
+		List<CommonName> x = c.getVernacularNames("http://www.gbif.org/species/2221612");
+		for (CommonName commonName : x) {
+			System.out.println(commonName.getVernacularName());
+		}
+		System.err.println(x);
 	}
 
 
@@ -87,14 +95,27 @@ public class GbifSpeciesClient  {
         return sp;
 	}
 	
-	public void getVernacularNames(String speciesURL) {
+	public List<CommonName> getVernacularNames(String url) {
+        String rwUrl = url.replace("www", "api");
+        rwUrl = rwUrl.replace("species", "v1/species");
         try {
-			String json = readURL(speciesURL + "/vernacularNames");
-			System.out.println(json);
+        	if (!rwUrl.endsWith("/")) {
+        		rwUrl = rwUrl + '/';
+			}
+			String json = readURL(rwUrl + "vernacularNames");
+			VernacularNameQuery v = gson.fromJson(json, VernacularNameQuery.class);
+			return v.getResults();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+        return null;
 		
+	}
+	
+	//HACK, won't work beyond 20 results
+	private String getResultsTagFromGbif(String json) {
+		json = json.substring(54, json.length()-2);
+		return json;
 	}
 
 	public GbifSpecies getSpeciesFromRedlist(String value) {
@@ -103,7 +124,8 @@ public class GbifSpeciesClient  {
 			System.out.println(redlistGbifURL + value);
 			json = readURL(redlistGbifURL + value);
 			
-			json = json.substring(54, json.length()-2);
+			json = getResultsTagFromGbif(json);
+			
 			System.out.println(json);
 			
 			GbifSpecies sp = gson.fromJson(json, GbifSpecies.class);

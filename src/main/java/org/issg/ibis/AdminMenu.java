@@ -21,17 +21,30 @@ public class AdminMenu extends MenuBar {
 		hasItems = false;
 	}
 
-	public void addAdminItem(Class<?> clazz, String caption, final String location) {
+	/**
+	 * Adds an item to
+	 * @return 
+	 */
+
+	public MenuItem addAdminItem(Class<?> clazz, String caption, final String location) {
+		return addAdminItem(item, clazz, caption, location);
+	}
+	
+	public MenuItem getRootItem() {
+		return item;
+	}
+
+	public MenuItem addAdminItem(MenuItem parentItem, Class<?> clazz, String caption, final String location) {
 		if (roleManager.getActionsForTarget(clazz).contains(Action.UPDATE)) {
 			hasItems = true;
-			item.addItem(caption, new Command() {
+			return parentItem.addItem(caption, new Command() {
 				@Override
 				public void menuSelected(MenuItem selectedItem) {
 					UI.getCurrent().getNavigator().navigateTo(location);
 				}
 			});
 		}
-		
+		return parentItem;
 	}
 
 	public boolean hasItems() {

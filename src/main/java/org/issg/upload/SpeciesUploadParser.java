@@ -12,13 +12,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.issg.ibis.domain.Biome;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.QBiome;
+import org.issg.ibis.domain.QConservationClassification;
 import org.issg.ibis.domain.QOrganismType;
-import org.issg.ibis.domain.QRedlistCategory;
 import org.issg.ibis.domain.QSpecies;
-import org.issg.ibis.domain.RedlistCategory;
+import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.domain.Taxon;
-import org.issg.ibis.domain.TaxonomicRank;
 import org.issg.ibis.webservices.GbifApi09;
 import org.jrc.edit.Dao;
 import org.slf4j.Logger;
@@ -104,9 +102,9 @@ public class SpeciesUploadParser extends UploadParser<Species> {
                 }
 
                 //Re-try redlist
-                if (checkSpecies.getRedlistCategory() == null) {
-                    RedlistCategory rlc = getEntity(QRedlistCategory.redlistCategory, QRedlistCategory.redlistCategory.label, row, 12);
-                    checkSpecies.setRedlistCategory(rlc);
+                if (checkSpecies.getConservationClassification() == null) {
+                    ConservationClassification rlc = getEntity(QConservationClassification.conservationClassification, QConservationClassification.conservationClassification.abbreviation, row, 12);
+                    checkSpecies.setConservationClassification(rlc);
                     System.out.println("Saving red list " + name + ", row" + row.getRowNum());
                     return checkSpecies;
                 }
@@ -233,35 +231,35 @@ public class SpeciesUploadParser extends UploadParser<Species> {
      * @param rank
      * @return
      */
-    public Taxon getTaxon(String taxonName, TaxonomicRank taxonomicRank, Taxon parentTaxon) {
-
-
-        TypedQuery<Taxon> q = findTaxonByNameAndRank(taxonomicRank, taxonName);
-        
-        List<Taxon> res = q.getResultList();
-        
-        if (res.size() == 0) {
-            Taxon t = new Taxon();
-            t.setTaxonomicRank(taxonomicRank);
-            t.setLabel(taxonName);
-            t.setParentTaxon(parentTaxon);
-            dao.persist(t);
-            return t;
-        } else if (res.size() == 1) {
-            return res.get(0);
-        } else {
-            return null;
-        }
-    }
-
-    private TypedQuery<Taxon> findTaxonByNameAndRank(TaxonomicRank rank, String lookUp) {
-        TypedQuery<Taxon> q = dao
-                .get()
-                .createQuery(
-                        "from Taxon where upper(label) = upper(:label) and taxonomicRank = :rank",
-                        Taxon.class);
-        q.setParameter("label", lookUp);
-        q.setParameter("rank", rank);
-        return q;
-    }
+//    public Taxon getTaxon(String taxonName, TaxonomicRank taxonomicRank, Taxon parentTaxon) {
+//
+//
+//        TypedQuery<Taxon> q = findTaxonByNameAndRank(taxonomicRank, taxonName);
+//        
+//        List<Taxon> res = q.getResultList();
+//        
+//        if (res.size() == 0) {
+//            Taxon t = new Taxon();
+//            t.setTaxonomicRank(taxonomicRank);
+//            t.setLabel(taxonName);
+//            t.setParentTaxon(parentTaxon);
+//            dao.persist(t);
+//            return t;
+//        } else if (res.size() == 1) {
+//            return res.get(0);
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    private TypedQuery<Taxon> findTaxonByNameAndRank(TaxonomicRank rank, String lookUp) {
+//        TypedQuery<Taxon> q = dao
+//                .get()
+//                .createQuery(
+//                        "from Taxon where upper(label) = upper(:label) and taxonomicRank = :rank",
+//                        Taxon.class);
+//        q.setParameter("label", lookUp);
+//        q.setParameter("rank", rank);
+//        return q;
+//    }
 }

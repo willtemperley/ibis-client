@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.auth.RoleManager.Action;
+import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.editor.view.IEditorView;
 import org.issg.ibis.responsive.TakesSelectionListener;
 import org.slf4j.Logger;
@@ -76,6 +77,7 @@ public class EditorController<T> {
 		this.container = new ListContainer<T>(clazz);
 
 	}
+
 
 	public ListContainer<T> getContainer() {
 		return container;
@@ -259,13 +261,15 @@ public class EditorController<T> {
 		if (entity == null) {
 			return;
 		}
-		fgm.setEntity(entity);
-		view.setIsEditing(true);
+		doUpdate(entity);
 	}
 
 	public void doUpdate(T entity) {
 		Object id = dao.getId(entity);
 		entity = dao.get().find(clazz, id);
+
+		preUpdate(entity);
+
 		Page currentPage = Page.getCurrent();
 		String frag = currentPage.getUriFragment();
 
@@ -280,6 +284,10 @@ public class EditorController<T> {
 		currentPage.setUriFragment(frag);
 		fgm.setEntity(entity);
 		view.setIsEditing(true);
+		
+	}
+
+	protected void preUpdate(T entity) {
 	}
 
 	private void doDelete() {
@@ -324,7 +332,7 @@ public class EditorController<T> {
 		if (entity == null) {
 			logger.error("Entity is null");
 		}
-//		view.setIsEditing(false);
+		view.setIsEditing(false);
 	}
 
 	public T getEntity() {

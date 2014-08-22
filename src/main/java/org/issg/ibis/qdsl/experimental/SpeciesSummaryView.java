@@ -56,10 +56,10 @@ public class SpeciesSummaryView extends SimplePanel {
 
         addContent(ss);
 
-        if (sp.getRedlistCategory() != null) {
+        if (sp.getConservationClassification() != null) {
             String redlistImgUrl = String
                     .format("<img src='/ibis-client/VAADIN/themes/dashboard/redlist/240px-Status_iucn3.1_%s.svg.png'/>",
-                            sp.getRedlistCategory().getRedlistCode());
+                            sp.getConservationClassification().getAbbreviation());
             redlistStatus.setValue(redlistImgUrl);
         }
 
