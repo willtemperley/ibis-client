@@ -76,6 +76,7 @@ public class TwinPanelEditorView<T> extends HorizontalLayout implements IEditorV
 
 	public void setSelectionComponent(Component panel) {
 		replaceComponent(leftPlaceholder, panel);
+		panel.setWidth("100%");
 	}
 
 

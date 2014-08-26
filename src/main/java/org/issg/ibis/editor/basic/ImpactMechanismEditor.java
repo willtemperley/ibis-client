@@ -1,20 +1,20 @@
 package org.issg.ibis.editor.basic;
 
 import org.issg.ibis.auth.RoleManager;
-import org.issg.ibis.domain.OrganismType;
-import org.issg.ibis.domain.QOrganismType;
+import org.issg.ibis.domain.ImpactMechanism;
+import org.issg.ibis.domain.QImpactMechanism;
 import org.jrc.edit.Dao;
 
 import com.google.inject.Inject;
 
-public class ImpactMechanismEditor extends BasicTwinPanelEditor<OrganismType> {
+public class ImpactMechanismEditor extends BasicTwinPanelEditor<ImpactMechanism> {
 
     @Inject
     public ImpactMechanismEditor(Dao dao, RoleManager roleManager) {
 
-    	super(OrganismType.class, dao, roleManager);
+    	super(ImpactMechanism.class, dao, roleManager);
 
-        QOrganismType entityPath = QOrganismType.organismType;
+        QImpactMechanism entityPath = QImpactMechanism.impactMechanism;
 		ff.addQField(entityPath.label);
 
         build(entityPath);
