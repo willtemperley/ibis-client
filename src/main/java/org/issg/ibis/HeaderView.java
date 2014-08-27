@@ -9,6 +9,7 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
+import org.vaadin.addons.auth.domain.Role;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
@@ -57,6 +58,7 @@ public class HeaderView extends HorizontalLayout implements View {
         AdminMenu adminMenu = new AdminMenu(roleManager);
         adminMenu.addAdminItem(Species.class, "Species", ViewModule.SPECIES_EDITOR);
         adminMenu.addAdminItem(Location.class, "Location", ViewModule.LOCATION_EDITOR);
+        adminMenu.addAdminItem(Role.class, "Users", ViewModule.USER_EDITOR);
         
         MenuItem x = adminMenu.getRootItem().addItem("Lookup tables", null);
         adminMenu.addAdminItem(x, BiologicalStatus.class, "Biological Status", ViewModule.BIOLOGICAL_STATUS);
@@ -65,6 +67,7 @@ public class HeaderView extends HorizontalLayout implements View {
         adminMenu.addAdminItem(x, ImpactOutcome.class, "Impact Outcome", ViewModule.IMPACT_OUTCOME);
         adminMenu.addAdminItem(x, OrganismType.class, "Organism Type", ViewModule.ORGANISM_TYPE);
         adminMenu.addAdminItem(x, Reference.class, "Reference", ViewModule.REFERENCE);
+
 
         if (adminMenu.hasItems()) {
         	addComponent(adminMenu);

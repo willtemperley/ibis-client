@@ -3,6 +3,7 @@ package org.jrc.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.issg.ibis.auth.RoleManager;
@@ -15,7 +16,6 @@ import org.vaadin.addons.oauth.OAuthSubject;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
-import com.google.gwt.dev.util.collect.HashMap;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;

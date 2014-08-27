@@ -1,7 +1,5 @@
 package org.issg.upload;
 
-import it.jrc.form.editor.EditorPanelHeading;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +16,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.jrc.edit.Dao;
+import org.jrc.ui.HtmlHeader;
 
 import com.google.common.io.Files;
 import com.vaadin.ui.CustomComponent;
@@ -83,7 +82,7 @@ public abstract class AbstractUploader extends CustomComponent implements
 
         setCompositionRoot(root);
 
-        EditorPanelHeading panelHead = new EditorPanelHeading(title);
+        HtmlHeader panelHead = new HtmlHeader(title);
         root.addComponent(panelHead);
         
         /*

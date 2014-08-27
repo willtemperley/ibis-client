@@ -12,6 +12,7 @@ import org.issg.ibis.domain.Species;
 import org.issg.ibis.editor.SpeciesSummaryEditor;
 import org.issg.ibis.editor.LocationEditor;
 import org.issg.ibis.editor.SpeciesEditor;
+import org.issg.ibis.editor.auth.UserEditor;
 import org.issg.ibis.editor.basic.BiologicalStatusEditor;
 import org.issg.ibis.editor.basic.ConservationClassificationEditor;
 import org.issg.ibis.editor.basic.ImpactMechanismEditor;
@@ -63,6 +64,8 @@ public class ViewModule extends AbstractViewModule {
 	public static final String ORGANISM_TYPE = "EditOrganismType";
 	public static final String REFERENCE = "EditReference";
 
+	public static final String USER_EDITOR = "UserEditor";
+
     @Override
     protected void configure() {
         mapbinder = MapBinder.newMapBinder(binder(), String.class,
@@ -78,11 +81,14 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(LOCATION_EDITOR).to(LocationEditor.class).in(UIScoped.class);
         mapbinder.addBinding(SPECIES_EDITOR).to(SpeciesEditor.class).in(UIScoped.class);
         mapbinder.addBinding(CONSERVATION_CLASSIFICATION).to(ConservationClassificationEditor.class).in(UIScoped.class);
+
         mapbinder.addBinding(BIOLOGICAL_STATUS).to(BiologicalStatusEditor.class).in(UIScoped.class);
         mapbinder.addBinding(IMPACT_MECHANISM).to(ImpactMechanismEditor.class).in(UIScoped.class);
         mapbinder.addBinding(IMPACT_OUTCOME).to(ImpactOutcomeEditor.class).in(UIScoped.class);
         mapbinder.addBinding(ORGANISM_TYPE).to(OrganismTypeEditor.class).in(UIScoped.class);
         mapbinder.addBinding(REFERENCE).to(ReferenceEditor.class).in(UIScoped.class);
+        
+        mapbinder.addBinding(USER_EDITOR).to(UserEditor.class).in(UIScoped.class);
 
     }
     
