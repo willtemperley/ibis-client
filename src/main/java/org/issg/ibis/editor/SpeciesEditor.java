@@ -96,7 +96,7 @@ public class SpeciesEditor extends TwinPanelEditorView<Species> implements View 
         ff.addQField(sp.redlistId);
         ff.addQField(sp.conservationClassification);
         ff.addQField(sp.biomes).setCaption("Environment / System");
-        ff.addQField(sp.references);
+        ff.addQField(sp.references).setWidth(50, Unit.EM);
 
         TwinPanelEditorView<Species> view = new TwinPanelEditorView<Species>();
         ec.init(this);

@@ -1,4 +1,5 @@
 install
+src/main/webapp/VAADIN/themes/responsive/styles.css
 deploy
 target/*
 src/main/webapp/VAADIN/gwt-unitCache

@@ -12,11 +12,13 @@ import org.vaadin.maddon.fields.MValueChangeListener;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -32,6 +34,9 @@ public class GbifSearchWindow extends Window {
 
 	private SpeciesInfo speciesInfo;
 	
+	/**
+	 * Just to preview the species
+	 */
 	private class SpeciesInfo extends VerticalLayout {
 		
 		private Label label = new Label();
@@ -67,6 +72,8 @@ public class GbifSearchWindow extends Window {
 		hl.addComponent(vl);
 		hl.setSizeFull();
 		hl.setSpacing(true);
+		
+		vl.addComponent(new Image("Search provided by:", new ThemeResource("img/gbif.png")));
 
 		SpeciesSuggest speciesSuggest = new SpeciesSuggest();
 		speciesSuggest.setCaption("Search species");
@@ -75,7 +82,8 @@ public class GbifSearchWindow extends Window {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				GbifSpecies sp = (GbifSpecies) event.getProperty().getValue();
-				setSpecies(sp);
+				GbifSpecies sp2 = gbifSpeciesClient.getSpecies(sp.getSpeciesKey());
+				setSpecies(sp2);
 			}
 
 		});
@@ -104,6 +112,7 @@ public class GbifSearchWindow extends Window {
 			@Override
 			public void valueChange(MValueChangeEvent<String> event) {
 				GbifSpecies sp = gbifSpeciesClient.getSpeciesFromRedlist(event.getValue());
+
 				setSpecies(sp);
 			}
 		});
