@@ -92,7 +92,6 @@ public class LocationSearch2 extends Panel implements TakesSelectionListener<Loc
 		List<Location> resultList = q.getResultList();
 		System.out.println("Size: " + resultList.size());
 		locationContainer.addAll(resultList);
-
 		
 		select.addColumns("name", "locationType");
 		return select;
@@ -110,9 +109,11 @@ public class LocationSearch2 extends Panel implements TakesSelectionListener<Loc
 	}
 
 	private TypedSelect<Region> getRegionSelector() {
+		
 		TypedSelect<Region> select = new TypedSelect<Region>("Region").withSelectType(ComboBox.class);
 	
 		JPAQuery q = new JPAQuery(dao.get());
+
 		QSpeciesImpact si = QSpeciesImpact.speciesImpact;
 		QCountry c = QCountry.country;
 		q = q.from(c, si).where(c.eq(si.location.country));

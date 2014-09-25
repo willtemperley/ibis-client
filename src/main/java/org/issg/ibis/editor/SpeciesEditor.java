@@ -34,7 +34,7 @@ public class SpeciesEditor extends TwinPanelEditorView<Species> implements View 
 
 	private EditorController<Species> ec;
 	private SpeciesToolBar toolBar;
-	private GbifSearchWindow gbifSearchWindow;
+	private SpeciesSearchWindow gbifSearchWindow;
 	private GbifSpeciesClient gbifSpeciesClient = new GbifSpeciesClient();
 	private CommonNameCombo commonNameCombo;
 
@@ -66,7 +66,7 @@ public class SpeciesEditor extends TwinPanelEditorView<Species> implements View 
     	toolBar.addButton("Locations", sle);
     	toolBar.addButton("Summaries", sse);
     	
-		gbifSearchWindow = new GbifSearchWindow(ec);
+		gbifSearchWindow = new SpeciesSearchWindow(ec);
 
     	setCreateListener(new ClickListener() {
 			@Override

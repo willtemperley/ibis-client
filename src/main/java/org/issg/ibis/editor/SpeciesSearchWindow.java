@@ -26,9 +26,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class GbifSearchWindow extends Window {
-
-	private GbifSpecies val;
+public class SpeciesSearchWindow extends Window {
 
 	private GbifSpeciesClient gbifSpeciesClient = new GbifSpeciesClient();
 
@@ -42,6 +40,8 @@ public class GbifSearchWindow extends Window {
 		private Label label = new Label();
 		
 		private Label commonName = new Label();
+		
+		private GbifSpecies sp;
 
 		public SpeciesInfo() {
 			label.setCaption("Species");
@@ -50,11 +50,19 @@ public class GbifSearchWindow extends Window {
 		}
 
 		public void setValue(GbifSpecies sp) {
-			label.setValue(sp.toString());
+			this.sp = sp;
+			if (sp != null) {
+				setVisible(true);
+				label.setValue(sp.toString());
+			}
+		}
+
+		public GbifSpecies getValue() {
+			return sp;
 		}
 	}
 
-	public GbifSearchWindow(final EditorController<Species> ec) {
+	public SpeciesSearchWindow(final EditorController<Species> ec) {
 
 		setCaption("Find species");
 		setWidth(600, Unit.PIXELS);
@@ -124,11 +132,11 @@ public class GbifSearchWindow extends Window {
 		selectButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (val != null) {
+				if (speciesInfo.getValue() != null) {
 					Species entity = ec.getEntity();
-					entity.populate(val);
+					entity.populate(speciesInfo.getValue());
 					ec.setEntity(entity);
-					GbifSearchWindow.this.close();
+					SpeciesSearchWindow.this.close();
 				}
 			}
 		});
@@ -142,11 +150,7 @@ public class GbifSearchWindow extends Window {
 	}
 
 	private void setSpecies(GbifSpecies sp) {
-		val = sp;
-		speciesInfo.setVisible(true);
-		if (val != null) {
-			speciesInfo.setValue(sp);
-		}
+		speciesInfo.setValue(sp);
 	}
 
 }

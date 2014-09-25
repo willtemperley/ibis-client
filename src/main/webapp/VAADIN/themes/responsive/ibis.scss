@@ -20,6 +20,7 @@
 		.display-panel-header {
 			color: $facet-colour;
 		}
+		
 
 		a {
 			color: $facet-colour;
@@ -75,6 +76,15 @@
 			margin-bottom: $default-spacing;
 		}
 	}
+
+	.v-window-contents {
+
+		padding-top: 37px !important;
+		padding-left: 20px;
+		padding-right: 20px;
+
+	}
+		
 
 	.submit-panel {
 	

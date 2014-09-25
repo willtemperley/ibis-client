@@ -1,14 +1,11 @@
 package org.issg.ibis.editor;
 
-import java.util.List;
-
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
+import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
 import org.issg.ibis.responsive.LocationSearch2;
-import org.issg.upload.AbstractUploader.ProcessingCompleteEvent;
-import org.issg.upload.AbstractUploader.ProcessingCompleteListener;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
@@ -16,21 +13,31 @@ import org.jrc.edit.JpaFieldFactory;
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.UI;
 
 public class LocationEditor extends TwinPanelEditorView<Location> implements View {
 
 	private EditorController<Location> ec;
+	
+	private LocationSearchWindow searchWindow;
 
     @Inject
     public LocationEditor(Dao dao, RoleManager roleManager) {
 
         ec = new EditorController<Location>(Location.class, dao, roleManager);
+    	searchWindow = new LocationSearchWindow(ec, dao);
 
-//      getTable().addColumns(Location_.name, Location_.islandType, Location_.latitude, Location_.longitude);
-//
-//       filterPanel.addFilterField(Location_.name);
-//       filterPanel.addFilterField(Location_.country);
-//       filterPanel.addFilterField(TableDescription_.schema);
+    	setCreateListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				searchWindow.center();
+				searchWindow.setModal(true);
+				UI.getCurrent().addWindow(searchWindow);
+			}
+		});
+
          
         JpaFieldFactory<Location> ff = ec.getFf();
         QLocation loc = QLocation.location;
@@ -52,12 +59,13 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
         ff.addQTextArea(loc.comments);
         ec.init(this);
         
-        LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());
-        ec.setSelectionComponent(locationSearch);
+//        LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());
 
-	    locationSearch.setCaption("Select location to edit");
-	    
-        this.setSelectionComponent(locationSearch);
+        AbstractSelector<Location> selector = new AbstractSelector<Location>(dao, QLocation.location, ec.getContainer());
+		selector.addColumns("name", "locationType");
+        ec.setSelectionComponent(selector);
+
+        this.setSelectionComponent(selector);
 
     }
 

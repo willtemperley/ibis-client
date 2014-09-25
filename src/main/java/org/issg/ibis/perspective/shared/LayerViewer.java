@@ -23,9 +23,7 @@ public class LayerViewer extends Panel {
 
 	public LayerViewer() {
 
-		LTileLayer bl = new LTileLayer(
-				"http://{s}.tile.osm.org/{z}/{x}/{y}.png");
-		bl.setAttributionString("&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors");
+		LTileLayer bl = TileLayerFactory.getOSM();
 
 //		LTileLayer bl = new LTileLayer(
 //				"http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg");
@@ -40,16 +38,18 @@ public class LayerViewer extends Panel {
 		map.setMaxZoom(15);
 	}
 
-	public void addWmsLayer(String layerName) {
+	
 
-		LWmsLayer l = new LWmsLayer();
-		l.setUrl("http://lrm-maps.jrc.ec.europa.eu/geoserver/ibis/wms");
-		l.setTransparent(true);
-		l.setFormat("image/png");
-		l.setLayers(layerName);
-
-		map.addLayer(l);
-	}
+//	public void addWmsLayer(String layerName) {
+//
+//		LWmsLayer l = new LWmsLayer();
+//		l.setUrl("http://lrm-maps.jrc.ec.europa.eu/geoserver/ibis/wms");
+//		l.setTransparent(true);
+//		l.setFormat("image/png");
+//		l.setLayers(layerName);
+//
+//		map.addLayer(l);
+//	}
 
 	public void zoomTo(Polygon p) {
 
