@@ -13,6 +13,7 @@ import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+import org.vaadin.addon.leaflet.util.LinearRingField;
 import org.vaadin.addons.form.field.ColorField;
 import org.vaadin.addons.form.field.FieldGroup;
 import org.vaadin.addons.form.util.AdminStringUtil;
@@ -31,6 +32,7 @@ import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
+import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Generates field groups based on {@link StaticMetamodel} properties. This
@@ -264,7 +266,11 @@ public class JpaFieldFactory<T> {
             DateField dateField = new DateField();
             dateField.setDateFormat(DEFAULT_DATE_FORMAT);
             addQField(path, dateField);
-        return dateField;
+            return dateField;
+        } else if (Geometry.class.isAssignableFrom(clazz)) {
+        	MultiPolygonField lrf = new MultiPolygonField();
+        	addQField(path, lrf);
+        	return lrf;
         } else if (clazz.getAnnotation(Entity.class) != null) {
         	ComboBox cb = new ComboBox();
         	cb.setWidth(DEFAULT_FIELD_WIDTH);

@@ -5,17 +5,17 @@
     
     
     
-    
 	<inherits name="org.vaadin.addon.leaflet.markercluster.Widgetset" />
+	<inherits name="org.vaadin.addon.leaflet.draw.DrawWidgetset" />
 
 	<set-property name="user.agent" value="ie8,ie9,gecko1_8,safari,opera"/>
     <collapse-all-properties value="false"></collapse-all-properties>
     <!-- Add on widgetsets
     <set-property name="gwt.logging.enabled" value="FALSE"/>
     <inherits name="com.vaadin.DefaultWidgetSet" />
-	<inherits name="org.vaadin.addon.leaflet.draw.DrawWidgetset" />
     <set-configuration-property name="devModeRedirectEnabled" value="false" />
 	
      --> 
     
+
 </module>

@@ -5,10 +5,17 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
+import org.issg.ibis.perspective.shared.LayerViewer;
+import org.issg.ibis.perspective.shared.TileLayerFactory;
 import org.issg.ibis.responsive.LocationSearch2;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
+import org.jrc.edit.MultiPolygonField;
+import org.vaadin.addon.leaflet.LMap;
+import org.vaadin.addon.leaflet.LMarker;
+import org.vaadin.maddon.fields.MValueChangeEvent;
+import org.vaadin.maddon.fields.MValueChangeListener;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
@@ -16,6 +23,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vividsolutions.jts.geom.Geometry;
 
 public class LocationEditor extends TwinPanelEditorView<Location> implements View {
 
@@ -24,7 +33,7 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 	private LocationSearchWindow searchWindow;
 
     @Inject
-    public LocationEditor(Dao dao, RoleManager roleManager) {
+    public LocationEditor(final Dao dao, RoleManager roleManager) {
 
         ec = new EditorController<Location>(Location.class, dao, roleManager);
     	searchWindow = new LocationSearchWindow(ec, dao);
@@ -37,7 +46,6 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 				UI.getCurrent().addWindow(searchWindow);
 			}
 		});
-
          
         JpaFieldFactory<Location> ff = ec.getFf();
         QLocation loc = QLocation.location;
@@ -57,18 +65,63 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
         ff.addQField(loc.area);
 
         ff.addQTextArea(loc.comments);
+        
+        ff.addQField(loc.geom);
+        
+
+
         ec.init(this);
         
 //        LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());
 
         AbstractSelector<Location> selector = new AbstractSelector<Location>(dao, QLocation.location, ec.getContainer());
 		selector.addColumns("name", "locationType");
+
         ec.setSelectionComponent(selector);
 
-        this.setSelectionComponent(selector);
+        VerticalLayout vl = new VerticalLayout();
+        vl.addComponent(selector);
+        selector.setSizeFull();
+        
+//        final LMap map = getMap();
+
+        final LayerViewer map = new LayerViewer();
+        map.setSizeFull();
+        vl.addComponent(map);
+        
+        selector.addMValueChangeListener(new MValueChangeListener<Location>() {
+			
+			@Override
+			public void valueChange(MValueChangeEvent<Location> event) {
+				Location val = event.getValue();
+				
+				if (val ==  null) {
+					return;
+				}
+				val = dao.find(Location.class, val.getId());
+				Geometry g = val.getGeom();
+				if (g!= null) {
+//					map.getMap().addComponent(new LMarker(g.getCentroid()));
+					map.zoomTo(val.getEnvelope());
+				}
+			}
+		});
+
+        vl.setSizeFull();
+
+        this.setSelectionComponent(vl);
 
     }
 
+//    LMap getMap() {
+//    	
+//    	LMap map = new LMap();
+//		map.setWidth("200px");
+//		map.setHeight("200px");
+//		map.addBaseLayer(TileLayerFactory.getOSM(), "osm");
+//		return map;
+//
+//    }
 
 	@Override
 	public void enter(ViewChangeEvent event) {

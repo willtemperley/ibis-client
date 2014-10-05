@@ -8,6 +8,8 @@ import javax.persistence.TypedQuery;
 
 import org.junit.Test;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 
 public class BootstrapDomain {
     
@@ -30,5 +32,29 @@ public class BootstrapDomain {
 //        }
         
     }
+
+	@Test
+	public void locationGeomLazy() {
+	        
+	        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ibis-domain");
+	        EntityManager em = emf.createEntityManager();
+	        
+	        TypedQuery<Location> q = em.createQuery("from Location", Location.class);
+	        List<Location> results = q.getResultList();
+	        for (Location location : results) {
+	            System.out.println(location);
+	            
+	            em.detach(location);
+
+	            Geometry g = location.getGeom();
+	        }
+	//        TypedQuery<Species> q = em.createQuery("from Species", Species.class);
+	//        List<Species> results = q.getResultList();
+	//        for (Species species : results) {
+	//            System.out.println(species);
+	//            System.out.println(species.getLocations());
+	//        }
+	        
+	    }
 
 }

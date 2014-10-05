@@ -281,7 +281,7 @@ public class EditorController<T> {
 		} else {
 			frag = frag + "/" + id;
 		}
-		currentPage.setUriFragment(frag);
+		currentPage.setUriFragment(frag, false);
 		fgm.setEntity(entity);
 		view.setIsEditing(true);
 		

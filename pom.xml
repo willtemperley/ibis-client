@@ -10,7 +10,7 @@
 
 	<properties>
 		<vaadin.plugin.version>7.3.1</vaadin.plugin.version>
-		
+
 		<slf4j.version>1.7.7</slf4j.version>
 		<guava.version>17.0</guava.version>
 
@@ -24,9 +24,9 @@
 	<dependencies>
 		<!-- To override pollution -->
 		<dependency>
-		    <groupId>com.google.guava</groupId>
-    		<artifactId>guava</artifactId>
-    		<version>${guava.version}</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
 		</dependency>
 
 		<!-- Project dependencies -->
@@ -68,6 +68,8 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.9</version>
 		</dependency>
+
+
 
 		<!-- Servlet -->
 		<dependency>
@@ -140,12 +142,13 @@
 					<!-- Most Vaadin apps don't need this stuff, guide that to target -->
 					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
 					<deploy>${project.build.directory}/gwt-deploy</deploy>
-					<!-- Compile report is not typically needed either, saves hunreds of mb disk -->
+					<!-- Compile report is not typically needed either, saves hunreds of 
+						mb disk -->
 					<compileReport>false</compileReport>
 					<noServer>true</noServer>
 					<!-- Remove draftCompile when project is ready -->
 					<draftCompile>false</draftCompile>
-					
+
 					<style>OBF</style>
 					<strict>true</strict>
 					<runTarget>http://localhost:8080/</runTarget>
@@ -175,7 +178,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
