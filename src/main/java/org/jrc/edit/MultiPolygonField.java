@@ -1,80 +1,104 @@
 package org.jrc.edit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.issg.ibis.perspective.shared.TileLayerFactory;
-import org.vaadin.addon.leaflet.LFeatureGroup;
+import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.LeafletLayer;
-import org.vaadin.addon.leaflet.util.AbstractJTSField;
+import org.vaadin.addon.leaflet.LeafletClickEvent;
+import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 public class MultiPolygonField extends CustomField<MultiPolygon> {
 
-	// private List<LPolygon> lPolygons = new ArrayList<LPolygon>();
-	LFeatureGroup lfg = new LFeatureGroup();
-	private Button b = new Button("Edit");
+	private LLayerGroup llg = new LLayerGroup();
+	private LMap map = new LMap();
 
-	private LocationEditWindow lew;
+	private MultiPolygonEditWindow lew;
+	
 
 	public MultiPolygonField() {
+		
+		map.addComponent(llg);
+		map.setWidth("100%");
+		map.setHeight("300px");
+		map.addBaseLayer(TileLayerFactory.getOSM(), "OSM");
+		
 
-		b.addClickListener(new Button.ClickListener() {
+		map.addClickListener(new LeafletClickListener() {
+			
 			@Override
-			public void buttonClick(ClickEvent event) {
+			public void onClick(LeafletClickEvent event) {
 				// issue with state fixed by this
-				lew = new LocationEditWindow();
-				lew.setGeom(getInternalValue());
-				UI.getCurrent().addWindow(lew);
-
-				lew.addCloseListener(new CloseListener() {
-
-					@Override
-					public void windowClose(CloseEvent e) {
-						// TODO Auto-generated method stub
-
-						MultiPolygon mp = lew.getGeom();
-						setInternalValue(mp);
-					}
-				});
+				doEdit();
 
 			}
 		});
 
 	}
+	
+	@Override
+	protected void setInternalValue(MultiPolygon geom) {
+//		for (Component c : polys) {
+//			map.removeComponent(c);
+//		}
+//		polys.clear();
+		llg.removeAllComponents();
 
+		if (geom != null) {
+            for (int i = 0; i < geom.getNumGeometries(); i++) {
+                Polygon polygon = (Polygon) geom.getGeometryN(i);
+                LPolygon lPolygon = JTSUtil.toPolygon(polygon);
+                llg.addComponent(lPolygon);
+                lPolygon.addClickListener(new LeafletClickListener() {
+					
+					@Override
+					public void onClick(LeafletClickEvent event) {
+						doEdit();
+					}
+				});
+
+            }
+//			for (Component c : polys) {
+//				map.addComponent(c);
+//			}
+			map.zoomToExtent(geom);
+		}
+
+		super.setInternalValue(geom);
+	}
 
 	@Override
 	protected Component initContent() {
-		VerticalLayout vl = new VerticalLayout();
-		vl.addComponent(b);
-		// vl.addComponent(map);
-		return vl;
+		return map;
 	}
-
 
 	@Override
 	public Class<MultiPolygon> getType() {
 		return MultiPolygon.class;
+	}
+
+	private void doEdit() {
+		lew = new MultiPolygonEditWindow();
+		lew.setGeom(getInternalValue());
+		UI.getCurrent().addWindow(lew);
+	
+		lew.addCloseListener(new CloseListener() {
+	
+			@Override
+			public void windowClose(CloseEvent e) {
+	
+				MultiPolygon mp = lew.getGeom();
+				setInternalValue(mp);
+			}
+		});
 	}
 
 }

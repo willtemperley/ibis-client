@@ -20,6 +20,7 @@ import org.vaadin.maddon.fields.MValueChangeListener;
 import com.google.common.base.Joiner;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.server.Page;
+import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification;
@@ -281,6 +282,10 @@ public class EditorController<T> {
 		} else {
 			frag = frag + "/" + id;
 		}
+		
+		/*
+		 * avoid firing a UriFragmentChangedEvent with false, else some components will think they're detached.
+		 */
 		currentPage.setUriFragment(frag, false);
 		fgm.setEntity(entity);
 		view.setIsEditing(true);

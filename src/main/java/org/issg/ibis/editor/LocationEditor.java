@@ -68,8 +68,6 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
         
         ff.addQField(loc.geom);
         
-
-
         ec.init(this);
         
 //        LocationSearch2 locationSearch = new LocationSearch2(dao, ec.getContainer());
@@ -83,45 +81,12 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
         vl.addComponent(selector);
         selector.setSizeFull();
         
-//        final LMap map = getMap();
-
-        final LayerViewer map = new LayerViewer();
-        map.setSizeFull();
-        vl.addComponent(map);
-        
-        selector.addMValueChangeListener(new MValueChangeListener<Location>() {
-			
-			@Override
-			public void valueChange(MValueChangeEvent<Location> event) {
-				Location val = event.getValue();
-				
-				if (val ==  null) {
-					return;
-				}
-				val = dao.find(Location.class, val.getId());
-				Geometry g = val.getGeom();
-				if (g!= null) {
-//					map.getMap().addComponent(new LMarker(g.getCentroid()));
-					map.zoomTo(val.getEnvelope());
-				}
-			}
-		});
 
         vl.setSizeFull();
 
         this.setSelectionComponent(vl);
 
     }
-
-//    LMap getMap() {
-//    	
-//    	LMap map = new LMap();
-//		map.setWidth("200px");
-//		map.setHeight("200px");
-//		map.addBaseLayer(TileLayerFactory.getOSM(), "osm");
-//		return map;
-//
-//    }
 
 	@Override
 	public void enter(ViewChangeEvent event) {
