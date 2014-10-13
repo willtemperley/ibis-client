@@ -23,6 +23,7 @@ import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.responsive.Dashboard;
 import org.issg.ibis.responsive.archive.Dash2;
+import org.issg.ibis.upload.UploadView;
 import org.jrc.server.AbstractViewModule;
 import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.uiscope.UIScoped;
@@ -65,6 +66,9 @@ public class ViewModule extends AbstractViewModule {
 	public static final String REFERENCE = "EditReference";
 
 	public static final String USER_EDITOR = "UserEditor";
+	
+	public static final String UPLOAD = "Upload";
+	
 
     @Override
     protected void configure() {
@@ -89,6 +93,7 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(REFERENCE).to(ReferenceEditor.class).in(UIScoped.class);
         
         mapbinder.addBinding(USER_EDITOR).to(UserEditor.class).in(UIScoped.class);
+        mapbinder.addBinding(UPLOAD).to(UploadView.class).in(UIScoped.class);
 
     }
     

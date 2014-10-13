@@ -15,7 +15,7 @@ import org.issg.ibis.domain.QSpeciesLocation;
 import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesLocation;
 import org.issg.ibis.webservices.writers.CsvResultWriter;
-import org.issg.ibis.webservices.writers.ResultSheet;
+import org.issg.ibis.webservices.writers.WritableSheet;
 import org.issg.ibis.webservices.writers.ResultWriter;
 import org.issg.ibis.webservices.writers.XSSFResultWriter;
 import org.slf4j.Logger;
@@ -87,9 +87,9 @@ public class DataServlet extends HttpServlet {
 			return;
 		}
 
-		WorksheetFactory worksheetFactory = new WorksheetFactory();
+		WorksheetWriter worksheetFactory = new WorksheetWriter();
 
-		ResultSheet worksheet = writer.createSheet("SpeciesImpacts");
+		WritableSheet worksheet = writer.createSheet("SpeciesImpacts");
 
 		if (type.equals("Native")) {
 			worksheetFactory.addColumn(speciesimpact.invasiveSpecies);
@@ -104,8 +104,8 @@ public class DataServlet extends HttpServlet {
 	}
 
 	private void writeLocations(Long id, ResultWriter writer) {
-		WorksheetFactory worksheetFactory = new WorksheetFactory();
-		ResultSheet worksheet = writer.createSheet("Locations");
+		WorksheetWriter worksheetFactory = new WorksheetWriter();
+		WritableSheet worksheet = writer.createSheet("Locations");
 		QSpeciesLocation entityPath = QSpeciesLocation.speciesLocation;
 		worksheetFactory.addColumn(entityPath.location);
 		worksheetFactory.addColumn(entityPath.species);
@@ -117,4 +117,6 @@ public class DataServlet extends HttpServlet {
 
 		worksheetFactory.writeSheet(worksheet, results);
 	}
+	
+
 }

@@ -30,65 +30,69 @@ public class Dashboard extends VerticalLayout implements View {
 		setSizeFull();
 
 		setSpacing(true);
-        addStyleName("dash2");
-        Responsive.makeResponsive(this);
+		addStyleName("dash2");
+		Responsive.makeResponsive(this);
 
-        SpeciesSearch2 sIAS = new SpeciesSearch2(dao, Species.INVASIVE);
-        SpeciesSearch2 sNat = new SpeciesSearch2(dao, Species.NATIVE);
+		SpeciesSearch2 sIAS = new SpeciesSearch2(dao, Species.INVASIVE);
+		SpeciesSearch2 sNat = new SpeciesSearch2(dao, Species.NATIVE);
 
-        HtmlLabel c = new HtmlLabel("IBIS aims to provide free and accurate information on the threats to island biodiversity and ecosystems posed by invasive alien species.");
-        c.setWidth("100%");
-        c.setHeight("40px");
+		HtmlLabel c = new HtmlLabel(
+				"IBIS aims to provide free and accurate information on the threats to island biodiversity and ecosystems posed by invasive alien species.");
+		c.setWidth("100%");
+		c.setHeight("40px");
 		addComponent(c);
 		c.addStyleName("home-text");
-		
+
 		HorizontalLayout mainContent = new HorizontalLayout();
 		mainContent.setSizeFull();
 		mainContent.setSpacing(true);
 		addComponent(mainContent);
-		
+
 		setExpandRatio(mainContent, 1);
-		
+
 		VerticalLayout spLayout = new VerticalLayout();
 		spLayout.setSizeFull();
 		spLayout.setSpacing(true);
-		spLayout.addComponent(createPanel(sNat, "Native Species", "native-species"));
-		spLayout.addComponent(createPanel(sIAS, "Invasive Alien Species", "invasive-species"));
+		spLayout.addComponent(createPanel(sNat, "Native Species",
+				"native-species"));
+		spLayout.addComponent(createPanel(sIAS, "Invasive Alien Species",
+				"invasive-species"));
 		mainContent.addComponent(spLayout);
 
-        LocationSearch2 lSearch = new LocationSearch2(dao);
+		LocationSearch2 lSearch = new LocationSearch2(dao);
 		mainContent.addComponent(lSearch);
-		
+
 		lSearch.addMValueChangeListener(new MValueChangeListener<Location>() {
-			
+
 			@Override
 			public void valueChange(MValueChangeEvent<Location> event) {
 				Location val = event.getValue();
 				if (val != null) {
 					Navigator nav = UI.getCurrent().getNavigator();
-					nav.navigateTo(ViewModule.LOCATION_PERSPECTIVE + "/" + val.getId());
+					nav.navigateTo(ViewModule.LOCATION_PERSPECTIVE + "/"
+							+ val.getId());
 				}
 			}
 		});
 
-//        createPanel(getAbout(), "About", "");
-//        createPanel(getPartners(), "Partners", "");
-    }
+		// createPanel(getAbout(), "About", "");
+		// createPanel(getPartners(), "Partners", "");
+	}
 
-
-	Component createPanel(AbstractOrderedLayout content, String caption, String styleName) {
-	    Panel panel = new Panel(caption);
-        panel.addStyleName(styleName);
-	    content.setMargin(true);
-	    panel.setContent(content);
+	Component createPanel(AbstractOrderedLayout content, String caption,
+			String styleName) {
+		Panel panel = new Panel(caption);
+		panel.addStyleName(styleName);
+		content.setMargin(true);
+		panel.setContent(content);
 		panel.setSizeFull();
-//	    addComponent(panel);
-	    return panel;
+		// addComponent(panel);
+		return panel;
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

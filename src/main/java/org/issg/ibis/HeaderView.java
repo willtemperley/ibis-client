@@ -9,6 +9,7 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
+import org.issg.ibis.domain.SpeciesImpact;
 import org.vaadin.addons.auth.domain.Role;
 
 import com.google.inject.Inject;
@@ -58,6 +59,10 @@ public class HeaderView extends HorizontalLayout implements View {
         AdminMenu adminMenu = new AdminMenu(roleManager);
         adminMenu.addAdminItem(Species.class, "Species", ViewModule.SPECIES_EDITOR);
         adminMenu.addAdminItem(Location.class, "Location", ViewModule.LOCATION_EDITOR);
+
+        //Can upload species impact in this case
+        adminMenu.addAdminItem(SpeciesImpact.class, "Upload", ViewModule.UPLOAD);
+
         adminMenu.addAdminItem(Role.class, "Users", ViewModule.USER_EDITOR);
         
         MenuItem x = adminMenu.getRootItem().addItem("Lookup tables", null);

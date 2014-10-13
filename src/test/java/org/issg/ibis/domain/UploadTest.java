@@ -3,6 +3,7 @@ package org.issg.ibis.domain;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -12,10 +13,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.issg.ibis.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
-import org.issg.upload.ReferenceUploadParser;
-import org.issg.upload.SpeciesImpactUploadParser;
-import org.issg.upload.SpeciesLocationUploadParser;
-import org.issg.upload.SpeciesUploadParser;
+import org.issg.ibis.upload.ReferenceUploadParser;
+import org.issg.ibis.upload.SpeciesImpactUploadParser;
+import org.issg.ibis.upload.SpeciesLocationUploadParser;
+import org.issg.ibis.upload.SpeciesUploadParser;
 import org.jrc.edit.Dao;
 import org.junit.Assert;
 import org.junit.Before;

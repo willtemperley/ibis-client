@@ -21,8 +21,7 @@ public class MultiPolygonField extends CustomField<MultiPolygon> {
 	private LLayerGroup llg = new LLayerGroup();
 	private LMap map = new LMap();
 
-	private MultiPolygonEditWindow lew;
-	
+	private MultiPolygonEditWindow editorWindow;
 
 	public MultiPolygonField() {
 		
@@ -46,10 +45,7 @@ public class MultiPolygonField extends CustomField<MultiPolygon> {
 	
 	@Override
 	protected void setInternalValue(MultiPolygon geom) {
-//		for (Component c : polys) {
-//			map.removeComponent(c);
-//		}
-//		polys.clear();
+
 		llg.removeAllComponents();
 
 		if (geom != null) {
@@ -66,9 +62,6 @@ public class MultiPolygonField extends CustomField<MultiPolygon> {
 				});
 
             }
-//			for (Component c : polys) {
-//				map.addComponent(c);
-//			}
 			map.zoomToExtent(geom);
 		}
 
@@ -86,16 +79,16 @@ public class MultiPolygonField extends CustomField<MultiPolygon> {
 	}
 
 	private void doEdit() {
-		lew = new MultiPolygonEditWindow();
-		lew.setGeom(getInternalValue());
-		UI.getCurrent().addWindow(lew);
+		editorWindow = new MultiPolygonEditWindow();
+		editorWindow.setGeom(getInternalValue());
+		UI.getCurrent().addWindow(editorWindow);
 	
-		lew.addCloseListener(new CloseListener() {
+		editorWindow.addCloseListener(new CloseListener() {
 	
 			@Override
 			public void windowClose(CloseEvent e) {
 	
-				MultiPolygon mp = lew.getGeom();
+				MultiPolygon mp = editorWindow.getGeom();
 				setInternalValue(mp);
 			}
 		});

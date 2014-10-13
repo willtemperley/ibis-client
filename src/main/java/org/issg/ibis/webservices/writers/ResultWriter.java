@@ -5,7 +5,7 @@ import javax.servlet.ServletOutputStream;
 
 public interface ResultWriter {
 
-	ResultSheet createSheet(String string);
+	WritableSheet createSheet(String string);
 
 	void write(ServletOutputStream out);
 

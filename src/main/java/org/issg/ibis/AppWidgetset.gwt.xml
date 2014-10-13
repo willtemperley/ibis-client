@@ -15,7 +15,11 @@
     <inherits name="com.vaadin.DefaultWidgetSet" />
     <set-configuration-property name="devModeRedirectEnabled" value="false" />
 	
+    <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
+
+    <inherits name="org.issg.ibis.M_AppWidgetset" />
      --> 
     
+
 
 </module>

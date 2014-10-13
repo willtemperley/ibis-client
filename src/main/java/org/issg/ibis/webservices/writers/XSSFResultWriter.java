@@ -16,7 +16,7 @@ public class XSSFResultWriter implements ResultWriter {
 	}
 
 	@Override
-	public ResultSheet createSheet(String string) {
+	public WritableSheet createSheet(String string) {
 		XSSFSheet s = workbook.createSheet(string);
 		return new XSSFResultSheet(s);
 	}

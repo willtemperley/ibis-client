@@ -19,7 +19,7 @@ public class CsvResultWriter implements ResultWriter {
 	Map<String, File> files = new HashMap<String, File>();
 
 	@Override
-	public ResultSheet createSheet(String string) {
+	public WritableSheet createSheet(String string) {
 		try {
 			File temp = File.createTempFile("temp", ".csv");
 			files.put(string + ".csv", temp);

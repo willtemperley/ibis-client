@@ -3,6 +3,7 @@ package org.issg.ibis.perspective.shared;
 
 import org.vaadin.addons.lec.EntityTable;
 
+import com.vaadin.server.Scrollable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;

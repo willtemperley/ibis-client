@@ -46,10 +46,10 @@
 			<version>0.2.0-SNAPSHOT</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>com.vaadin.addon</groupId> <artifactId>vaadin-touchkit-agpl</artifactId> 
-			<version>4.0.0.beta1</version> <exclusions> <exclusion> <groupId>com.vaadin</groupId> 
+		<dependency> <groupId>com.vaadin.addon</groupId> <artifactId>vaadin-touchkit-agpl</artifactId> 
+			<version>4.0.0</version> <exclusions> <exclusion> <groupId>com.vaadin</groupId> 
 			<artifactId>vaadin-server</artifactId> </exclusion> <exclusion> <groupId>com.vaadin</groupId> 
-			<artifactId>vaadin-themes</artifactId> </exclusion> </exclusions> </dependency> -->
+			<artifactId>vaadin-themes</artifactId> </exclusion> </exclusions> </dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>

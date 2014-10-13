@@ -20,6 +20,7 @@ import org.vaadin.maddon.fields.MValueChangeListener;
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.ui.MultiSelectMode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.UI;
@@ -74,7 +75,7 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 
         AbstractSelector<Location> selector = new AbstractSelector<Location>(dao, QLocation.location, ec.getContainer());
 		selector.addColumns("name", "locationType");
-
+		
         ec.setSelectionComponent(selector);
 
         VerticalLayout vl = new VerticalLayout();
@@ -93,7 +94,7 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 		String s = event.getParameters();
 
 		if (!ec.hasReadPermission()) {
-			throw new RuntimeException("Unauthorized access.");
+			UI.getCurrent().getNavigator().navigateTo("");
 		}
 
 		if (!s.isEmpty()) {

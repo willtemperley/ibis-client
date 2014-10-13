@@ -5,9 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.google.common.base.Joiner;
 
-public class CsvResultSheet implements ResultSheet{
+public class CsvResultSheet implements WritableSheet{
 
 	private FileWriter fw;
 
@@ -37,6 +39,11 @@ public class CsvResultSheet implements ResultSheet{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void setFirstRow(int firstRow) {
+		throw new NotImplementedException("");
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.webservices.DataServlet;
+import org.issg.ibis.webservices.UploadDataServlet;
 import org.vaadin.addons.guice.servlet.VGuiceApplicationServlet;
 import org.vaadin.addons.oauth.OAuthCredentials;
 import org.vaadin.addons.oauth.OAuthManager;
@@ -46,6 +47,7 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
 		filter("/*").through(PersistFilter.class);
 
 		serve("/download/*").with(DataServlet.class);
+		serve("/template/*").with(UploadDataServlet.class);
 
 		/*
 		 * Main application servlet

@@ -48,5 +48,4 @@ public class IbisUI extends ScopedUI {
 		}
 
 	}
-
 }
