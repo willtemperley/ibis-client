@@ -8,7 +8,9 @@ import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
 
+import com.mysema.query.types.Path;
 import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.StringPath;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
@@ -39,8 +41,17 @@ public  class BasicTwinPanelEditor<T> extends TwinPanelEditorView<T> implements 
 		}
 	}
 
-	protected void build(EntityPathBase<T> ebp) {
+	protected void build(EntityPathBase<T> ebp, Path<?> ... firstName) {
+
         selector = new AbstractSelector<T>(dao, ebp, ec.getContainer());
+        
+        Object[] visibleColumns = new Object[firstName.length];
+        for (int i = 0; i < firstName.length; i++) {
+        	visibleColumns[i] = firstName[i].getMetadata().getName();
+		}
+
+        selector.setVisibleColumns(visibleColumns);
+
         ec.setSelectionComponent(selector);
         this.setSelectionComponent(selector);
 		ec.init(this);

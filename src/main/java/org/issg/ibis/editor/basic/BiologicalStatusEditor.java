@@ -18,7 +18,7 @@ public class BiologicalStatusEditor extends BasicTwinPanelEditor<BiologicalStatu
 		ff.addQField(entityPath.label);
 		ff.addQField(entityPath.isInvasive);
 
-        build(entityPath);
+        build(entityPath, entityPath.label);
     }
 
 }

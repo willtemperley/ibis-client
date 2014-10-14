@@ -17,6 +17,9 @@ public class UserEditor extends BasicTwinPanelEditor<Role> {
 
     	QRole entityPath = QRole.role;
 
+		ff.addQField(entityPath.groups);
+		ff.addQField(entityPath.permissions);
+
 		ff.addQField(entityPath.lastName);
 		ff.addQField(entityPath.firstName);
 
@@ -24,10 +27,8 @@ public class UserEditor extends BasicTwinPanelEditor<Role> {
 		ff.addQField(entityPath.isSuperUser);
 		ff.addQField(entityPath.email);
 
-		ff.addQField(entityPath.groups);
-		ff.addQField(entityPath.permissions);
 
-        build(entityPath);
+        build(entityPath, entityPath.firstName, entityPath.email);
     }
 
 }
