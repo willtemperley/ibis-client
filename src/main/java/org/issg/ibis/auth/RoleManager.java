@@ -48,9 +48,8 @@ public class RoleManager implements OAuthSubject {
 
         this.anonymousRole = new Role();
         
-        role = anonymousRole;
+        setRole(anonymousRole);
 
-        stringPermissions = role.getStringPermissions();
 
         allActions = new HashSet<Action>(Arrays.asList(Action.values()));
         
@@ -64,10 +63,10 @@ public class RoleManager implements OAuthSubject {
      * @return
      */
     public Set<Action> getActionsForTarget(Class<?> clazz) {
-    	if (prodMode.equals("false"))
-            return allActions;
+//    	if (prodMode.equals("false"))
+//            return allActions;
     	
-        if (role.getIsSuperUser()) {
+        if (getRole().getIsSuperUser()) {
             return allActions;
         }
         
@@ -98,7 +97,7 @@ public class RoleManager implements OAuthSubject {
             return false;
         }
 
-        return entity.getRole().equals(role);
+        return entity.getRole().equals(getRole());
     }
 
 
@@ -106,17 +105,17 @@ public class RoleManager implements OAuthSubject {
      * Sets the user to be anonymous and returns to beginning
      */
     public void logout() {
-        role = anonymousRole;
+        setRole(anonymousRole);
     }
 
 	@Override
 	public String getEmail() {
-		return role.getEmail();
+		return getRole().getEmail();
 	}
 
 	@Override
 	public Long getUserPrincipal() {
-		return role.getId();
+		return getRole().getId();
 	}
 
 	@Override
@@ -131,7 +130,7 @@ public class RoleManager implements OAuthSubject {
 
 		Role r = dao.findByQProxyId(QRole.role, QRole.role.email, userInfo.getEmail());
 		if (r != null) {
-			role = r;
+			setRole(r);
 		} else {
 //			createAccount!
 			//Can we just manage with the email and nothing else?
@@ -140,17 +139,27 @@ public class RoleManager implements OAuthSubject {
 			newRole.setFirstName(userInfo.getGivenName());
 			newRole.setLastName(userInfo.getFamilyName());
 			dao.persist(newRole);	
-			role = newRole;
+			setRole(newRole);
 		}
 		
 	}
+	
 	
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
 
 	public boolean isLoggedIn() {
-		return role.getId() != null && role.getId() > 0;
+		return getRole().getId() != null && getRole().getId() > 0;
+	}
+
+	private Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+        stringPermissions = role.getStringPermissions();
 	}
 
 }

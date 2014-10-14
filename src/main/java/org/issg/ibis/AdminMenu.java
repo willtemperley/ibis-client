@@ -35,7 +35,7 @@ public class AdminMenu extends MenuBar {
 	}
 
 	public MenuItem addAdminItem(MenuItem parentItem, Class<?> clazz, String caption, final String location) {
-		if (roleManager.getActionsForTarget(clazz).contains(Action.UPDATE)) {
+		if (roleManager.getActionsForTarget(clazz).contains(Action.READ)) {
 			hasItems = true;
 			return parentItem.addItem(caption, new Command() {
 				@Override

@@ -54,6 +54,8 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
         ff.addQField(loc.country);
         ff.addQField(loc.locationType);
 
+        ff.addQField(loc.geom);
+
         ff.addQField(loc.islandGroup);
 
         ff.addQField(loc.latitude);
@@ -67,7 +69,6 @@ public class LocationEditor extends TwinPanelEditorView<Location> implements Vie
 
         ff.addQTextArea(loc.comments);
         
-        ff.addQField(loc.geom);
         
         ec.init(this);
         
