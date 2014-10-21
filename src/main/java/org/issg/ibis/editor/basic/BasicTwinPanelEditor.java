@@ -1,5 +1,6 @@
 package org.issg.ibis.editor.basic;
 
+import org.issg.ibis.ViewModule;
 import org.issg.ibis.auth.RoleManager;
 import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.editor.selector.AbstractSelector;
@@ -13,6 +14,7 @@ import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.StringPath;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.UI;
 
 public  class BasicTwinPanelEditor<T> extends TwinPanelEditorView<T> implements View {
 	
@@ -32,7 +34,8 @@ public  class BasicTwinPanelEditor<T> extends TwinPanelEditorView<T> implements 
 		String s = event.getParameters();
 
 		if (!ec.hasReadPermission()) {
-			throw new RuntimeException("Unauthorized access.");
+			UI.getCurrent().getNavigator().navigateTo(ViewModule.UNAUTHORIZED);
+			return;
 		}
 
 		if (!s.isEmpty()) {

@@ -79,7 +79,6 @@ public class EditorController<T> {
 
 	}
 
-
 	public ListContainer<T> getContainer() {
 		return container;
 	}

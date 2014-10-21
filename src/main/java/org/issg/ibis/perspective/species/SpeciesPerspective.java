@@ -10,6 +10,7 @@ import org.issg.ibis.domain.SpeciesImpact;
 import org.issg.ibis.domain.SpeciesLocation;
 import org.issg.ibis.domain.adapter.SpeciesImpactAdapter;
 import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
+import org.issg.ibis.domain.view.SpeciesExtent;
 import org.issg.ibis.perspective.shared.TwinPanelPerspective;
 import org.issg.ibis.webservices.ArkiveV1Search;
 import org.jrc.edit.Dao;
@@ -25,6 +26,7 @@ import com.google.inject.name.Named;
 import com.vaadin.data.Property;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vividsolutions.jts.geom.Point;
@@ -129,7 +131,6 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 	public void enter(ViewChangeEvent event) {
 
 		String params = event.getParameters();
-
 		setSpeciesId(params);
 	}
 
@@ -137,20 +138,24 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		Long id = Long.valueOf(params);
 
 		Species species = dao.find(Species.class, id);
+		SpeciesExtent se = dao.find(SpeciesExtent.class, id);
 
 		if (species == null) {
 			Notification.show("Could not find species: " + id);
 			return;
 		}
 		
+		Page.getCurrent().setTitle(species.toString());
+		
+		
 		setStyles(species.getIsInvasive());
 
 		if (species.getIsInvasive()) {
 			impactTab.setCaption("Native species impacts");
-			speciesImpactTable.setColumnHeader("name", "Native Species");
+			speciesImpactTable.setColumnHeader("name", "Native species");
 		} else {
-			impactTab.setCaption("Invasive species impacts");
-			speciesImpactTable.setColumnHeader("name", "Invasive Species");
+			impactTab.setCaption("Invasive alien species impacts");
+			speciesImpactTable.setColumnHeader("name", "Invasive alien species");
 		}
 
 		exporter.setResourceId(species.getId());
@@ -184,11 +189,11 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 		for (SpeciesLocation sl : speciesLocations) {
 			locationSet.add(sl.getLocation());
 		}
-		int lCount = 0;
+		
+		
 		for (Location location : locationSet) {
 			Point point = location.getCentroid();
 			if (point != null) {
-				lCount++;
 				LMarker lMarker = new LMarker(point);
 				lMarker.setPopup(location.getName());
 				mapClusterGroup.addComponent(lMarker);
@@ -197,8 +202,8 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 
 		// legend.descr.setValue(lCount + " georeferenced locations shown.");
 
-		if (lCount > 0) {
-			getMap().getMap().zoomToContent(mapClusterGroup);
+		if (se.getEnvelope() != null) {
+			getMap().zoomTo(se.getEnvelope());
 		}
 
 	}

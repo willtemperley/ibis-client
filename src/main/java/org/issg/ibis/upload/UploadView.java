@@ -1,5 +1,10 @@
 package org.issg.ibis.upload;
 
+import java.util.Set;
+
+import org.issg.ibis.ViewModule;
+import org.issg.ibis.auth.RoleManager;
+import org.issg.ibis.auth.RoleManager.Action;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.perspective.shared.ExportLink;
 import org.issg.ibis.perspective.shared.ExportLink.ExportType;
@@ -14,17 +19,20 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class UploadView extends HorizontalLayout implements View {
 
 	private Dao dao;
 	private ExportLink el = new ExportLink(ExportType.XLSX);
+	private RoleManager roleManager;
 
 	@Inject
-	public UploadView(final Dao dao) {
+	public UploadView(final Dao dao, RoleManager roleManager) {
 
 		this.dao = dao;
+		this.roleManager = roleManager;
 
 		setSizeFull();
 		setSpacing(true);
@@ -32,13 +40,15 @@ public class UploadView extends HorizontalLayout implements View {
 		el.setBaseURL("/ibis-client/template/country/");
 		el.setVisible(false);
 
-		Panel p = new Panel();
-		p.setSizeFull();
-		p.setCaption("Upload");
 
 		SpeciesImpactUploader siUploader = new SpeciesImpactUploader(dao);
-		p.setContent(siUploader);
-		addComponent(p);
+		siUploader.setSizeFull();
+		addComponent(siUploader);
+		
+		SpeciesLocationUploader slUploader = new SpeciesLocationUploader(dao);
+		slUploader.setSizeFull();
+		addComponent(slUploader);
+		
 
 		Panel templatePanel = new Panel("");
 		templatePanel.setSizeFull();
@@ -75,6 +85,10 @@ public class UploadView extends HorizontalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		
+		if (! roleManager.checkAction(UploadView.class, Action.READ)) {
+			UI.getCurrent().getNavigator().navigateTo(ViewModule.UNAUTHORIZED);
+		}
 
 	}
 

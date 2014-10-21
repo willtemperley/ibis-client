@@ -14,9 +14,9 @@ import org.json.JSONObject;
  */
 public class GbifApi09 extends BaseJsonClient {
 
-    private static String REDLIST_URL_TEMPLATE = "http://api.gbif.org/v0.9/species?datasetKey=19491596-35ae-4a91-9a98-85cf505f1bd3&sourceId=%s";
+    private static String REDLIST_URL_TEMPLATE = "http://api.gbif.org/v1/species?datasetKey=19491596-35ae-4a91-9a98-85cf505f1bd3&sourceId=%s";
 
-    private static String OCCURRENCE_URL_TEMPLATE = "http://api.gbif.org/v0.9/species/%s";
+    private static String OCCURRENCE_URL_TEMPLATE = "http://api.gbif.org/v1/species/%s";
 
     public static void populateSpeciesFromGbifUri(Species species) {
 

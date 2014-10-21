@@ -83,6 +83,9 @@ public class RoleManager implements OAuthSubject {
         
     }
 
+    public boolean checkAction(Class<?> clazz, Action action) {
+    	return getActionsForTarget(clazz).contains(action);
+    }
     
 
     /**

@@ -21,6 +21,7 @@ import org.jrc.ui.HtmlHeader;
 import com.google.common.io.Files;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 
@@ -35,7 +36,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author will
  * 
  */
-public abstract class AbstractUploader extends CustomComponent implements
+public abstract class AbstractUploader extends Panel implements
         Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
 
     private VerticalLayout root;
@@ -47,6 +48,8 @@ public abstract class AbstractUploader extends CustomComponent implements
     protected Dao dao;
 
     private ProcessingCompleteListener processingCompleteListener;
+
+	private Panel p;
 
     /**
      * Used to capture completed processing jobs
@@ -73,6 +76,7 @@ public abstract class AbstractUploader extends CustomComponent implements
         public void processingComplete(ProcessingCompleteEvent p);
 
     }
+    
 
     public AbstractUploader(Dao dao, String title) {
 
@@ -80,10 +84,11 @@ public abstract class AbstractUploader extends CustomComponent implements
 
         root = new VerticalLayout();
 
-        setCompositionRoot(root);
+        setCaption(title);
+        setContent(root);
 
-        HtmlHeader panelHead = new HtmlHeader(title);
-        root.addComponent(panelHead);
+//        HtmlHeader panelHead = new HtmlHeader(title);
+//        root.addComponent(panelHead);
         
         /*
          * Build upload component, giving it this class as a listener

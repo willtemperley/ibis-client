@@ -21,6 +21,7 @@ import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Notification;
 import com.vividsolutions.jts.geom.Polygon;
@@ -103,10 +104,13 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 
 		Location loc = dao.find(Location.class, id);
 
+
 		if (loc == null) {
 			Notification.show("Could not find location.");
 			return;
 		}
+
+		Page.getCurrent().setTitle(loc.getName());
 
 		getMap().zoomTo(loc.getEnvelope());
 

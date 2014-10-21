@@ -2,14 +2,8 @@ package org.issg.ibis;
 
 import java.util.Map;
 
-import org.issg.ibis.domain.BiologicalStatus;
-import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.Country;
-import org.issg.ibis.domain.ImpactMechanism;
-import org.issg.ibis.domain.ImpactOutcome;
-import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.editor.SpeciesSummaryEditor;
 import org.issg.ibis.editor.LocationEditor;
 import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.editor.auth.UserEditor;
@@ -22,6 +16,7 @@ import org.issg.ibis.editor.basic.ReferenceEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.responsive.Dashboard;
+import org.issg.ibis.responsive.UnauthorizedView;
 import org.issg.ibis.responsive.archive.Dash2;
 import org.issg.ibis.upload.UploadView;
 import org.jrc.server.AbstractViewModule;
@@ -68,7 +63,7 @@ public class ViewModule extends AbstractViewModule {
 	public static final String USER_EDITOR = "UserEditor";
 	
 	public static final String UPLOAD = "Upload";
-	
+	public static final String UNAUTHORIZED = "Unauthorized"; 
 
     @Override
     protected void configure() {
@@ -77,9 +72,10 @@ public class ViewModule extends AbstractViewModule {
         
         mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class);//.in(UIScoped.class);;
         mapbinder.addBinding("OLD"+GuicedViewProvider.HOME).to(Dash2.class).in(UIScoped.class);;
+        mapbinder.addBinding(UNAUTHORIZED).to(UnauthorizedView.class).in(UIScoped.class);;
         
-        mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class).in(UIScoped.class);
-        mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class).in(UIScoped.class);
+        mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
+        mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
 
 
         mapbinder.addBinding(LOCATION_EDITOR).to(LocationEditor.class).in(UIScoped.class);
