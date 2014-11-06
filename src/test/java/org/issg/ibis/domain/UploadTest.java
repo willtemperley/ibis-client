@@ -10,6 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.biopama.IbisUIBiopama;
 import org.issg.ibis.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
@@ -25,7 +26,7 @@ import com.google.inject.Injector;
 
 public class UploadTest {
 
-    private Injector injector = TestResourceFactory.getInjector(IbisUI.class);
+    private Injector injector = TestResourceFactory.getInjector(IbisUIBiopama.class);
     // private EntityManagerFactory emf = injector
     // .getInstance(EntityManagerFactory.class);
     private Workbook workbookGood;

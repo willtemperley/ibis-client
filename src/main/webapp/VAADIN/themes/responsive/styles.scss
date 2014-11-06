@@ -1,14 +1,40 @@
 @import "addons.scss";
 @import "responsive.scss";
 @import "ibis.scss";
+@import "biopama.scss";
 
 /* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
 /* The actual styles should be defined in responsive_tutorial.scss */
 
 $default-spacing: 20px;
 
+//$location-blue: rgb(46,112,215);
+//$native-green: #40b527;
+//$invasive-orange: rgb(233, 127, 2);
+$redlist-red: #D81E05;
+$header-grey: #656565;
+
+$location-blue: #649ab2;
+$biopama-blue: #649ab2;
+
+$native-green: #99cb99;
+$biopama-green: #99cb99;
+
+$invasive-orange: #a25a28;
+$biopama-orange: #a25a28;
+
 .responsive {
+
   @include addons;
   @include responsive;
   @include ibis;
+  @include biopama;
+	.v-menubar-menuitem {
+	
+		width: 200px;
+	}
+	.v-menubar-menuitem-caption {
+		color: white;
+	}
+
 }

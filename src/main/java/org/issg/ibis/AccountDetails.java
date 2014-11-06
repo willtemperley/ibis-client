@@ -7,7 +7,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
-class AccountDetails extends Button {
+public class AccountDetails extends Button {
 
 	private AccountOptionWindow authenticationOptions;
 

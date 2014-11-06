@@ -52,7 +52,7 @@ public class IBISGuiceServletModule extends AbstractGuiceServletModule {
 		/*
 		 * Main application servlet
 		 */
-		serve("/*").with(VGuiceApplicationServlet.class, getServletParams());
+		serve("/*").with(IBISApplicationServlet.class, getServletParams());
 
 	}
 

@@ -1,0 +1,55 @@
+
+/*
+* Adding the visual identity to IBIS
+*/
+
+@mixin biopama {
+
+
+	.banner {
+		
+		div {
+		
+			.ibis-text {
+				font-size: 20px;
+				font-weight: 300;
+				padding-bottom: 5px;
+				padding-top: 5px;
+			}
+			
+			.bio-text {
+				padding-bottom: 5px;
+				padding-top: 5px;
+				color: $biopama-green;
+			}
+			.inv-text {
+				padding-bottom: 5px;
+				padding-top: 5px;
+				color: $biopama-orange;
+			}
+			
+			.ibis {
+				font-size: 22px;
+				padding-bottom: 5px;
+				padding-top: 5px;
+				font-weight: 500;
+				color: $native-green;
+				text-transform: uppercase;
+				border: 0px !important;
+				color: $biopama-blue;
+			}
+			
+		}
+	
+	}
+	
+   .home {
+    	background: url("img/biopama-bg.png") no-repeat bottom center scroll transparent;
+    	background-color: $biopama-blue;
+
+	   .content {
+		  background: rgba(255,255,255,0.6);
+	   }
+	}
+
+}

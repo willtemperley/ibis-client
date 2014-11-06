@@ -1,4 +1,4 @@
-package org.issg.ibis;
+package org.biopama;
 
 import org.jrc.edit.Dao;
 import org.jrc.server.GuicedViewProvider;
@@ -14,15 +14,16 @@ import com.vaadin.ui.VerticalLayout;
 //@Theme("ibis")
 //@Theme("touchkit")
 @Theme("responsive")
-public class IbisUI extends ScopedUI {
+public class IbisUIBiopama extends ScopedUI {
 
 	Dao dao;
 	MenuLayout root = new MenuLayout();
 	private VerticalLayout rootLayout = new VerticalLayout();
-	private HeaderView headerView;
+	private HeaderViewB headerView;
 
 	@Inject
-	public IbisUI(GuicedViewProvider viewProvider, HeaderView headerView) {
+	public IbisUIBiopama(GuicedViewProvider viewProvider, HeaderViewB headerView) {
+		System.out.println("Header");
 		this.headerView = headerView;
 		Navigator nav = new Navigator(this, root);
 		nav.addProvider(viewProvider);

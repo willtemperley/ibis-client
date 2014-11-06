@@ -2,6 +2,7 @@ package org.issg.ibis;
 
 import java.util.Map;
 
+import org.biopama.Home;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.editor.LocationEditor;
@@ -73,10 +74,11 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class);//.in(UIScoped.class);;
         mapbinder.addBinding("OLD"+GuicedViewProvider.HOME).to(Dash2.class).in(UIScoped.class);;
         mapbinder.addBinding(UNAUTHORIZED).to(UnauthorizedView.class).in(UIScoped.class);;
+
+        mapbinder.addBinding("NewHome").to(Home.class).in(UIScoped.class);;
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
-
 
         mapbinder.addBinding(LOCATION_EDITOR).to(LocationEditor.class).in(UIScoped.class);
         mapbinder.addBinding(SPECIES_EDITOR).to(SpeciesEditor.class).in(UIScoped.class);
