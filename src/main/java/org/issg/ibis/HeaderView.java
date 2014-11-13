@@ -1,15 +1,7 @@
 package org.issg.ibis;
 
 import org.issg.ibis.auth.RoleManager;
-import org.issg.ibis.domain.BiologicalStatus;
-import org.issg.ibis.domain.ConservationClassification;
-import org.issg.ibis.domain.ImpactMechanism;
-import org.issg.ibis.domain.ImpactOutcome;
-import org.issg.ibis.domain.Location;
-import org.issg.ibis.domain.OrganismType;
-import org.issg.ibis.domain.Reference;
-import org.issg.ibis.domain.Species;
-import org.issg.ibis.domain.SpeciesImpact;
+import org.issg.ibis.domain.*;
 import org.vaadin.addons.auth.domain.Role;
 
 import com.google.inject.Inject;
@@ -72,6 +64,7 @@ public class HeaderView extends HorizontalLayout implements View {
         adminMenu.addAdminItem(x, ImpactOutcome.class, "Impact Outcome", ViewModule.IMPACT_OUTCOME);
         adminMenu.addAdminItem(x, OrganismType.class, "Organism Type", ViewModule.ORGANISM_TYPE);
         adminMenu.addAdminItem(x, Reference.class, "Reference", ViewModule.REFERENCE);
+        adminMenu.addAdminItem(x, SiteContent.class, "SiteContent", ViewModule.SITECONTENT_EDITOR);
 
 
         if (adminMenu.hasItems()) {

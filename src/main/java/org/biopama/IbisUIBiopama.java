@@ -54,7 +54,7 @@ public class IbisUIBiopama extends ScopedUI {
 		rootLayout.setExpandRatio(contentRoot, 1);
 
 		/* The contentRoot has the content */
-		contentRoot.addStyleName("content");
+//		contentRoot.addStyleName("content");
 
 	}
 

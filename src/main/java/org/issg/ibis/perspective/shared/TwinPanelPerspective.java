@@ -27,7 +27,8 @@ public class TwinPanelPerspective extends HorizontalLayout {
 	
 
     public TwinPanelPerspective() {
-    	
+
+		addStyleName("content");
         setSizeFull();
         setSpacing(true);
         

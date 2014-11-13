@@ -23,6 +23,7 @@ public class Search extends VerticalLayout implements View {
 	@Inject
 	public Search(Dao dao) {
 		setSizeFull();
+		addStyleName("content");
 
 		setSpacing(true);
 		setMargin(true);

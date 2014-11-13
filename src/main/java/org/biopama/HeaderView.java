@@ -62,7 +62,7 @@ public class HeaderView extends HorizontalLayout implements View {
         mb.addItem("ABOUT", new MenuBar.Command() {
             @Override
             public void menuSelected(MenuItem selectedItem) {
-                UI.getCurrent().getNavigator().navigateTo(ViewModule.SEARCH);
+                UI.getCurrent().getNavigator().navigateTo(ViewModule.ABOUT);
             }
         });
         mb.addItem("SEARCH", new MenuBar.Command() {

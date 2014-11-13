@@ -10,6 +10,11 @@
     font-size: 18px;
   }
 
+  .search-button {
+    @include valo-button-style($background-color: #ffffff);
+    color: $biopama-blue;
+  }
+
   .v-spacing {
     height: $default-spacing;
     width: $default-spacing;
@@ -177,10 +182,6 @@
     }
   }
 
-  .home-middle {
-    background-color: #fafafa;
-    padding: 0 40px 0 40px;
-  }
 
   .logo-container {
     padding: 0 40px 0 40px;

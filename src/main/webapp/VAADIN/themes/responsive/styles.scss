@@ -54,6 +54,10 @@ $biopama-orange: #a25a28;
 
 }
 
+@mixin partner-logo() {
+
+}
+
 .responsive {
 
   @include addons;
@@ -83,6 +87,19 @@ $biopama-orange: #a25a28;
 
     background-color: #fafafa;
 
+
+    .v-menubar-menuitem {
+      padding-top: 5px;
+    }
+
+    .v-menubar-menuitem-caption {
+      color: $biopama-blue;
+    }
+
+    .v-button {
+      margin-top: 5px;
+    }
+
     div {
       .ibis-text {
         font-size: 20px;
@@ -95,7 +112,6 @@ $biopama-orange: #a25a28;
       .ibis {
         font-size: 22px;
         padding-bottom: 5px;
-        padding-top: 5px;
         font-weight: 500;
         text-transform: uppercase;
         border: 0 !important;
@@ -146,23 +162,52 @@ $biopama-orange: #a25a28;
     width: 66px;
     height: 61px;
     background-image: url(img/issg-logo.gif);
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .iucn-logo {
     width: 66px;
     height: 61px;
     background-image: url(img/iucn.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .ec-logo {
     width: 66px;
     height: 61px;
     background-image: url(img/ec2.png);
+    background-position: center;
     background-repeat: no-repeat;
   }
 
   .big-home-logo {
     text-align: center;
     font-size: 34px;
+    padding-top: 40px;
   }
+
+  .v-scrollable .simple-html-label {
+      overflow: auto;
+  }
+
+  .ibis-logo {
+    color: $biopama-blue;
+    font-weight: 400;
+  }
+
+
+  .home-middle {
+    border-top: 1px solid $header-grey;
+    padding: 40px;
+    font-size: 22px;
+    color: #ffffff;
+
+    //  .home-middle {
+    //    background-color: #fafafa;
+    //    padding: 0 40px 0 40px;
+    //  }
+  }
+
 }

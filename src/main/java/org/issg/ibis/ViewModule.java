@@ -2,6 +2,7 @@ package org.issg.ibis;
 
 import java.util.Map;
 
+import org.biopama.About;
 import org.biopama.search.Search;
 import org.biopama.Home;
 import org.issg.ibis.domain.Country;
@@ -9,12 +10,7 @@ import org.issg.ibis.domain.Species;
 import org.issg.ibis.editor.LocationEditor;
 import org.issg.ibis.editor.SpeciesEditor;
 import org.issg.ibis.editor.auth.UserEditor;
-import org.issg.ibis.editor.basic.BiologicalStatusEditor;
-import org.issg.ibis.editor.basic.ConservationClassificationEditor;
-import org.issg.ibis.editor.basic.ImpactMechanismEditor;
-import org.issg.ibis.editor.basic.ImpactOutcomeEditor;
-import org.issg.ibis.editor.basic.OrganismTypeEditor;
-import org.issg.ibis.editor.basic.ReferenceEditor;
+import org.issg.ibis.editor.basic.*;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
 import org.issg.ibis.responsive.UnauthorizedView;
@@ -58,13 +54,15 @@ public class ViewModule extends AbstractViewModule {
 	public static final String IMPACT_MECHANISM = "EditImpactMechanism";
 	public static final String IMPACT_OUTCOME = "EditImpactOutcome";
 	public static final String ORGANISM_TYPE = "EditOrganismType";
+    public static final String SITECONTENT_EDITOR = "EditSiteContent";
 	public static final String REFERENCE = "EditReference";
 
 	public static final String USER_EDITOR = "UserEditor";
 	
 	public static final String UPLOAD = "Upload";
 	public static final String UNAUTHORIZED = "Unauthorized";
-	public static final String SEARCH = "Search"; 
+	public static final String SEARCH = "Search";
+    public static final String ABOUT = "About";
 
     @Override
     protected void configure() {
@@ -73,13 +71,11 @@ public class ViewModule extends AbstractViewModule {
         
         mapbinder.addBinding(GuicedViewProvider.HOME).to(Home.class);//.in(UIScoped.class);;
         mapbinder.addBinding(SEARCH).to(Search.class);//.in(UIScoped.class);;
+        mapbinder.addBinding(ABOUT).to(About.class);//.in(UIScoped.class);;
 
-//        mapbinder.addBinding("OLD"+GuicedViewProvider.HOME).to(Dash2.class).in(UIScoped.class);;
 
         mapbinder.addBinding(UNAUTHORIZED).to(UnauthorizedView.class).in(UIScoped.class);;
 
-//        mapbinder.addBinding("NewHome").to(Home.class).in(UIScoped.class);;
-        
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
 
@@ -92,7 +88,8 @@ public class ViewModule extends AbstractViewModule {
         mapbinder.addBinding(IMPACT_OUTCOME).to(ImpactOutcomeEditor.class).in(UIScoped.class);
         mapbinder.addBinding(ORGANISM_TYPE).to(OrganismTypeEditor.class).in(UIScoped.class);
         mapbinder.addBinding(REFERENCE).to(ReferenceEditor.class).in(UIScoped.class);
-        
+        mapbinder.addBinding(SITECONTENT_EDITOR).to(SiteContentEditor.class).in(UIScoped.class);
+
         mapbinder.addBinding(USER_EDITOR).to(UserEditor.class).in(UIScoped.class);
         mapbinder.addBinding(UPLOAD).to(UploadView.class).in(UIScoped.class);
 
