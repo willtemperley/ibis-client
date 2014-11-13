@@ -2,6 +2,8 @@ package org.issg.ibis.perspective.shared;
 
 import java.util.Collection;
 import java.util.List;
+
+import com.vaadin.ui.themes.ValoTheme;
 import org.issg.ibis.domain.Location;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
@@ -29,7 +31,8 @@ public class LayerViewer extends Panel {
 //				"http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg");
 //		bl.setSubDomains("1", "2", "3", "4");
 //		bl.setAttributionString("&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors");
-		
+
+		setStyleName(ValoTheme.PANEL_BORDERLESS);
 		
 		map = new LMap();
 		setContent(map);
@@ -38,7 +41,7 @@ public class LayerViewer extends Panel {
 		map.setMaxZoom(15);
 	}
 
-	
+
 
 //	public void addWmsLayer(String layerName) {
 //

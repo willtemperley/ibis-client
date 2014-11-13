@@ -1,7 +1,6 @@
 @import "addons.scss";
 @import "responsive.scss";
 @import "ibis.scss";
-@import "biopama.scss";
 
 /* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
 /* The actual styles should be defined in responsive_tutorial.scss */
@@ -12,29 +11,158 @@ $default-spacing: 20px;
 //$native-green: #40b527;
 //$invasive-orange: rgb(233, 127, 2);
 $redlist-red: #D81E05;
+
 $header-grey: #656565;
 
-$location-blue: #649ab2;
 $biopama-blue: #649ab2;
 
-$native-green: #99cb99;
 $biopama-green: #99cb99;
 
-$invasive-orange: #a25a28;
 $biopama-orange: #a25a28;
+
+/*
+* Adding the visual identity to IBIS
+*/
+@mixin facet-v-slot($facet-colour) {
+
+  .facet-container {
+    border-left: 3px solid $facet-colour;
+    background-color: transparentize($facet-colour, 0.95);
+  }
+
+
+//  .display-panel-header {
+//    background: $facet-colour;
+//    color: white;
+//  }
+}
+
+@mixin facet-perspective($facet-colour) {
+
+  a {
+    color: $facet-colour;
+  }
+
+  .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
+    border-bottom-color: $facet-colour;
+    color: $facet-colour;
+  }
+
+  .display-panel-header {
+    color: $facet-colour;
+  }
+
+}
 
 .responsive {
 
   @include addons;
   @include responsive;
   @include ibis;
-  @include biopama;
-	.v-menubar-menuitem {
-	
-		width: 200px;
-	}
-	.v-menubar-menuitem-caption {
-		color: white;
-	}
+//  .v-menubar-menuitem {
+//
+//    width: 200px;
+//  }
+//  .v-menubar-menuitem-caption {
+//    color: white;
+//  }
 
+  .bio-text {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    color: $biopama-green;
+  }
+
+  .inv-text {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    color: $biopama-orange;
+  }
+
+  .banner {
+
+    background-color: #fafafa;
+
+    div {
+      .ibis-text {
+        font-size: 20px;
+        font-weight: 300;
+        padding-bottom: 5px;
+        padding-top: 5px;
+      }
+
+
+      .ibis {
+        font-size: 22px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        font-weight: 500;
+        text-transform: uppercase;
+        border: 0 !important;
+        color: $biopama-blue;
+      }
+
+    }
+
+  }
+
+  .background-root {
+    background: $biopama-blue url("img/biopama-bg.png") no-repeat scroll bottom center;
+  }
+
+  .content {
+    background: rgba(255, 255, 255, 1.0);
+  }
+
+  .theme-box .v-label {
+    text-align: center;
+  }
+
+  .v-slot-invasive-species {
+    @include facet-v-slot($biopama-orange);
+  }
+
+  .v-slot-native-species {
+    @include facet-v-slot($biopama-green);
+  }
+
+  .v-slot-location {
+    @include facet-v-slot($biopama-blue);
+  }
+
+  .location {
+    @include facet-perspective($biopama-blue);
+  }
+
+  .invasive-species {
+    @include facet-perspective($biopama-orange);
+  }
+
+  .native-species {
+    @include facet-perspective($biopama-green);
+  }
+
+  .issg-logo {
+    width: 66px;
+    height: 61px;
+    background-image: url(img/issg-logo.gif);
+  }
+
+  .iucn-logo {
+    width: 66px;
+    height: 61px;
+    background-image: url(img/iucn.jpg);
+  }
+
+  .ec-logo {
+    width: 66px;
+    height: 61px;
+    background-image: url(img/ec2.png);
+    background-repeat: no-repeat;
+  }
+
+  .big-home-logo {
+    text-align: center;
+    font-size: 34px;
+  }
 }

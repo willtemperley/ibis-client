@@ -53,10 +53,9 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 	
 
 	/**
-	 * Displays a threatened species and its locations.
+	 * Displays a native species and its locations.
 	 * 
 	 * @param dao
-	 * @param speciesSelector
 	 */
 	@Inject
 	public SpeciesPerspective(Dao dao, @Named("context_path") String contextPath, RoleManager roleManager) {
@@ -70,7 +69,6 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 
 		//pretty ugly
 		getMap().getMap().addComponent(mapClusterGroup);
-
 
 		speciesImpactTable = getSpeciesImpactTable();
 		EntityTable<SpeciesLocationAdapter> speciesLocationTable = getSpeciesLocationAdapterTable();
@@ -199,8 +197,6 @@ public class SpeciesPerspective extends TwinPanelPerspective implements View {
 				mapClusterGroup.addComponent(lMarker);
 			}
 		}
-
-		// legend.descr.setValue(lCount + " georeferenced locations shown.");
 
 		if (se.getEnvelope() != null) {
 			getMap().zoomTo(se.getEnvelope());

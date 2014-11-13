@@ -1,4 +1,4 @@
-package org.issg.ibis.responsive;
+package org.biopama.search;
 
 import java.util.List;
 
@@ -19,13 +19,12 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class SpeciesSearch2 extends VerticalLayout {
+public class SpeciesSearch extends VerticalLayout {
 
 	private Dao dao;
-	
 
 	@Inject
-	public SpeciesSearch2(Dao dao, String sppType) {
+	public SpeciesSearch(Dao dao, String sppType) {
 		this.dao = dao;
 		setSpacing(true);
 		if (sppType.equals(Species.INVASIVE)) {

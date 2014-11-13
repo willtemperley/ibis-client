@@ -19,7 +19,7 @@ public abstract class AbstractGuiceServletModule extends ServletModule {
     /**
      * Gets a map of servlet parameters
      * 
-     * @return
+     * @return parameter map from properties file
      */
     protected Map<String, String> getServletParams() {
         Properties properties = getRuntimeProperties();

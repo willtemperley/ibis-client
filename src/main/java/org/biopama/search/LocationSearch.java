@@ -1,4 +1,4 @@
-package org.issg.ibis.responsive;
+package org.biopama.search;
 
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -9,6 +9,8 @@ import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Region;
+import org.issg.ibis.responsive.LocationCaption;
+import org.issg.ibis.responsive.TakesSelectionListener;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.addons.lec.EntityTable;
@@ -23,10 +25,9 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import com.vaadin.data.Property;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class LocationSearch2 extends Panel implements TakesSelectionListener<Location> {
+public class LocationSearch extends HorizontalLayout implements TakesSelectionListener<Location> {
 
 	private Dao dao;
 	private TypedSelect<Country> countrySelector;
@@ -38,32 +39,29 @@ public class LocationSearch2 extends Panel implements TakesSelectionListener<Loc
 	private EntityTable<Location> select;
 
 	@Inject
-	public LocationSearch2(Dao dao) {
+	public LocationSearch(Dao dao) {
 
 		this(dao, new ListContainer<Location>(Location.class));
 	}
 
-	public LocationSearch2(Dao dao, ListContainer<Location> container) {
+	public LocationSearch(Dao dao, ListContainer<Location> container) {
 		this.dao = dao;
 		this.locationContainer = container;
 		this.select = new EntityTable<Location>(locationContainer);
 		
 		//Panel
-		setCaption("Search by location");
+//		setCaption("Search by location");
         addStyleName("location");
 		setSizeFull();
 		
 		//Content
-	    HorizontalLayout content = new HorizontalLayout();
-	    content.setMargin(true);
-	    setContent(content);
-		content.setSpacing(true);
-		content.setSizeFull();
+		setSpacing(true);
+		setSizeFull();
 
 		VerticalLayout leftPanel = new VerticalLayout();
 		leftPanel.setSpacing(true);
 		leftPanel.addComponent(new HtmlLabel("Select a location to view. Locations can be filtered by country and region."));
-		content.addComponent(leftPanel);
+		addComponent(leftPanel);
 		
 		TypedSelect<Region> regionSelector = getRegionSelector();
 		leftPanel.addComponent(regionSelector);
@@ -76,7 +74,7 @@ public class LocationSearch2 extends Panel implements TakesSelectionListener<Loc
 		locationSelector = getLocationTable();
 		locationSelector.setSizeFull();
 
-		content.addComponent(locationSelector);
+		addComponent(locationSelector);
 		
 		locationCaption = LocationCaption.getInstance(getLocale(), LocationCaption.LOCATION_BUNDLE);
 		countryCaption = LocationCaption.getInstance(getLocale(), LocationCaption.COUNTRY_BUNDLE);

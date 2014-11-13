@@ -1,6 +1,7 @@
 package org.issg.ibis.perspective.shared;
 
 
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.addons.lec.EntityTable;
 
 import com.vaadin.server.Scrollable;
@@ -34,6 +35,8 @@ public class TwinPanelPerspective extends HorizontalLayout {
         	leftPanel = new Panel();
         	addComponent(leftPanel);
 			leftPanel.addStyleName("display-panel");
+			leftPanel.addStyleName(ValoTheme.PANEL_BORDERLESS);
+			//Todo: make repsonsive
 			leftPanel.setWidth("600px");
 			leftPanel.setHeight("100%");
         }

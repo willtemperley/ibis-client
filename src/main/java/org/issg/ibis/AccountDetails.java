@@ -6,6 +6,7 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class AccountDetails extends Button {
 
@@ -17,6 +18,7 @@ public class AccountDetails extends Button {
 		addStyleName("account-settings");
 		
 		setIcon(FontAwesome.BARS);
+        setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		
 		this.authenticationOptions = window;
 

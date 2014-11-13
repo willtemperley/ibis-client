@@ -34,18 +34,16 @@ public class SpeciesSummaryController extends CssLayout {
 		this.arkiveSearch = arkiveSearch;
 		this.simpleContentController = new SimpleContentController(this);
 
-		addComponent(speciesName);
-		addComponent(speciesSecondaryName);
+		this.addComponent(speciesName);
+		this.addComponent(speciesSecondaryName);
 		speciesName.addStyleName("header-large");
 
 		HorizontalLayout hl = new HorizontalLayout();
+		hl.setWidth("100%");
 		hl.addComponent(speciesImage);
 		hl.addComponent(taxonomy);
-		// panel.addComponent(speciesImage);
-		// panel.addComponent(taxonomy);
-		addComponent(hl);
-		hl.setWidth("100%");
-		addComponent(redlistStatus);
+		this.addComponent(hl);
+		this.addComponent(redlistStatus);
 	}
 
 	class ReferenceContent implements Content {
@@ -87,13 +85,15 @@ public class SpeciesSummaryController extends CssLayout {
 
 		if (commonName == null || commonName.isEmpty()) {
 			speciesName.setValue(sp.getScientificName());
-//			setCaption(sp.getScientificName());
 			speciesSecondaryName.setVisible(false);
+			speciesName.addStyleName("content-header");
+			speciesSecondaryName.removeStyleName("content-header");
 		} else {
 			speciesName.setValue(commonName);
-//			setCaption(commonName);
 			speciesSecondaryName.setVisible(true);
 			speciesSecondaryName.setValue(sp.getScientificName());
+			speciesName.removeStyleName("content-header");
+			speciesSecondaryName.addStyleName("content-header");
 		}
 
 		speciesImage.setValue(img);

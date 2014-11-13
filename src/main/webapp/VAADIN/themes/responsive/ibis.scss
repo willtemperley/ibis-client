@@ -1,218 +1,188 @@
-
 @import "../valo/valo";
-
-@mixin facet($facet-colour) {
-
-		.v-panel-caption {
-			color: $facet-colour;
-			border-bottom: 1px solid $facet-colour;
-		}
-		
-		.v-filterselect-input {
-			background: lighten($facet-colour, 50%);
-		}
-		
-		.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
-	    	border-bottom-color: $facet-colour;
-	    	color: $facet-colour;
-		}
-
-		.display-panel-header {
-			color: $facet-colour;
-		}
-		
-
-		a {
-			color: $facet-colour;
-		}
-}
 
 @mixin ibis {
 
-	@include valo;
-	
-	.home-text {
-		text-align: center;
-		font-weight: 400;
-		font-size: 18px;
-	}
-	
-	.v-spacing {
-		height: $default-spacing;
-		width: $default-spacing;
-	}
-	
-	.v-formlayout td {
-		padding-top: 0px !important;
-	}
-	
-	.v-filterselect-suggestpopup-species-select {
-		font-style: italic;
-	}
-  
-	.invasive-species {
-		@include facet($invasive-orange);
-	}
+  @include valo;
 
-	.native-species {
-		@include facet($native-green);
-	}
+  .home-text {
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+  }
 
-	.location {
-		@include facet($location-blue);
-	}
-	
-	.export-bar {
-		padding: 40px 4px 0px 4px;
-		
-		//Space below button
-		.v-link {
-			margin-bottom: $default-spacing;
-		}
-	}
+  .v-spacing {
+    height: $default-spacing;
+    width: $default-spacing;
+  }
 
-	.v-window-contents {
+  .v-formlayout td {
+    padding-top: 0px !important;
+  }
 
-		padding-top: 37px !important;
-		padding-left: 20px;
-		padding-right: 20px;
+  .v-filterselect-suggestpopup-species-select {
+    font-style: italic;
+  }
 
-	}
-		
+  .export-bar {
+    padding: 40px 4px 0px 4px;
 
-	.submit-panel {
-	
-		padding-left: $default-spacing;
-		padding-right: $default-spacing;
-		padding-top: $default-spacing / 2;
-		padding-bottom: $default-spacing / 2;
-	
-		.button-left {
-			float: left;
-		}
+    //Space below button
+    .v-link {
+      margin-bottom: $default-spacing;
+    }
+  }
 
-		.button-cancel {
-			float: left;
-			margin-left: $default-spacing;
-		}
+  .v-window-contents {
 
-		.button-right {
-			float: right;
-		}
-	}
-	
-	.form-container {
-		overflow: auto;
-		padding-left: $default-spacing;
-		padding-right: $default-spacing;
+    padding-top: 37px !important;
+    padding-left: 20px;
+    padding-right: 20px;
 
-		.v-spacing {
-			height: 12px;
-		}
-	}
-	
-	.g-plus-button {
-		@include valo-button-style($background-color: $redlist-red); 
-	}
+  }
 
-	//Species table columns
-	.v-table-cell-content-species {
-		font-style: italic;
-	}
+  .submit-panel {
 
-	.v-label-undef-w {
-		white-space: normal;
-		text-align: justify;
-	}
+    padding-left: $default-spacing;
+    padding-right: $default-spacing;
+    padding-top: $default-spacing / 2;
+    padding-bottom: $default-spacing / 2;
 
-	.display-panel .v-csslayout {
-	
-		.display-panel-header {
-			border-bottom: 1px solid #eee;
-			margin-bottom: 10px;
-		}
-		
-		background-color: #fff;
-		padding: 20px 20px 20px;
-		overflow: auto;
+    .button-left {
+      float: left;
+    }
 
-		.header-large {
-			font-size: 20px;
-		}
-		
-		.content {
-			text-align: justify;
-		}
-		
-	}
+    .button-cancel {
+      float: left;
+      margin-left: $default-spacing;
+    }
 
-	.header {
-		background-color: $header-grey;
-			
-		.account-settings {
-			@include valo-button-style($background-color: $header-grey); 
-			font-size: 1.5em;
-			text-align: center;
-		}
-		
-		div {
-		
-			.ibis-text {
-				font-size: 20px;
-				font-weight: 100;
-				padding-bottom: 5px;
-				padding-top: 5px;
-				color: #BBB;
-				text-shadow: 1px 2px 3px rgba(0,0,0,0.5);
-			}
-			
-			.ibis {
-				font-size: 22px;
-				padding-bottom: 5px;
-				padding-top: 5px;
-				font-weight: 500;
-				color: $native-green;
-				text-transform: uppercase;
-				text-shadow: 1px 2px 3px rgba(0,0,0,0.3);
-				border: 0px !important;
-			}
-			
-		}
-	}
-	
-	.admin-menu {
-		@include valo-menubar-borderless-style;
-	}
-	
-	.window-editor {
-		.v-window-outerheader {
-			border-bottom: 2px solid $location-blue;
-			font-weight: bold;
-		}
-	}
-	
-	/** menu bar **/
-	
-	.nav-menu {
-		margin-left: 20px;
-		margin-top: 35px;
-	
-	 .v-menubar-menuitem {
-        margin-left: 10px;
+    .button-right {
+      float: right;
+    }
+  }
+
+  .form-container {
+    overflow: auto;
+    padding-left: $default-spacing;
+    padding-right: $default-spacing;
+
+    .v-spacing {
+      height: 12px;
+    }
+  }
+
+  .g-plus-button {
+    @include valo-button-style($background-color: $redlist-red);
+  }
+
+  //Species table columns
+  .v-table-cell-content-species {
+    font-style: italic;
+  }
+
+  .v-label-undef-w {
+    white-space: normal;
+    text-align: justify;
+  }
+
+  .display-panel .v-csslayout {
+
+    .display-panel-header {
+      margin-bottom: 10px;
+    }
+
+    .content-header {
+      border-bottom: 1px solid #eee;
+    }
+
+    background-color: #fff;
+    padding: 20px 20px 20px;
+    overflow: auto;
+
+    .header-large {
+      font-size: 20px;
+    }
+
+    .content {
+      text-align: justify;
+    }
+
+  }
+
+  .header {
+    background-color: $header-grey;
+
+    .account-settings {
+      @include valo-button-style($background-color: $header-grey);
+      font-size: 1.5em;
+      text-align: center;
+    }
+
+    div {
+
+      .ibis-text {
         font-size: 20px;
-        font-weight:200;
-        border-bottom:2px solid transparent;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-	 }
+        font-weight: 100;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        color: #BBB;
+        text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+      }
 
-	   .v-menubar-menuitem:hover {
-        color: #fff;
-        cursor: pointer;
-	 }
+      .ibis {
+        font-size: 22px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        font-weight: bold;
+        color: $biopama-blue;
+        text-transform: uppercase;
+        border: 0 !important;
+      }
 
-	 .v-menubar-menuitem-checked {
-        border-bottom:2px solid $location-blue;
-	 }
+    }
+  }
 
-}
+  .admin-menu {
+    @include valo-menubar-borderless-style;
+  }
+
+  .window-editor {
+    .v-window-outerheader {
+      border-bottom: 2px solid $location-blue;
+      font-weight: bold;
+    }
+  }
+
+  /** menu bar **/
+
+  .nav-menu {
+    margin-left: 20px;
+    margin-top: 35px;
+
+    .v-menubar-menuitem {
+      margin-left: 10px;
+      font-size: 20px;
+      font-weight: 200;
+      border-bottom: 2px solid transparent;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .v-menubar-menuitem:hover {
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .v-menubar-menuitem-checked {
+      border-bottom: 2px solid $location-blue;
+    }
+  }
+
+  .home-middle {
+    background-color: #fafafa;
+    padding: 0 40px 0 40px;
+  }
+
+  .logo-container {
+    padding: 0 40px 0 40px;
+  }
 }

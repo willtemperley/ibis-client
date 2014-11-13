@@ -29,6 +29,7 @@ public class SimpleContentController  {
         for (Content speciesSummary : ss) {
             ContentType ct = speciesSummary.getContentType();
             HtmlHeader header = new HtmlHeader(ct.getName());
+            header.addStyleName("content-header");
             panel.addComponent(header);
     
             HtmlLabel content = new HtmlLabel();

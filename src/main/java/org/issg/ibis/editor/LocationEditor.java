@@ -5,27 +5,17 @@ import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
-import org.issg.ibis.perspective.shared.LayerViewer;
-import org.issg.ibis.perspective.shared.TileLayerFactory;
-import org.issg.ibis.responsive.LocationSearch2;
 import org.jrc.edit.Dao;
 import org.jrc.edit.EditorController;
 import org.jrc.edit.JpaFieldFactory;
-import org.jrc.edit.MultiPolygonField;
-import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.maddon.fields.MValueChangeEvent;
-import org.vaadin.maddon.fields.MValueChangeListener;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.shared.ui.MultiSelectMode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vividsolutions.jts.geom.Geometry;
 
 public class LocationEditor extends TwinPanelEditorView<Location> implements View {
 

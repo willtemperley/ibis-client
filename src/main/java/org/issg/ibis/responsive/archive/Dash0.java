@@ -1,7 +1,7 @@
 package org.issg.ibis.responsive.archive;
 
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.responsive.SpeciesSearch2;
+import org.biopama.search.SpeciesSearch;
 import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 
@@ -27,8 +27,8 @@ public class Dash0 extends CssLayout implements View {
         addStyleName("dashboard");
         Responsive.makeResponsive(this);
 
-        SpeciesSearch2 sIAS = new SpeciesSearch2(dao, Species.INVASIVE);
-        SpeciesSearch2 sNat = new SpeciesSearch2(dao, Species.NATIVE);
+        SpeciesSearch sIAS = new SpeciesSearch(dao, Species.INVASIVE);
+        SpeciesSearch sNat = new SpeciesSearch(dao, Species.NATIVE);
 
 //		createPanel(sIAS, "Invasive Alien Species", "invasive-species");
 //		createPanel(sNat, "Native Species", "native-species");

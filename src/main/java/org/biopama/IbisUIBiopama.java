@@ -1,31 +1,27 @@
 package org.biopama;
 
+import com.vaadin.ui.*;
 import org.jrc.edit.Dao;
 import org.jrc.server.GuicedViewProvider;
 import org.vaadin.addons.guice.ui.ScopedUI;
+
 import com.google.inject.Inject;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
 
-//@Theme("ibis")
-//@Theme("touchkit")
 @Theme("responsive")
 public class IbisUIBiopama extends ScopedUI {
 
-	Dao dao;
-	MenuLayout root = new MenuLayout();
+	private Dao dao;
+	private CssLayout contentRoot = new CssLayout();
 	private VerticalLayout rootLayout = new VerticalLayout();
-	private HeaderViewB headerView;
+	private HeaderView headerView;
 
 	@Inject
-	public IbisUIBiopama(GuicedViewProvider viewProvider, HeaderViewB headerView) {
-		System.out.println("Header");
+	public IbisUIBiopama(GuicedViewProvider viewProvider, HeaderView headerView) {
 		this.headerView = headerView;
-		Navigator nav = new Navigator(this, root);
+		Navigator nav = new Navigator(this, contentRoot);
 		nav.addProvider(viewProvider);
 	}
 
@@ -35,18 +31,39 @@ public class IbisUIBiopama extends ScopedUI {
 		rootLayout.setSizeFull();
 		rootLayout.addComponent(headerView);
 		headerView.setHeight("40px");
-		rootLayout.addComponent(root);
-		root.setSizeFull();
-		rootLayout.setExpandRatio(root, 1);
+		
+//		VerticalLayout bg = new VerticalLayout();
+//		bg.setSizeFull();
+//		rootLayout.addComponent(bg);
+		rootLayout.addStyleName("background-root");
+		
+//		rootLayout.addComponent(bg);
+//		rootLayout.setExpandRatio(bg, 1);
+
+		Label topSpacer = new Label();
+		topSpacer.setHeight("10px");
+		Label bottomSpacer = new Label();
+		bottomSpacer.setHeight("10px");
+		rootLayout.addComponent(topSpacer);
+		rootLayout.addComponent(contentRoot);
+		rootLayout.addComponent(bottomSpacer);
+//		bg.addComponent(topSpacer);
+//		bg.addComponent(contentRoot);
+//		bg.addComponent(bottomSpacer);
+		contentRoot.setSizeFull();
+		rootLayout.setExpandRatio(contentRoot, 1);
+
+		/* The contentRoot has the content */
+		contentRoot.addStyleName("content");
 
 	}
 
-	class MenuLayout extends CssLayout {
-		public MenuLayout() {
-			setSizeFull();
-//			addStyleName("menulayout");
-			Responsive.makeResponsive(this);
-		}
-
-	}
+//	class MenuLayout extends CssLayout {
+//		public MenuLayout() {
+//			setSizeFull();
+////			addStyleName("menulayout");
+//			Responsive.makeResponsive(this);
+//		}
+//
+//	}
 }

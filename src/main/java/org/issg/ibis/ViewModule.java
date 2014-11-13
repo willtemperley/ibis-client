@@ -2,6 +2,7 @@ package org.issg.ibis;
 
 import java.util.Map;
 
+import org.biopama.search.Search;
 import org.biopama.Home;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Species;
@@ -16,9 +17,7 @@ import org.issg.ibis.editor.basic.OrganismTypeEditor;
 import org.issg.ibis.editor.basic.ReferenceEditor;
 import org.issg.ibis.perspective.location.LocationPerspective;
 import org.issg.ibis.perspective.species.SpeciesPerspective;
-import org.issg.ibis.responsive.Dashboard;
 import org.issg.ibis.responsive.UnauthorizedView;
-import org.issg.ibis.responsive.archive.Dash2;
 import org.issg.ibis.upload.UploadView;
 import org.jrc.server.AbstractViewModule;
 import org.jrc.server.GuicedViewProvider;
@@ -64,18 +63,22 @@ public class ViewModule extends AbstractViewModule {
 	public static final String USER_EDITOR = "UserEditor";
 	
 	public static final String UPLOAD = "Upload";
-	public static final String UNAUTHORIZED = "Unauthorized"; 
+	public static final String UNAUTHORIZED = "Unauthorized";
+	public static final String SEARCH = "Search"; 
 
     @Override
     protected void configure() {
         mapbinder = MapBinder.newMapBinder(binder(), String.class,
                 View.class);
         
-        mapbinder.addBinding(GuicedViewProvider.HOME).to(Dashboard.class);//.in(UIScoped.class);;
-        mapbinder.addBinding("OLD"+GuicedViewProvider.HOME).to(Dash2.class).in(UIScoped.class);;
+        mapbinder.addBinding(GuicedViewProvider.HOME).to(Home.class);//.in(UIScoped.class);;
+        mapbinder.addBinding(SEARCH).to(Search.class);//.in(UIScoped.class);;
+
+//        mapbinder.addBinding("OLD"+GuicedViewProvider.HOME).to(Dash2.class).in(UIScoped.class);;
+
         mapbinder.addBinding(UNAUTHORIZED).to(UnauthorizedView.class).in(UIScoped.class);;
 
-        mapbinder.addBinding("NewHome").to(Home.class).in(UIScoped.class);;
+//        mapbinder.addBinding("NewHome").to(Home.class).in(UIScoped.class);;
         
         mapbinder.addBinding(SPECIES_PERSPECTIVE).to(SpeciesPerspective.class);
         mapbinder.addBinding(LOCATION_PERSPECTIVE).to(LocationPerspective.class);
