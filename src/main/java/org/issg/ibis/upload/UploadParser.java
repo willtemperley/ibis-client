@@ -271,11 +271,13 @@ public abstract class UploadParser<E> {
 
     /**
      * Records an error, giving the cell address and a meaningful message.
-     * 
+     *
+     * @param rowNum
+     *      The row number
      * @param cellIdx
-     *            TODO
+     *      The 0 based index of the cell in the row
      * @param message
-     * @param col
+     *      What went wrong!
      */
     protected void recordError(int rowNum, int cellIdx, String message) {
         String colName = colHeaders.get(cellIdx);
@@ -335,9 +337,9 @@ public abstract class UploadParser<E> {
 
         String trimmedLookUp = lookUp.replace(String.valueOf((char) 160), " ");
         trimmedLookUp = trimmedLookUp.trim();
-        
-//        if (lookUp.startsWith("Aca"))
-//        System.out.println("===" + lookUp + "====");
+        trimmedLookUp = trimmedLookUp.replace("=", "");
+        trimmedLookUp = trimmedLookUp.replace("  ", " ");
+        trimmedLookUp = trimmedLookUp.replace("( ", "(");
 
         return getEntity(entityPathBase, name, row, colIdx, trimmedLookUp);
     }
@@ -359,7 +361,7 @@ public abstract class UploadParser<E> {
             int colIdx, String lookUp) {
 
         // Get entity simple name
-        String entityClassName = name.getType().getSimpleName();
+        String entityClassName = entityPathBase.getMetadata().getName();
 
         try {
             T e = dao.findByQProxyId(entityPathBase, name, lookUp);

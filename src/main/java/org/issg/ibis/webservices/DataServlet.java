@@ -97,7 +97,7 @@ public class DataServlet extends HttpServlet {
 			worksheetFactory.addColumn(speciesimpact.nativeSpecies);
 		}
 		worksheetFactory.addColumn(speciesimpact.impactMechanism);
-		worksheetFactory.addColumn(speciesimpact.impactOutcome);
+//		worksheetFactory.addColumn(speciesimpact.impactOutcome);
 		worksheetFactory.addColumn(speciesimpact.location);
 
 		worksheetFactory.writeSheet(worksheet, results);

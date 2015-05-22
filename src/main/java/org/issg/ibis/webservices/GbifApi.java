@@ -12,7 +12,7 @@ import org.json.JSONObject;
  * @author Will Temperley
  * 
  */
-public class GbifApi09 extends BaseJsonClient {
+public class GbifApi extends BaseJsonClient {
 
     private static String REDLIST_URL_TEMPLATE = "http://api.gbif.org/v1/species?datasetKey=19491596-35ae-4a91-9a98-85cf505f1bd3&sourceId=%s";
 
@@ -35,7 +35,7 @@ public class GbifApi09 extends BaseJsonClient {
             String url = String.format(REDLIST_URL_TEMPLATE, rlId);
             JSONObject json = readJsonFromUrl(url);
 
-            prettyPrint(json.toString());
+//            prettyPrint(json.toString());
             // return json.toString();
 
             JSONArray jsonArray = (JSONArray) json.get("results");
@@ -100,7 +100,7 @@ public class GbifApi09 extends BaseJsonClient {
      */
     private static String rewriteGbifURI(String url) {
         String rwUrl = url.replace("www", "api");
-        rwUrl = rwUrl.replace("species", "v0.9/species");
+        rwUrl = rwUrl.replace("species", "v1/species");
         return rwUrl;
     }
 

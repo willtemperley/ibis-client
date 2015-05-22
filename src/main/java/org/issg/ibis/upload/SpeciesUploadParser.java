@@ -2,9 +2,6 @@ package org.issg.ibis.upload;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.persistence.TypedQuery;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -17,7 +14,7 @@ import org.issg.ibis.domain.QOrganismType;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.Species;
-import org.issg.ibis.webservices.GbifApi09;
+import org.issg.ibis.webservices.GbifApi;
 import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +48,12 @@ public class SpeciesUploadParser extends UploadParser<Species> {
 
         if (toClean != null) {
             toClean = toClean.replace(String.valueOf((char) 160), " ").trim();
+        } else {
+            return "";
+        }
+
+        if(toClean.isEmpty()) {
+            return toClean;
         }
         
 
@@ -85,7 +88,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
         
         {
             // Name
-            String name = getCellValueAsString(row, 9);
+            String name = getCellValueAsString(row, 1);
             name = cleanWhitepace(name);
             species.setName(name);
             System.out.println("Processing: " + name + ", row" + row.getRowNum());
@@ -93,12 +96,14 @@ public class SpeciesUploadParser extends UploadParser<Species> {
             // Check species 
             Species checkSpecies = dao.findByQProxyId(QSpecies.species, QSpecies.species.name, name);
             if (checkSpecies != null) {
+
+                species = checkSpecies;
                 
                 //Re-try organism type 
                 if (checkSpecies.getOrganismType() == null) {
-                    OrganismType ot = getEntity(QOrganismType.organismType, QOrganismType.organismType.label, row, 13);
+                    OrganismType ot = getEntity(QOrganismType.organismType, QOrganismType.organismType.label, row, 9);
                     checkSpecies.setOrganismType(ot);
-                    return checkSpecies;
+//                    return checkSpecies;
                 }
 
                 //Re-try redlist
@@ -106,11 +111,11 @@ public class SpeciesUploadParser extends UploadParser<Species> {
                     ConservationClassification rlc = getEntity(QConservationClassification.conservationClassification, QConservationClassification.conservationClassification.abbreviation, row, 12);
                     checkSpecies.setConservationClassification(rlc);
                     System.out.println("Saving red list " + name + ", row" + row.getRowNum());
-                    return checkSpecies;
+//                    return checkSpecies;
                 }
                 
-                logger.info("Skipping species which already exists in DB: " + name);
-                return null;
+//                logger.info("Skipping species which already exists in DB: " + name);
+//                return null;
 //                recordError(row.getRowNum(), 1, String.format("Species %s already exists", checkSpecies.getName()));
             }
             
@@ -118,7 +123,7 @@ public class SpeciesUploadParser extends UploadParser<Species> {
             List<Species> entities = getEntityList();
             for (Species alreadyProcessed : entities) {
                 if (species.getName().equals(alreadyProcessed.getName())) {
-                    recordError(row.getRowNum(), 1, String.format("Duplicate %s species in upload", species.getName()));
+//                    recordError(row.getRowNum(), 1, String.format("Duplicate %s species in upload", species.getName()));
                 }
             }
         }
@@ -127,53 +132,68 @@ public class SpeciesUploadParser extends UploadParser<Species> {
          * Look up species by RL or GBIF uri
          */
         {
-            String prefix = getCellValueAsString(row, 0);
-            if (prefix.equals("REDLIST")) {
+            String idVal = getCellValueAsString(row, 0);
+            Long id = null;
+            if (idVal == null || idVal.isEmpty()) {
+                return null;
+            }
+            try {
+                id = Long.valueOf(idVal);
+            } catch (NumberFormatException e) {
 
-                Long id = getCellValueAsLong(row, 1);
-                if (id != null) {
-                    species.setRedlistId(id.intValue());
-                    GbifApi09.populateSpeciesFromRedlistId(species);
-                }
-                
+            }
+            //RL id
+            if (id != null) {
+
+//                Long id = getCellValueAsLong(row, 1);
+                species.setRedlistId(id.intValue());
+                GbifApi.populateSpeciesFromRedlistId(species);
+
                 if (species.getUri() == null) {
                     logger.info("Lookup failed for species on RL ID: " + species.getRedlistId());
-                    return null;
+                    species.setKingdom(getCellValueAsString(row, 3));
+                    species.setPhylum(getCellValueAsString(row, 4));
+                    species.setClazz(getCellValueAsString(row, 5));
+                    species.setOrder(getCellValueAsString(row, 6));
+                    species.setFamily(getCellValueAsString(row, 7));
+                    species.setGenus(getCellValueAsString(row, 8));
+                    species.setUri("RedList ID not found GBIF: " + species.getRedlistId());
+                    return species;
                 }
 
-            } else if (prefix.equals("GBIF")) {
+            } else if (idVal.contains("gbif")) {
 
-                String gbifUri = getCellValueAsString(row, 1);
-                species.setUri(gbifUri);
+//                String gbifUri = getCellValueAsString(row, 1);
+                species.setUri(idVal);
                 
-                GbifApi09.populateSpeciesFromGbifUri(species);
+                GbifApi.populateSpeciesFromGbifUri(species);
                 
             } else {
-                recordError("Unknown prefix: " + prefix);
+                recordError("Don't know how to look up: " + idVal);
             }
             
         }
         
         {
             // Organism type
-            OrganismType ot = getEntity(QOrganismType.organismType, QOrganismType.organismType.label, row, 13);
+            OrganismType ot = getEntity(QOrganismType.organismType, QOrganismType.organismType.label, row, 9);
             species.setOrganismType(ot);
         }
 
         {
             // Biomes
-            String val = getCellValueAsString(row, 14);
-            if (val != null && !val.isEmpty()) {
-
-                String[] biomes = val.split("/");
-                HashSet<Biome> biomeSet = new HashSet<Biome>();
-                species.setBiomes(biomeSet);
-
-                for (String biomeName : biomes) {
-                    Biome biome = getEntity(QBiome.biome, QBiome.biome.label, row, 12, biomeName);
-                    biomeSet.add(biome);
-                }
-            }
+//            String val = getCellValueAsString(row, 13);
+//            if (val != null && !val.isEmpty()) {
+//
+//                String[] biomes = val.split("/");
+//                HashSet<Biome> biomeSet = new HashSet<Biome>();
+//                species.setBiomes(biomeSet);
+//
+//                for (String biomeName : biomes) {
+//                    Biome biome = getEntity(QBiome.biome, QBiome.biome.label, row, 12, biomeName);
+//                    biomeSet.add(biome);
+//                }
+//            }
         }
 
         {

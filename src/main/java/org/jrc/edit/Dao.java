@@ -292,7 +292,7 @@ public class Dao implements Provider<EntityManager> {
 		
 		JPAQuery q = new JPAQuery(entityManagerProvider.get());
 		q.from(entityPath);
-		q.where(name.eq(attrValue));
+		q.where(name.lower().trim().eq(attrValue.toLowerCase()));
 		return q.singleResult(entityPath);
 	}
 

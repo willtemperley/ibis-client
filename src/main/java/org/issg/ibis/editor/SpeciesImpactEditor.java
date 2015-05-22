@@ -44,7 +44,7 @@ public class SpeciesImpactEditor extends TwinPanelEditorView<SpeciesImpact> impl
         QSpeciesImpact si = QSpeciesImpact.speciesImpact;
         ff.addQField(si.invasiveSpecies);
         ff.addQField(si.impactMechanism);
-        ff.addQField(si.impactOutcome);
+//        ff.addQField(si.impactOutcome);
         ff.addQField(si.location);
         ff.addQField(si.reference);
         

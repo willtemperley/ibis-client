@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<vaadin.plugin.version>7.3.3</vaadin.plugin.version>
+		<vaadin.plugin.version>7.3.4</vaadin.plugin.version>
 
 		<slf4j.version>1.7.7</slf4j.version>
 		<guava.version>17.0</guava.version>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.issg.ibis</groupId>
 			<artifactId>ibis-domain</artifactId>
-			<version>0.9</version>
+			<version>0.9.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
@@ -56,6 +56,12 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
 
 		<!-- POI -->
 		<dependency>
