@@ -90,7 +90,7 @@ public class LocationPerspective extends TwinPanelPerspective implements View {
 		table.setSizeFull();
 		table.setPageLength(40);
 
-		table.addColumns("nativeSpecies", "nativeCommonName", "invasiveAlienSpecies", "invasiveAlienCommonName", "impactMechanism", "impactOutcome", "reference");
+		table.addColumns("nativeSpecies", "nativeCommonName", "invasiveAlienSpecies", "invasiveAlienCommonName", "impactMechanism", "reference");
 		
 		table.setItalicColumn("nativeSpecies", "invasiveAlienSpecies");
 

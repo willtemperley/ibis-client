@@ -52,7 +52,6 @@ public class ViewModule extends AbstractViewModule {
 	public static final String CONSERVATION_CLASSIFICATION = "EditConservationClassification";
 	public static final String BIOLOGICAL_STATUS = "EditBiologicalStatus";
 	public static final String IMPACT_MECHANISM = "EditImpactMechanism";
-	public static final String IMPACT_OUTCOME = "EditImpactOutcome";
 	public static final String ORGANISM_TYPE = "EditOrganismType";
     public static final String SITECONTENT_EDITOR = "EditSiteContent";
 	public static final String REFERENCE = "EditReference";
@@ -85,7 +84,6 @@ public class ViewModule extends AbstractViewModule {
 
         mapbinder.addBinding(BIOLOGICAL_STATUS).to(BiologicalStatusEditor.class).in(UIScoped.class);
         mapbinder.addBinding(IMPACT_MECHANISM).to(ImpactMechanismEditor.class).in(UIScoped.class);
-        mapbinder.addBinding(IMPACT_OUTCOME).to(ImpactOutcomeEditor.class).in(UIScoped.class);
         mapbinder.addBinding(ORGANISM_TYPE).to(OrganismTypeEditor.class).in(UIScoped.class);
         mapbinder.addBinding(REFERENCE).to(ReferenceEditor.class).in(UIScoped.class);
         mapbinder.addBinding(SITECONTENT_EDITOR).to(SiteContentEditor.class).in(UIScoped.class);

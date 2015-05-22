@@ -61,7 +61,6 @@ public class HeaderView extends HorizontalLayout implements View {
         adminMenu.addAdminItem(x, BiologicalStatus.class, "Biological Status", ViewModule.BIOLOGICAL_STATUS);
         adminMenu.addAdminItem(x, ConservationClassification.class, "Cons. Classification", ViewModule.CONSERVATION_CLASSIFICATION);
         adminMenu.addAdminItem(x, ImpactMechanism.class, "Impact Mechanism", ViewModule.IMPACT_MECHANISM);
-        adminMenu.addAdminItem(x, ImpactOutcome.class, "Impact Outcome", ViewModule.IMPACT_OUTCOME);
         adminMenu.addAdminItem(x, OrganismType.class, "Organism Type", ViewModule.ORGANISM_TYPE);
         adminMenu.addAdminItem(x, Reference.class, "Reference", ViewModule.REFERENCE);
         adminMenu.addAdminItem(x, SiteContent.class, "SiteContent", ViewModule.SITECONTENT_EDITOR);
