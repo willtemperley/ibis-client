@@ -1,7 +1,7 @@
 package org.issg.ibis.upload;
 
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.Species;
-import org.jrc.edit.Dao;
 
 import com.google.inject.Inject;
 import com.vaadin.navigator.View;

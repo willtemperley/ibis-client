@@ -1,9 +1,11 @@
 package org.issg.ibis.responsive.archive;
 
 import java.util.List;
+
 import javax.persistence.TypedQuery;
 
-import org.issg.ibis.ViewModule;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.ViewModule;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QCountry;
@@ -11,7 +13,6 @@ import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Region;
 import org.issg.ibis.responsive.LocationCaption;
-import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;

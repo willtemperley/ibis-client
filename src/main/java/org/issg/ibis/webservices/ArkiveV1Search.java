@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Date;
 
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.WebserviceCache;
-import org.jrc.edit.Dao;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

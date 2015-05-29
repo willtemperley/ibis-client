@@ -5,12 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import org.issg.ibis.IbisUI;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.IbisUI;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.TestResourceFactory;
 import org.issg.ibis.domain.view.QResourceDescription;
 import org.issg.ibis.domain.view.ResourceDescription;
-import org.jrc.edit.Dao;
 import org.junit.Before;
 import org.junit.Test;
 

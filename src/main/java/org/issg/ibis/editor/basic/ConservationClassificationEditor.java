@@ -1,13 +1,13 @@
 package org.issg.ibis.editor.basic;
 
-import org.issg.ibis.auth.RoleManager;
+import org.biopama.edit.Dao;
+import org.biopama.edit.EditorController;
+import org.biopama.edit.JpaFieldFactory;
+import org.biopama.ibis.auth.RoleManager;
 import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.QConservationClassification;
 import org.issg.ibis.editor.selector.AbstractSelector;
 import org.issg.ibis.editor.view.TwinPanelEditorView;
-import org.jrc.edit.Dao;
-import org.jrc.edit.EditorController;
-import org.jrc.edit.JpaFieldFactory;
 
 import com.google.inject.Inject;
 import com.mysema.query.types.PathType;

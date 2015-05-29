@@ -2,12 +2,13 @@ package org.issg.ibis.qdsl.experimental;
 
 import java.util.List;
 
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.view.ResourceDescription;
 import org.issg.ibis.qdsl.experimental.SearchSelectEventListener;
-import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
+
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;

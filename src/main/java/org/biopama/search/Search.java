@@ -1,9 +1,9 @@
 package org.biopama.search;
 
-import org.issg.ibis.ViewModule;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.ViewModule;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
-import org.jrc.edit.Dao;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;
 

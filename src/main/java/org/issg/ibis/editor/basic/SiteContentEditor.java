@@ -1,12 +1,13 @@
 package org.issg.ibis.editor.basic;
 
 import com.google.inject.Inject;
-import org.issg.ibis.auth.RoleManager;
+
+import org.biopama.edit.Dao;
+import org.biopama.ibis.auth.RoleManager;
 import org.issg.ibis.domain.QReference;
 import org.issg.ibis.domain.QSiteContent;
 import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.SiteContent;
-import org.jrc.edit.Dao;
 
 public class SiteContentEditor extends BasicTwinPanelEditor<SiteContent> {
 

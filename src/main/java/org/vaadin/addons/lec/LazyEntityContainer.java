@@ -2,7 +2,7 @@ package org.vaadin.addons.lec;
 
 import java.util.List;
 
-import org.jrc.edit.Dao;
+import org.biopama.edit.Dao;
 import org.vaadin.maddon.ListContainer;
 
 import com.mysema.query.SearchResults;

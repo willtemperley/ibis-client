@@ -1,8 +1,9 @@
 package org.biopama;
 
 import com.vaadin.ui.*;
-import org.jrc.edit.Dao;
-import org.jrc.server.GuicedViewProvider;
+
+import org.biopama.edit.Dao;
+import org.biopama.server.GuicedViewProvider;
 import org.vaadin.addons.guice.ui.ScopedUI;
 
 import com.google.inject.Inject;

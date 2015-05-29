@@ -4,7 +4,8 @@ import com.google.inject.Inject;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.*;
-import org.issg.ibis.ViewModule;
+
+import org.biopama.ibis.ViewModule;
 import org.jrc.ui.HtmlLabel;
 
 import java.util.ArrayList;

@@ -3,8 +3,8 @@ package org.issg.ibis.upload;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.*;
-import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

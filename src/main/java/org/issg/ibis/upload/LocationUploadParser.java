@@ -3,8 +3,8 @@ package org.issg.ibis.upload;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.*;
-import org.jrc.edit.Dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -35,7 +35,11 @@ comments
     @Override
     protected Location processRow(final Row row) {
 
-        Location loc = new Location();
+        //Location information
+        Location loc = getEntity(QLocation.location, QLocation.location.name, row, 0);
+        if (loc == null ) {
+            return null;
+        }
 
         String prefix = getCellValueAsString(row, 7);
         loc.setPrefix(prefix);
@@ -53,7 +57,7 @@ comments
             Double lat = extractOrdinate(row, 4);
             loc.setLatitude(lat);
             Double lon = extractOrdinate(row, 5);
-            loc.setLatitude(lon);
+            loc.setLongitude(lon);
 
         }
 

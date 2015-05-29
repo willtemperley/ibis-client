@@ -2,11 +2,11 @@ package org.issg.ibis.qdsl.experimental;
 
 import java.util.List;
 
-import org.issg.ibis.ViewModule;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.ViewModule;
 import org.issg.ibis.domain.view.LocationView;
 import org.issg.ibis.domain.view.QLocationView;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
-import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.addons.lec.LazyEntityContainer;

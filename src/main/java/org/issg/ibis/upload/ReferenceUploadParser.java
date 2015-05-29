@@ -6,13 +6,13 @@ import java.util.Set;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QReference;
 import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
-import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

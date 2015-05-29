@@ -2,7 +2,7 @@ package org.issg.ibis.editor.view;
 
 import java.util.Set;
 
-import org.issg.ibis.auth.RoleManager.Action;
+import org.biopama.ibis.auth.RoleManager.Action;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;

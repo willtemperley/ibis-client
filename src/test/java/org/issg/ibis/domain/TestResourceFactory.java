@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.issg.ibis.ViewModule;
-import org.jrc.server.IBISGuiceServletModule;
+import org.biopama.ibis.ViewModule;
+import org.biopama.server.IBISGuiceServletModule;
 import org.vaadin.addons.guice.ui.ScopedUI;
 import org.vaadin.addons.guice.uiscope.UIScopeModule;
 

@@ -2,11 +2,12 @@ package org.biopama;
 
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.issg.ibis.AccountDetails;
-import org.issg.ibis.AdminMenu;
-import org.issg.ibis.NavMenu;
-import org.issg.ibis.ViewModule;
-import org.issg.ibis.auth.RoleManager;
+
+import org.biopama.ibis.AccountDetails;
+import org.biopama.ibis.AdminMenu;
+import org.biopama.ibis.NavMenu;
+import org.biopama.ibis.ViewModule;
+import org.biopama.ibis.auth.RoleManager;
 import org.issg.ibis.domain.BiologicalStatus;
 import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.ImpactMechanism;

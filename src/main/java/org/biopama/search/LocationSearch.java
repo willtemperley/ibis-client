@@ -1,8 +1,10 @@
 package org.biopama.search;
 
 import java.util.List;
+
 import javax.persistence.TypedQuery;
 
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QCountry;
@@ -11,7 +13,6 @@ import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Region;
 import org.issg.ibis.responsive.LocationCaption;
 import org.issg.ibis.responsive.TakesSelectionListener;
-import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlLabel;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
@@ -190,6 +191,7 @@ public class LocationSearch extends HorizontalLayout implements TakesSelectionLi
 		if (r != null) {
 			q.where(c.region.eq(r));
 		}
+		q = q.orderBy(c.name.asc());
 		q = q.distinct();
 		return q.list(c);
 

@@ -62,18 +62,4 @@ public class LocationCaption {
 		return result;
 	}
 	
-	public static void main(String[] someargs) {
-		LocationCaption lc = new LocationCaption(Locale.FRANCE, COUNTRY_BUNDLE);
-//		System.out.println(lc.getMessage(LOCATION_BUNDLE, "Here", 1));
-//		System.out.println(lc.getMessage(LOCATION_BUNDLE, "There", 2));
-//		System.out.println(lc.getMessage(LOCATION_BUNDLE, "Everywhere", 3));
-
-		System.out.println(lc.getMessage("Here", 1));
-		System.out.println(lc.getMessage("There", 2));
-		System.out.println(lc.getMessage("Everywhere", 3));
-
-		System.out.println(lc.getMessage(null, 1));
-		System.out.println(lc.getMessage(null, 2));
-		System.out.println(lc.getMessage(null, 3));
-	}
 }

@@ -6,8 +6,9 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.SiteContent;
-import org.jrc.edit.Dao;
 import org.jrc.ui.HtmlHeader;
 import org.jrc.ui.HtmlLabel;
 

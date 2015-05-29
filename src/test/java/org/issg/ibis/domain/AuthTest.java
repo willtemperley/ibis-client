@@ -6,9 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.issg.ibis.auth.RoleManager;
-import org.issg.ibis.auth.RoleManager.Action;
-import org.jrc.edit.Dao;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.auth.RoleManager;
+import org.biopama.ibis.auth.RoleManager.Action;
 import org.junit.Test;
 import org.vaadin.addons.auth.domain.Role;
 

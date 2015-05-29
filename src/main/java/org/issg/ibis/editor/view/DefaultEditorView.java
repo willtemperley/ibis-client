@@ -3,8 +3,9 @@ package org.issg.ibis.editor.view;
 import java.util.List;
 import java.util.Set;
 
-import org.issg.ibis.auth.RoleManager.Action;
+import org.biopama.ibis.auth.RoleManager.Action;
 import org.vaadin.addons.form.field.FieldGroup;
+
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;

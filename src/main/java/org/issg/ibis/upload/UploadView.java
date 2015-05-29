@@ -2,13 +2,13 @@ package org.issg.ibis.upload;
 
 import java.util.Set;
 
-import org.issg.ibis.ViewModule;
-import org.issg.ibis.auth.RoleManager;
-import org.issg.ibis.auth.RoleManager.Action;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.ViewModule;
+import org.biopama.ibis.auth.RoleManager;
+import org.biopama.ibis.auth.RoleManager.Action;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.perspective.shared.ExportLink;
 import org.issg.ibis.perspective.shared.ExportLink.ExportType;
-import org.jrc.edit.Dao;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;
 import org.vaadin.maddon.fields.TypedSelect;

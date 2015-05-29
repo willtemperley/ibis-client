@@ -1,9 +1,9 @@
 package org.issg.ibis.editor.basic;
 
-import org.issg.ibis.auth.RoleManager;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.auth.RoleManager;
 import org.issg.ibis.domain.BiologicalStatus;
 import org.issg.ibis.domain.QBiologicalStatus;
-import org.jrc.edit.Dao;
 
 import com.google.inject.Inject;
 

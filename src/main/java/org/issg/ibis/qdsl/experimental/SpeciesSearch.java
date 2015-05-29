@@ -2,8 +2,8 @@ package org.issg.ibis.qdsl.experimental;
 
 import java.util.List;
 
+import org.biopama.edit.Dao;
 import org.issg.ibis.perspective.species.SpeciesSummaryController;
-import org.jrc.edit.Dao;
 
 import com.google.inject.Inject;
 import com.mysema.query.types.expr.BooleanExpression;

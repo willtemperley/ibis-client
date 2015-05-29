@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.Biome;
 import org.issg.ibis.domain.OrganismType;
 import org.issg.ibis.domain.QBiome;
@@ -15,7 +16,6 @@ import org.issg.ibis.domain.QSpecies;
 import org.issg.ibis.domain.ConservationClassification;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.webservices.GbifApi;
-import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -3,7 +3,8 @@ package org.issg.ibis.perspective.species;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.issg.ibis.auth.RoleManager;
+import org.biopama.edit.Dao;
+import org.biopama.ibis.auth.RoleManager;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.domain.SpeciesImpact;
@@ -13,7 +14,6 @@ import org.issg.ibis.domain.adapter.SpeciesLocationAdapter;
 import org.issg.ibis.domain.view.SpeciesExtent;
 import org.issg.ibis.perspective.shared.TwinPanelPerspective;
 import org.issg.ibis.webservices.ArkiveV1Search;
-import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.addon.leaflet.LMarker;

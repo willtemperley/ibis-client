@@ -14,6 +14,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.biopama.edit.Dao;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QLocation;
@@ -23,7 +24,6 @@ import org.issg.ibis.domain.Reference;
 import org.issg.ibis.domain.Species;
 import org.issg.ibis.webservices.writers.WritableSheet;
 import org.issg.ibis.webservices.writers.XSSFResultSheet;
-import org.jrc.edit.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

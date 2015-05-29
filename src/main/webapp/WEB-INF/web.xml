@@ -13,7 +13,7 @@
 	</filter-mapping>
 
 	<listener>
-		<listener-class>org.jrc.server.GuiceContextListener</listener-class>
+		<listener-class>org.biopama.server.GuiceContextListener</listener-class>
 	</listener>
   
   <session-config>
