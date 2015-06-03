@@ -6,7 +6,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.*;
 
 import org.biopama.ibis.ViewModule;
-import org.jrc.ui.HtmlLabel;
+import org.biopama.ui.HtmlLabel;
 
 import java.util.ArrayList;
 import java.util.List;

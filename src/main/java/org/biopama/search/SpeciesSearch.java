@@ -6,8 +6,8 @@ import javax.persistence.TypedQuery;
 
 import org.biopama.edit.Dao;
 import org.biopama.ibis.ViewModule;
+import org.biopama.ui.HtmlLabel;
 import org.issg.ibis.domain.Species;
-import org.jrc.ui.HtmlLabel;
 import org.vaadin.maddon.fields.MValueChangeEvent;
 import org.vaadin.maddon.fields.MValueChangeListener;
 import org.vaadin.maddon.fields.TypedSelect;

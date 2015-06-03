@@ -8,9 +8,9 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 import org.biopama.edit.Dao;
+import org.biopama.ui.HtmlHeader;
+import org.biopama.ui.HtmlLabel;
 import org.issg.ibis.domain.SiteContent;
-import org.jrc.ui.HtmlHeader;
-import org.jrc.ui.HtmlLabel;
 
 import java.util.List;
 

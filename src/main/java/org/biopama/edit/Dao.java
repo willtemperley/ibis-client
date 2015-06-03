@@ -1,0 +1,299 @@
+package org.biopama.edit;
+
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnitUtil;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.SingularAttribute;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.path.StringPath;
+
+/**
+ * 
+ * Provides generic persistence functions.
+ * 
+ * 1. Acts as an {@link EntityManager} provider
+ * 2. Gets table metadata
+ * 3. 
+ * 
+ * @author Will Temperley
+ *
+ */
+public class Dao implements Provider<EntityManager> {
+
+    private Map<Class<?>, String> classUrlMapping;
+//    private RoleManager roleManager;
+    private Provider<EntityManager> entityManagerProvider;
+    private PersistenceUnitUtil puu;
+
+    Logger logger = LoggerFactory.getLogger(Dao.class);
+
+    @Inject
+    public Dao(Provider<EntityManager> entityManagerProvider, EntityManagerFactory emf, Map<Class<?>, String> classUrlMapping) {
+        // this.em = entityManagerFactory.createEntityManager();
+        this.puu = emf.getPersistenceUnitUtil();
+        this.classUrlMapping = classUrlMapping;
+        this.entityManagerProvider = entityManagerProvider;
+    }
+    
+    
+
+
+    @Override
+	public EntityManager get() {
+		return entityManagerProvider.get();
+	}
+
+
+    public Object persist(Object obj) {
+
+        EntityManager em = get();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+
+            em.persist(obj);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+        }
+
+        return obj;
+    }
+
+    public Object merge(Object obj) {
+
+        EntityManager em = get();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+
+            obj = em.merge(obj);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return obj;
+    }
+
+    public <T> T find(Class<T> clazz, Object id) {
+        return get().find(clazz, id);
+    }
+
+    public <T> void remove(Class<T> clazz, Object id) {
+        EntityManager em = get();
+        em.getTransaction().begin();
+        em.remove(em.find(clazz, id));
+        em.getTransaction().commit();
+    }
+
+    /**
+     * Return a list of all objects of the class passed in.
+     * 
+     * @param <T>
+     * @param clazz
+     *            the class for which to retrieve objects
+     * @return a list of objects of the requested class
+     */
+    public <T> List<T> all(Class<T> clazz) {
+
+        CriteriaBuilder criteriaBuilder = get()
+                .getCriteriaBuilder();
+
+        CriteriaQuery<T> cq = criteriaBuilder.createQuery(clazz);
+
+        Root<T> root = cq.from(clazz);
+
+        cq.select(root);
+        // FIXME all entities have to have an ID!
+        cq.orderBy(criteriaBuilder.asc(root.get("id")));
+
+        TypedQuery<T> tq = get().createQuery(cq);
+        return tq.getResultList();
+    }
+
+    public <T> List<T> all(Class<T> clazz, SingularAttribute<?, ?> orderBy) {
+
+        CriteriaBuilder criteriaBuilder = get()
+                .getCriteriaBuilder();
+
+        CriteriaQuery<T> cq = criteriaBuilder.createQuery(clazz);
+
+        Root<T> root = cq.from(clazz);
+
+        cq.select(root);
+
+        cq.orderBy(criteriaBuilder.asc(root.get(orderBy.getName())));
+
+        TypedQuery<T> tq = get().createQuery(cq);
+        return tq.getResultList();
+    }
+
+    public Object getId(Object obj) {
+        return puu.getIdentifier(obj);
+    }
+
+    /**
+     * Gets the correct URL for an object.
+     * 
+     * @return the URL
+     */
+    public String getEditorLink(Object object) {
+        Object id = getId(object);
+        String editorURL = classUrlMapping.get(object.getClass());
+        return String.format("#!%s/%s", editorURL, id);
+    }
+
+    public String getEditorAnchor(Object val) {
+        return String.format("<a href='%s'>%s</a>", this.getEditorLink(val), val.toString());
+    }
+
+//    /**
+//     * For a given property, retrieves the best possible description, based on
+//     * metadata held in the database where possible.
+//     * 
+//     * @param prop
+//     * @return
+//     */
+//    public String getFieldDescription(Attribute<?, ?> prop) {
+
+//        StringBuilder stringBuilder = new StringBuilder();
+//        Class<?> attrClazz = prop.getJavaType();
+//        Class<?> tableClazz = prop.getDeclaringType().getJavaType();
+//
+//        TableDescription tableDescr = getTableMetadata(tableClazz);
+//
+//        if (tableDescr != null) {
+//
+//            Set<ColumnDescription> cols = tableDescr.getColumnDescriptions();
+//            for (ColumnDescription columnDescription : cols) {
+//                if (columnDescription.getName().equals(prop.getName())) {
+//                    stringBuilder.append("<div class='tooltip-title'>");
+//                    stringBuilder.append(columnDescription.getDescription());
+//                    stringBuilder.append("</div>");
+//                }
+//            }
+//        }
+
+        // if (Enumeration.class.isAssignableFrom(attrClazz)) {
+        // @SuppressWarnings("unchecked")
+        // List<Enumeration> enums = (List<Enumeration>) all(attrClazz);
+        // StringBuilder sb = getEnumerationDescription(stringBuilder, enums);
+        // return sb.toString();
+        // }
+
+//        return stringBuilder.toString();
+//    }
+
+
+//    private TableDescription getTableMetadata(Class<?> clazz) {
+//
+//        Table annotation = clazz.getAnnotation(Table.class);
+//        String tableName = annotation.name();
+//        String schema = annotation.schema();
+//
+//        TypedQuery<TableDescription> q = get()
+//                .createQuery(
+//                        "from TableDescription where name = :name and schema = :schema",
+//                        TableDescription.class).setParameter("name", tableName)
+//                .setParameter("schema", schema);
+//
+//        List<TableDescription> results = q.getResultList();
+//        if (results.size() == 1) {
+//            return results.get(0);
+//        } else {
+//            return null;
+//        }
+//
+//    }
+
+    /**
+     * Not sure what this is for!!
+     * 
+     * @param attr
+     * @return
+     */
+    public <T> List<String> unique(Attribute<T, String> attr) {
+
+        Class<T> javaType = attr.getDeclaringType().getJavaType();
+
+        CriteriaQuery<String> q = get().getCriteriaBuilder()
+                .createQuery(String.class);
+
+        Root<T> from = q.from(javaType);
+        q.multiselect(from.get(attr.getName()));
+
+        TypedQuery<String> tq = get().createQuery(q);
+
+        return tq.getResultList();
+    }
+
+    public Integer scalarNativeQuery(String query, Object... params) {
+        
+        Query q = get().createNativeQuery(query);
+        
+        for (int i = 0; i < params.length; i++) {
+            q.setParameter(i+1, params[i]);
+        }
+        
+        try {
+            return (Integer) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns the next value in a named sequence
+     * 
+     * @param seqName the sequence name (fully qualified)
+     * @return
+     */
+    public Long getNextValueInSequence(String seqName) {
+
+        Query q = get().createNativeQuery("select nextval('"+seqName+"');");
+        Object res = q.getSingleResult();
+        if (res instanceof BigInteger) {
+            Long id = ((BigInteger) res).longValue();
+            return id;
+        }
+        return null;
+    }
+
+
+	public <T> T findByQProxyId(EntityPath<T> entityPath, StringPath name, String attrValue) {
+		
+		JPAQuery q = new JPAQuery(entityManagerProvider.get());
+		q.from(entityPath);
+		q.where(name.lower().trim().eq(attrValue.toLowerCase()));
+		return q.singleResult(entityPath);
+	}
+
+}

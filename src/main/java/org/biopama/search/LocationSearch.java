@@ -5,15 +5,15 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.biopama.edit.Dao;
+import org.biopama.ibis.perspective.location.LocationCaption;
+import org.biopama.ibis.perspective.shared.TakesSelectionListener;
+import org.biopama.ui.HtmlLabel;
 import org.issg.ibis.domain.Country;
 import org.issg.ibis.domain.Location;
 import org.issg.ibis.domain.QCountry;
 import org.issg.ibis.domain.QLocation;
 import org.issg.ibis.domain.QSpeciesImpact;
 import org.issg.ibis.domain.Region;
-import org.issg.ibis.responsive.LocationCaption;
-import org.issg.ibis.responsive.TakesSelectionListener;
-import org.jrc.ui.HtmlLabel;
 import org.vaadin.addons.lec.EntityTable;
 import org.vaadin.maddon.ListContainer;
 import org.vaadin.maddon.fields.MValueChangeEvent;

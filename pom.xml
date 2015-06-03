@@ -9,19 +9,147 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<vaadin.plugin.version>7.3.4</vaadin.plugin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<slf4j.version>1.7.7</slf4j.version>
 		<guava.version>17.0</guava.version>
 
-		<!-- Testing stuff -->
+		<vaadin.version>7.3.4</vaadin.version>
+		<vaadin.plugin.version>7.3.4</vaadin.plugin.version>
+
+		<guice.version>3.0</guice.version>
+		<zip4j.version>1.3.1</zip4j.version>
+
+		<freemarker.version>2.3.20</freemarker.version>
+		<jopenid.version>1.08</jopenid.version>
+		<servlet-api.version>2.5</servlet-api.version>
+		<mockito.version>1.9.5</mockito.version>
+		<junit.version>4.11</junit.version>
+		<v-leaflet.version>0.5.7</v-leaflet.version>
+		<v-leaflet-markercluster.version>0.4.5</v-leaflet-markercluster.version>
+		<v-guice.version>1.0.1</v-guice.version>
+
+		<!-- Test -->
 		<version.junit>4.10</version.junit>
 		<version.mockito>1.9.5</version.mockito>
 		<version.logback>1.0.9</version.logback>
-
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+		<!-- Zip -->
+		<dependency>
+			<groupId>net.lingala.zip4j</groupId>
+			<artifactId>zip4j</artifactId>
+			<version>${zip4j.version}</version>
+		</dependency>
+
+
+		<!-- Logging. Explicitly using the latest version avoids issues with multiple 
+			versions resolved transitively - the slf4j api is always backwards compatible -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<!-- Vaadin -->
+		<dependency>
+			<groupId>org.peimari</groupId>
+			<artifactId>maddon</artifactId>
+			<version>1.9-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>v-guice</artifactId>
+			<version>${v-guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+			<version>${vaadin.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-themes</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiler</artifactId>
+			<version>${vaadin.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- VAADIN Add-ons -->
+		<dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>v-leaflet</artifactId>
+			<version>${v-leaflet.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.vaadin</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>v-leaflet-markercluster</artifactId>
+			<version>${v-leaflet-markercluster.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.vaadin</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!-- Guice -->
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-multibindings</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-persist</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+
 		<!-- To override pollution -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -33,12 +161,7 @@
 		<dependency>
 			<groupId>org.issg.ibis</groupId>
 			<artifactId>ibis-domain</artifactId>
-			<version>0.9.8</version>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>v-jpa-form</artifactId>
-			<version>0.0.9-SNAPSHOT</version>
+			<version>0.9.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
@@ -46,11 +169,12 @@
 			<version>0.2.0-SNAPSHOT</version>
 		</dependency>
 
-		<dependency> <groupId>com.vaadin.addon</groupId> <artifactId>vaadin-touchkit-agpl</artifactId> 
-			<version>4.0.0</version> <exclusions> <exclusion> <groupId>com.vaadin</groupId> 
-			<artifactId>vaadin-server</artifactId> </exclusion> <exclusion> <groupId>com.vaadin</groupId> 
-			<artifactId>vaadin-themes</artifactId> </exclusion> </exclusions> </dependency>
-
+        <dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20141113</version>
+		</dependency>
+			
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -74,8 +198,6 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.9</version>
 		</dependency>
-
-
 
 		<!-- Servlet -->
 		<dependency>
@@ -200,7 +322,7 @@
 											vaadin-maven-plugin
 										</artifactId>
 										<versionRange>
-											[7.3.0.rc1,)
+											[7.3.0,)
 										</versionRange>
 										<goals>
 											<goal>resources</goal>

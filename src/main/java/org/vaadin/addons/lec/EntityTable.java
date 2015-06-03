@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.vaadin.addons.form.util.AdminStringUtil;
+import org.biopama.util.AdminStringUtil;
 import org.vaadin.maddon.ListContainer;
 import org.vaadin.maddon.fields.MTable;
 

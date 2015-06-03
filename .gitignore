@@ -1,4 +1,7 @@
 install
+.idea
+*.iml
+*.xlsx
 src/main/webapp/VAADIN/themes/responsive/styles.css
 deploy
 target/*
